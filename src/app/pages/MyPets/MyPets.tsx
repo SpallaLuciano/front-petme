@@ -1,13 +1,14 @@
-import { FC, useEffect, useState } from 'react';
-import { Grid } from '@mui/material';
+import { FC } from 'react';
+import { Button, Grid } from '@mui/material';
 import { PetCard } from '../../components';
-import { Pet } from '../../interfaces';
 import { useAppSelector } from '../../state';
+import style from './MyPets.module.scss';
 
 export const MyPets: FC = () => {
   const { pets, profile, coordinates } = useAppSelector((state) => {
     return {
       pets: state.pet.pets,
+      petsStatus: state.pet.status,
       coordinates: state.coordinates.coordinates,
       profile: {
         pets: state.profile.profile?.pets
@@ -15,41 +16,28 @@ export const MyPets: FC = () => {
     };
   });
 
-  const [profilePets, setProfilePets] = useState<Pet[]>([]);
-
-  useEffect(() => {
-    if (profile && profile.pets && Object.keys(pets).length) {
-      const mapPets: Pet[] = [];
-      
-      profile?.pets.forEach((id: number) => {
-        const pet = pets[id];
-        if (pet) {
-          mapPets.push(pet);
-        }
-      });
-
-      setProfilePets(mapPets);
-    } else {
-      setProfilePets([]);
+  const profilePets = profile.pets?.map((key) => {
+    if (pets[key]) {
+      return <Grid key={key} item className={style.Pets} xs={12} sm={6} md={4} xl={3}>
+        <PetCard pet={pets[key]} coordinates={coordinates} edit={true} />
+      </Grid>;
     }
-  }, [profile?.pets]);
+    return;
+  });
 
+  const content = profilePets?.length ?
+    <Grid container className={style.MyPets} spacing={2}>
+      {profilePets}
+    </Grid> :
+    <div>No tiene mascotas cargadas en este momento: Cargar Mascota</div>;
 
-  if (!profile) {
-    return (<div>Debe iniciar sesión para acceder a esta sección</div>);
-  } else if (!profilePets.length) {
-    return (<div>No tiene mascotas cargadas en este momento: Cargar Mascota</div>);
-  } else {
-    return (
+  return <div>
+    <div className={style.Header}>
+      <h2>Mis Mascotas</h2>
       <div>
-        <Grid container spacing={4}>
-          {
-            profilePets.map((pet, key) => 
-              <PetCard key={key} pet={pet} coordinates={coordinates}></PetCard>
-            )
-          }
-        </Grid>
+        <Button variant="contained">Agregar</Button>
       </div>
-    );
-  }
+    </div>
+    {content}
+  </div>;
 };

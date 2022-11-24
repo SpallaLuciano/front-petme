@@ -32,7 +32,7 @@ export const AvatarMenu: FC<Props> = ({ open = false, onClose, anchorEl }) => {
   }, [signed]);
 
   const MenuSignedIn = [
-    <MenuItem key="my-profile" onClick={() => navigate('')}>
+    <MenuItem key="home" onClick={() => navigate('')}>
       Inicio
     </MenuItem>,
     <MenuItem key="my-profile" onClick={() => navigate('my-profile')}>
