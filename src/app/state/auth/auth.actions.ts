@@ -64,6 +64,8 @@ export const actionLoadAuthCase: CaseReducer<AuthState> =
       state.auth.admin = false;
       state.auth.validToken = false;
     }
+
+    state.status = GeneralStatus.SUCCESS;
   };
 
 export const actionIsValidTokenCase: CaseReducer<AuthState> =

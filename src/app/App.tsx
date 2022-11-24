@@ -3,8 +3,11 @@ import { FC, useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AuthWrapper } from './auth';
 import { Header } from './components';
+import { GeneralStatus } from './enums';
 import { Home, MyPets, MyProfile } from './pages';
 import {
+  fetchCoordinates,
+  fetchPet,
   fetchProfile,
   loadAuth,
   removeProfile,
@@ -16,8 +19,11 @@ import theme from './theme';
 
 export const App: FC = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => {
-    return state.auth.auth.user;
+  const { user, authStatus } = useAppSelector((state) => {
+    return {
+      user: state.auth.auth.user,
+      authStatus: state.auth.status
+    };
   });
 
   useEffect(() => {
@@ -26,7 +32,11 @@ export const App: FC = () => {
 
   useEffect(() => {
     if (user) {
-      dispatch(fetchProfile(user));
+      if (authStatus === GeneralStatus.SUCCESS) {
+        dispatch(fetchProfile(user));
+        dispatch(fetchPet({}));
+        dispatch(fetchCoordinates());
+      }
     } else {
       dispatch(signOut);
       dispatch(removeProfile);
