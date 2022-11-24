@@ -1,0 +1,42 @@
+@import '../../variables';
+
+.PetCard {
+  height: auto;
+  background-color: #A6A6A6 !important;
+  color: $primary-light-text-color !important;
+}
+
+.PetGrid {
+  div {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.UpperItem {
+  align-items: center;
+  font-size: 38px;
+  span {
+    display: flex;
+    align-items: center;
+  svg {
+      font-size: 38px;
+    }
+  }
+  button {
+    svg {
+      font-size: 38px;
+      color: red;
+    }
+  }
+}
+
+.LowerItem {
+  font-size: 20px;
+  span {
+    display: flex;
+    svg {
+      font-size: 20px;
+    }
+  }
+}

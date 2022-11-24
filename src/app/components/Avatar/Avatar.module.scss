@@ -1,0 +1,14 @@
+.Avatar {
+  display: flex;
+  font-size: large;
+  align-items: center;
+
+  span {
+    margin-right: 2px;
+    cursor: pointer;
+  }
+
+  div {
+    cursor: pointer;
+  }
+}

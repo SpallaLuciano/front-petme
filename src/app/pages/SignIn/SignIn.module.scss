@@ -1,0 +1,12 @@
+.grid {
+  padding: 10%;
+  .item {
+    text-align: center;
+    align-self: center;
+    img {
+      max-height: 500px;
+      max-width: 500px;
+      width: 100%;
+    }
+  }
+}

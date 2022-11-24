@@ -1,0 +1,8 @@
+{
+  "semi": true,
+  "singleQuote": true,
+  "arrowParens": "always",
+  "eslintIntegration": true,
+  "useTabs": false,
+  "printWidth": 100
+}

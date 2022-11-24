@@ -1,0 +1,21 @@
+.GridItem {
+  text-align: center;
+}
+
+.TextInput {
+  width: 100%;
+}
+
+.Buttons {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  button {
+    margin-left: 5px;
+  }
+}
+
+.DatePicker {
+  display: flex;
+  width: 100%;
+}
