@@ -3,6 +3,7 @@ import { GeneralStatus } from '../../enums';
 import {
   createProfile,
   fetchProfile,
+  removeImageProfile,
   updateImageProfile,
   updateProfile
 } from './profile.action-creators';
@@ -10,7 +11,9 @@ import {
   actionRemoveProfileCase,
   actionProfilePending,
   actionProfileRejected,
-  fetchCreateUpdateProfileFulfilled
+  fetchCreateUpdateProfileFulfilled,
+  actionImageRemoveFulfilled,
+  actionImageUpdatedFulfilled
 } from './profile.actions';
 import { ProfileState } from './profile.state';
 
@@ -31,13 +34,15 @@ export const profileSlice = createSlice({
       .addCase(fetchProfile.fulfilled, fetchCreateUpdateProfileFulfilled)
       .addCase(createProfile.fulfilled, fetchCreateUpdateProfileFulfilled)
       .addCase(updateProfile.fulfilled, fetchCreateUpdateProfileFulfilled)
-      .addCase(updateImageProfile.fulfilled, fetchCreateUpdateProfileFulfilled)
+      .addCase(updateImageProfile.fulfilled, actionImageUpdatedFulfilled)
+      .addCase(removeImageProfile.fulfilled, actionImageRemoveFulfilled)
       .addMatcher(
         isAnyOf(
           fetchProfile.pending,
           createProfile.pending,
           updateProfile.pending,
-          updateImageProfile.pending
+          updateImageProfile.pending,
+          removeImageProfile.pending
         ),
         actionProfilePending
       )
@@ -46,7 +51,8 @@ export const profileSlice = createSlice({
           fetchProfile.rejected,
           createProfile.rejected,
           updateProfile.rejected,
-          updateImageProfile.rejected
+          updateImageProfile.rejected,
+          removeImageProfile.rejected
         ),
         actionProfileRejected
       );

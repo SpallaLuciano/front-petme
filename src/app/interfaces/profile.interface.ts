@@ -7,5 +7,5 @@ export interface Profile {
   birthdate: string;
   favs: number[];
   pets: number[];
-  image: Image;
+  image: Image | null;
 }

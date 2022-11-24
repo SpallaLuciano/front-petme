@@ -1,7 +1,7 @@
 import { PhotoCamera } from '@mui/icons-material';
 import { Avatar, Badge, IconButton } from '@mui/material';
-import { ChangeEvent, FC } from 'react';
-import { updateImageProfile, useAppDispatch } from '../../state';
+import { FC, MouseEvent, useEffect, useState } from 'react';
+import { ImageMenu } from '../ImageMenu';
 import style from './AvatarProfile.module.scss';
 
 interface Props {
@@ -10,18 +10,17 @@ interface Props {
 }
 
 export const AvatarProfile: FC<Props> = (props) => {
-  const dispatch = useAppDispatch();
-  const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      const file = event.target.files[0];
-  
-      const data = new FormData();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-      data.append('file', file);
+  const open = Boolean(anchorEl);
 
-      dispatch(updateImageProfile(data));
-    }
-  };
+  const handleClick = (event: MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
+
+  const handleClose = () => setAnchorEl(null);
+
+  useEffect(() => {
+    console.log(open, anchorEl);
+  }, [anchorEl]);
 
   return (
     <Badge
@@ -35,16 +34,11 @@ export const AvatarProfile: FC<Props> = (props) => {
             component="label"
             size="large"
             className={style.IconButton}
+            onClick={handleClick}
           >
-            <input
-              accept="image/*"
-              hidden
-              id="upload-photo"
-              type="file"
-              onChange={handleFileUpload}
-            />
             <PhotoCamera />
           </IconButton>
+          <ImageMenu open={open} onClose={handleClose} anchorEl={anchorEl}/>
         </>
       }
     >

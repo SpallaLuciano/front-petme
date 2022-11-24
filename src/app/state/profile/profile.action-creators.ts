@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { PROFILE } from '../../mocks/profile.mock';
-import { Profile } from '../../interfaces';
+import { Image, Profile } from '../../interfaces';
 
 interface ProfileInput {
   name: string;
@@ -66,7 +66,7 @@ export const updateProfile = createAsyncThunk<
 );
 
 export const updateImageProfile = createAsyncThunk<
-  Profile,
+  Image,
   FormData,
   {
     rejectValue: string
@@ -76,7 +76,26 @@ export const updateImageProfile = createAsyncThunk<
   async (image, { rejectWithValue }) => {
     try {
       console.log(image);
-      const { data } = await Promise.resolve({ data: { ...PROFILE }});
+      const { data } = await Promise.resolve({ data: { ...PROFILE.image }});
+
+      return data;
+    } catch (error) {
+      return rejectWithValue('error');
+    }
+  }
+);
+
+export const removeImageProfile = createAsyncThunk<
+  string,
+  void,
+  {
+    rejectValue: string
+  }
+>(
+  'profile/imageRemove',
+  async (arg, { rejectWithValue }) => {
+    try {
+      const { data } = await Promise.resolve({ data: 'Remove fulfilled' });
 
       return data;
     } catch (error) {
