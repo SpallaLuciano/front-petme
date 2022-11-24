@@ -5,8 +5,10 @@ import { FC, useEffect, useState } from 'react';
 import { QuestionMark, FavoriteBorder, LocationOn } from '@mui/icons-material';
 import { getAge, getDistanceFromLatLon } from '../../utils';
 import { getFavoriteIcon, getGenderIcon, getSizeKind } from '../../utils/pet.utils';
-import DeleteIcon from '@mui/icons-material/Delete';
+import CancelIcon from '@mui/icons-material/Cancel';
 import EditIcon from '@mui/icons-material/Edit';
+import InfoIcon from '@mui/icons-material/Info';
+import { removePet, useAppDispatch } from '../../state';
 
 interface Props {
   pet: Pet;
@@ -15,6 +17,7 @@ interface Props {
 }
 
 export const PetCard: FC<Props> = ({ pet, coordinates, edit = false }) => {
+  const dispatch = useAppDispatch();
   const [gender, setGender] = useState(<QuestionMark />);
   const [favorite, setFavorite] = useState(<FavoriteBorder />);
   const [age, setAge] = useState<string>('');
@@ -35,23 +38,47 @@ export const PetCard: FC<Props> = ({ pet, coordinates, edit = false }) => {
     }
   }, [coordinates]);
 
-  const buttons = edit ?
-    <div>
-      <IconButton className={style.Edit}><EditIcon /></IconButton>
-      <IconButton className={style.Remove}><DeleteIcon color="error" /></IconButton>
-    </div>:
+  const remove = () => {
+    dispatch(removePet(pet.id));
+  };
+
+  const likeButton = edit ?
+    undefined:
     <IconButton>{favorite}</IconButton>;
+
+  const editButton = edit ?
+    <IconButton className={style.Edit}>
+      <EditIcon />
+    </IconButton> :
+    undefined;
+
+  const removeButton = edit ? 
+    <IconButton className={style.Remove} onClick={remove}>
+      <CancelIcon fontSize='large' />
+    </IconButton> :
+    undefined;
+
+  const infoButton = 
+    <IconButton className={style.Edit}>
+      <InfoIcon />
+    </IconButton>;
 
   return (
     <Card className={style.PetCard}>
-      <CardMedia component="img" height="300" image={pet.images[0].url} alt={pet.name} />
+      <div className={style.Image}>
+        {removeButton}
+        <CardMedia component="img" height="300" image={pet.images[0].url} alt={pet.name} />
+      </div>
       <CardContent>
         <Grid className={style.PetGrid} container>
           <Grid className={style.UpperItem} item xs={12}>
             <span>
-              {pet.name} {gender}
+              {pet.name} {gender} {editButton}
             </span>
-            {buttons}
+            <div>
+              {infoButton}
+              {likeButton}
+            </div>
           </Grid>
           <Grid className={style.LowerItem} item xs={12}>
             <span>

@@ -1,7 +1,8 @@
 import { FC } from 'react';
-import { Button, Grid } from '@mui/material';
+import { Grid, IconButton } from '@mui/material';
 import { PetCard } from '../../components';
 import { useAppSelector } from '../../state';
+import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import style from './MyPets.module.scss';
 
 export const MyPets: FC = () => {
@@ -22,21 +23,26 @@ export const MyPets: FC = () => {
         <PetCard pet={pets[key]} coordinates={coordinates} edit={true} />
       </Grid>;
     }
-    return;
-  });
+  }).filter((value) => value !== undefined);
 
-  const content = profilePets?.length ?
+  const addButton =
+    <IconButton color="primary"><AddCircleOutlinedIcon fontSize="large" /></IconButton>;
+
+  const content =
     <Grid container className={style.MyPets} spacing={2}>
-      {profilePets}
-    </Grid> :
-    <div>No tiene mascotas cargadas en este momento: Cargar Mascota</div>;
+      {
+        profilePets?.length ?
+          profilePets :
+          <Grid item>No tiene mascotas cargadas en este momento {addButton}</Grid>
+      }
+    </Grid>;
 
   return <div>
     <div className={style.Header}>
-      <h2>Mis Mascotas</h2>
       <div>
-        <Button variant="contained">Agregar</Button>
+        {addButton}
       </div>
+      <h2>Mis Mascotas</h2>
     </div>
     {content}
   </div>;
