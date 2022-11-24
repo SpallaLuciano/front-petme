@@ -9,3 +9,4 @@ export { PetFilters } from './PetFilters';
 export { ProfileForm } from './ProfileForm';
 export { SignInForm } from './SignInForm';
 export { FilterSummary } from './FilterSummary';
+export { ImageMenu } from './ImageMenu';

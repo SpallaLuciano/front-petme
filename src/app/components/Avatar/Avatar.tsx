@@ -9,7 +9,7 @@ export const Avatar: FC = () => {
     return { 
       profile: {
         name: state.profile.profile?.name,
-        imageUrl: state.profile.profile?.image.url
+        imageUrl: state.profile.profile?.image?.url
       },
     };
   });

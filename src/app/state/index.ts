@@ -22,5 +22,6 @@ export {
   createProfile,
   updateProfile,
   removeProfile,
-  updateImageProfile
+  updateImageProfile,
+  removeImageProfile
 } from './profile';

@@ -1,6 +1,6 @@
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
-import { Profile } from '../../interfaces';
+import { Image, Profile } from '../../interfaces';
 import { ProfileState } from './profile.state';
 
 export const actionProfilePending =
@@ -26,3 +26,19 @@ export const actionRemoveProfileCase: CaseReducer<ProfileState> =
     state.profile = null;
     state.status = GeneralStatus.SUCCESS;
   };
+
+export const actionImageUpdatedFulfilled =
+  (state: ProfileState, { payload }: PayloadAction<Image>) => {
+    if (state.profile) {
+      state.profile.image = payload;
+      state.status = GeneralStatus.SUCCESS;
+    }
+  };
+
+export const actionImageRemoveFulfilled =
+(state: ProfileState) => {
+  if (state.profile) {
+    state.profile.image = null;
+    state.status = GeneralStatus.SUCCESS;
+  }
+};
