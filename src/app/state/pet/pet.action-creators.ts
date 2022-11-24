@@ -73,7 +73,7 @@ export const removePet = createAsyncThunk<
   'pet/remove',
   async (input, {rejectWithValue}) => {
     try {
-      const { data } = await Promise.resolve({ data: { id: 1, removed: true } });
+      const { data } = await Promise.resolve({ data: { id: input, removed: true } });
 
       return data;
     } catch (error) {
