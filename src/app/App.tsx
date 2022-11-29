@@ -4,7 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { AuthWrapper } from './auth';
 import { Header } from './components';
 import { GeneralStatus } from './enums';
-import { Home, MyPets, MyProfile } from './pages';
+import { Home, MyPets, MyProfile, PetDetail } from './pages';
 import {
   fetchCoordinates,
   fetchPet,
@@ -52,6 +52,7 @@ export const App: FC = () => {
           <Route path="/home" element={<Navigate to="/" replace />} />
           <Route path="/my-profile" element={<MyProfile />} />
           <Route path="/my-pets" element={<MyPets />} />
+          <Route path="/pet-detail" element={<PetDetail />} />
         </Route>
         <Route path="*" element={<div>Página no encontrada</div>} />
       </Routes>
