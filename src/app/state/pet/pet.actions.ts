@@ -20,8 +20,8 @@ export const fetchPetFulfilled =
       state.order.push(id);
       state.pets[id] = pet;
 
-      if (state.oldestBirth > pet.birthDate) {
-        state.oldestBirth = pet.birthDate;
+      if (state.oldestBirth > pet.birthdate) {
+        state.oldestBirth = pet.birthdate;
       }
     });
 
@@ -35,6 +35,7 @@ export const fetchPetFulfilled =
 export const createUpdatePetFulfilled =
   (state: PetState, { payload }: PayloadAction<Pet>) => {
     state.pets[payload.id] = payload;
+    state.status = GeneralStatus.SUCCESS;
   };
 
 export const removePetFulfilled =
@@ -42,6 +43,7 @@ export const removePetFulfilled =
     if (payload.removed) {
       delete state.pets[payload.id];
     }
+    state.status = GeneralStatus.SUCCESS;
   };
 
 export const actionPetRejected =
@@ -159,7 +161,7 @@ const filterPets = (state: PetState) => {
     if (state.filters.size.length && !state.filters.size.includes(state.pets[key].size)) {
       return false;
     }
-    const yearsOld = differenceInYears(new Date(), new Date(state.pets[key].birthDate));
+    const yearsOld = differenceInYears(new Date(), new Date(state.pets[key].birthdate));
     if (yearsOld < state.filters.ageBetween[0] || yearsOld > state.filters.ageBetween[1]) {
       return false;
     }

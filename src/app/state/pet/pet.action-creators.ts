@@ -1,10 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import PETS from '../../mocks/pets.mock';
 import { Pet } from '../../interfaces';
-
-interface PetInput {
-  name: string;
-}
+import { PetInput } from '../../inputs';
 
 export const fetchPet = createAsyncThunk<
   Pet[],
@@ -35,7 +32,14 @@ export const createPet = createAsyncThunk<
   'pet/create',
   async (input, { rejectWithValue }) => {
     try {
-      const { data } = await Promise.resolve({ data: PETS[0] });
+      const { data } = await Promise.resolve({ data: {
+        id: PETS.length,
+        owner: 1,
+        ...input,
+        images: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      } });
 
       return data;
     } catch (error) {
@@ -46,17 +50,35 @@ export const createPet = createAsyncThunk<
 
 export const updatePet = createAsyncThunk<
   Pet,
-  Partial<PetInput>,
+  { pet: Partial<PetInput>, id: number },
   {
     rejectValue: string
   }
 >(
   'pet/update',
-  async (input, {rejectWithValue}) => {
+  async ({ id, pet }, {rejectWithValue}) => {
     try {
-      const { data } = await Promise.resolve({ data: PETS[0] });
+      const petFound = PETS.find((pet) => pet.id === id);
 
-      return data;
+      if (petFound) {
+        const { data }: { data: Pet } = await Promise.resolve({ data: {
+          id: petFound.id,
+          birthdate: petFound.birthdate,
+          gender: petFound.gender,
+          images: petFound.images,
+          kind: petFound.kind,
+          name: petFound.name,
+          size: petFound.size,
+          ...pet,
+          owner: petFound.owner,
+          createdAt: petFound.createdAt,
+          updatedAt: new Date().toISOString()
+        }});
+  
+        return data;
+      } else {
+        throw new Error('Pet not found');
+      }
     } catch (error) {
       return rejectWithValue('error');
     }

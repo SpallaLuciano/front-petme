@@ -10,3 +10,6 @@ export { ProfileForm } from './ProfileForm';
 export { SignInForm } from './SignInForm';
 export { FilterSummary } from './FilterSummary';
 export { ImageMenu } from './ImageMenu';
+export { PetEditButton } from './PetEditButton';
+export { PetAddButton } from './PetAddButton';
+export { PetDialog } from './PetDialog';

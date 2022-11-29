@@ -1,0 +1,19 @@
+.AppBar {
+  position: relative;
+}
+
+.Toolbar {
+  display: inline-flex;
+  justify-content: space-between;
+}
+
+.LeftSide {
+  display: flex;
+  align-items: center;
+}
+
+.Container {
+  margin-top: 70px;
+  align-self: center;
+  width: 100%;
+}

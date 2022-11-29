@@ -1,42 +1,46 @@
 import style from './PetCard.module.scss';
-import { Coordinates, Pet } from '../../interfaces';
 import { Card, CardContent, CardMedia, Grid, IconButton } from '@mui/material';
-import { FC, useEffect, useState } from 'react';
-import { QuestionMark, FavoriteBorder, LocationOn } from '@mui/icons-material';
+import { FC } from 'react';
+import {  LocationOn } from '@mui/icons-material';
 import { getAge, getDistanceFromLatLon } from '../../utils';
-import { getFavoriteIcon, getGenderIcon, getSizeKind } from '../../utils/pet.utils';
+import { getGenderIcon, getSizeKind } from '../../utils/pet.utils';
 import CancelIcon from '@mui/icons-material/Cancel';
-import EditIcon from '@mui/icons-material/Edit';
 import InfoIcon from '@mui/icons-material/Info';
-import { removePet, useAppDispatch } from '../../state';
+import { removePet, useAppDispatch, useAppSelector } from '../../state';
+import { PetEditButton } from '../PetEditButton';
 
 interface Props {
-  pet: Pet;
-  coordinates: Coordinates | null;
+  id: number;
   edit?: boolean;
 }
 
-export const PetCard: FC<Props> = ({ pet, coordinates, edit = false }) => {
-  const dispatch = useAppDispatch();
-  const [gender, setGender] = useState(<QuestionMark />);
-  const [favorite, setFavorite] = useState(<FavoriteBorder />);
-  const [age, setAge] = useState<string>('');
-  const [distance, setDistance] = useState(0);
-  const [sizeKind, setSizeKind] = useState('');
+export const PetCard: FC<Props> = ({ id, edit = false }) => {
+  const {
+    pet,
+    age,
+    distance,
+    favorite,
+    gender,
+    sizeKind
+  } = useAppSelector((state) => {
+    let distance: number | null = null;
+    const pet = state.pet.pets[id];
 
-  useEffect(() => {
-    setGender(getGenderIcon(pet.gender));
-    setFavorite(getFavoriteIcon(pet.name === 'Milo'));
-    setAge(getAge(pet.birthDate));
-    setSizeKind(getSizeKind(pet.kind, pet.size));
-  }, []);
-
-  useEffect(() => {
-    if (coordinates && pet.coordinates) {
-      const radialDistance = getDistanceFromLatLon(coordinates, pet.coordinates);
-      setDistance(Math.ceil(radialDistance));
+    if (state.coordinates.coordinates && pet.coordinates) {
+      const radialDistance = getDistanceFromLatLon(state.coordinates.coordinates, pet.coordinates);
+      distance = Math.ceil(radialDistance);
     }
-  }, [coordinates]);
+
+    return {
+      pet: pet,
+      gender: getGenderIcon(pet.gender),
+      favorite: state.profile.profile?.favs.includes(id),
+      age: getAge(pet.birthdate),
+      sizeKind: getSizeKind(pet.kind, pet.size),
+      distance: distance
+    };
+  });
+  const dispatch = useAppDispatch();
 
   const remove = () => {
     dispatch(removePet(pet.id));
@@ -47,9 +51,7 @@ export const PetCard: FC<Props> = ({ pet, coordinates, edit = false }) => {
     <IconButton>{favorite}</IconButton>;
 
   const editButton = edit ?
-    <IconButton className={style.Edit}>
-      <EditIcon />
-    </IconButton> :
+    <PetEditButton id={pet.id} /> :
     undefined;
 
   const removeButton = edit ? 
@@ -62,12 +64,16 @@ export const PetCard: FC<Props> = ({ pet, coordinates, edit = false }) => {
     <IconButton className={style.Edit}>
       <InfoIcon />
     </IconButton>;
+  
+  const cardMedia = pet.images[0] && pet.images[0].url ?
+    <CardMedia component="img" height="300" image={pet.images[0].url} alt={pet.name} />
+    : <div className={style.NoImage}>Sin imagen</div>;
 
   return (
     <Card className={style.PetCard}>
       <div className={style.Image}>
         {removeButton}
-        <CardMedia component="img" height="300" image={pet.images[0].url} alt={pet.name} />
+        {cardMedia}
       </div>
       <CardContent>
         <Grid className={style.PetGrid} container>

@@ -8,16 +8,16 @@ import {
 import { differenceInMonths, differenceInYears } from 'date-fns';
 import { PetGender, PetKind, PetSize } from '../enums';
 
-export const getAge = (stringBirthDate: string) => {
+export const getAge = (stringBirthdate: string) => {
   const today = new Date();
-  const birthDate = new Date(stringBirthDate);
+  const birthdate = new Date(stringBirthdate);
 
-  let diff = differenceInYears(today, birthDate);
+  let diff = differenceInYears(today, birthdate);
   let unit = 'años';
 
   if (diff === 1) unit = 'año';
   if (diff < 1) {
-    diff = differenceInMonths(today, birthDate);
+    diff = differenceInMonths(today, birthdate);
     unit = 'meses';
   }
   if (diff === 1) unit = 'mes';
