@@ -1,6 +1,6 @@
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
-import { Image, Profile } from '../../interfaces';
+import { Image, Pet, Profile } from '../../interfaces';
 import { ProfileState } from './profile.state';
 
 export const actionProfilePending =
@@ -40,5 +40,12 @@ export const actionImageRemoveFulfilled =
   if (state.profile) {
     state.profile.image = null;
     state.status = GeneralStatus.SUCCESS;
+  }
+};
+
+export const actionCreatePetFullfilled =
+(state: ProfileState, { payload }: PayloadAction<Pet>) => {
+  if (state.profile) {
+    state.profile?.pets.push(payload.id);
   }
 };

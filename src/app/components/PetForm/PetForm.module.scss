@@ -1,0 +1,38 @@
+.RadioGroup {
+  flex-direction: row !important;
+}
+
+.ImageList {
+  display: flex !important;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  width: 100%;
+  img {
+    width: 25vw !important;
+    object-fit: scale-down;
+    display: block;
+  }
+}
+
+.FormControl {
+  width: 100%;
+}
+
+.GridItem {
+  padding: 16px;
+}
+
+.Form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  min-width: 320px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.Container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

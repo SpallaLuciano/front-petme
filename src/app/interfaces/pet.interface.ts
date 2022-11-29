@@ -8,7 +8,7 @@ export interface Pet {
   owner: number;
   kind: PetKind;
   gender: PetGender;
-  birthDate: string;
+  birthdate: string;
   size: PetSize;
   images: Image[];
   coordinates?: Coordinates;

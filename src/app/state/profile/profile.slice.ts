@@ -1,5 +1,6 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
+import { createPet } from '../pet';
 import {
   createProfile,
   fetchProfile,
@@ -13,7 +14,8 @@ import {
   actionProfileRejected,
   fetchCreateUpdateProfileFulfilled,
   actionImageRemoveFulfilled,
-  actionImageUpdatedFulfilled
+  actionImageUpdatedFulfilled,
+  actionCreatePetFullfilled
 } from './profile.actions';
 import { ProfileState } from './profile.state';
 
@@ -36,6 +38,7 @@ export const profileSlice = createSlice({
       .addCase(updateProfile.fulfilled, fetchCreateUpdateProfileFulfilled)
       .addCase(updateImageProfile.fulfilled, actionImageUpdatedFulfilled)
       .addCase(removeImageProfile.fulfilled, actionImageRemoveFulfilled)
+      .addCase(createPet.fulfilled, actionCreatePetFullfilled)
       .addMatcher(
         isAnyOf(
           fetchProfile.pending,

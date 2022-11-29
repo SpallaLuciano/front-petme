@@ -5,17 +5,15 @@ import { useAppSelector } from '../../state';
 import style from './Home.module.scss';
 
 export const Home: FC = () => {
-  const { pets, coordinates, order } = useAppSelector((state) => {
+  const { order } = useAppSelector((state) => {
     return {
-      pets: state.pet.pets,
       order: state.pet.order,
-      coordinates: state.coordinates.coordinates
     };
   });
 
   const petCards = order.map((key) => (
-    <Grid key={pets[key].id} item xs={12} md={6} xl={4}>
-      <PetCard pet={pets[key]} coordinates={coordinates} />
+    <Grid key={key} item xs={12} md={6} xl={4}>
+      <PetCard id={Number(key)} />
     </Grid>
   ));
 

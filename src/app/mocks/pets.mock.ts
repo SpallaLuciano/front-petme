@@ -9,7 +9,7 @@ const PETS: Pet[] = [
     kind: PetKind.DOG,
     gender: PetGender.MALE,
     size: PetSize.LARGE,
-    birthDate: new Date('2022-02-08T00:00:00.000-03:00').toISOString(),
+    birthdate: new Date('2022-02-08T00:00:00.000-03:00').toISOString(),
     coordinates: {
       latitude: -31.368929552484754,
       longitude: -64.24609940279937,
@@ -47,7 +47,7 @@ const PETS: Pet[] = [
     kind: PetKind.DOG,
     gender: PetGender.FEMALE,
     size: PetSize.MEDIUM,
-    birthDate: new Date('2022-04-16T00:00:00.000-03:00').toISOString(),
+    birthdate: new Date('2022-04-16T00:00:00.000-03:00').toISOString(),
     coordinates: {
       latitude: -31.357882131428852,
       longitude: -64.23642179611878,
@@ -85,7 +85,7 @@ const PETS: Pet[] = [
     kind: PetKind.DOG,
     size: PetSize.SMALL,
     gender: PetGender.FEMALE,
-    birthDate: new Date('2022-01-08T00:00:00.000-03:00').toISOString(),
+    birthdate: new Date('2022-01-08T00:00:00.000-03:00').toISOString(),
     coordinates: {
       latitude: -31.34085960909544,
       longitude: -64.27988882905628,
@@ -123,7 +123,7 @@ const PETS: Pet[] = [
     kind: PetKind.CAT,
     size: PetSize.UNKNOWN,
     gender: PetGender.MALE,
-    birthDate: new Date('2017-06-13T00:00:00.000-03:00').toISOString(),
+    birthdate: new Date('2017-06-13T00:00:00.000-03:00').toISOString(),
     coordinates: {
       latitude: -31.39249300241515,
       longitude: -64.26374776461657,
@@ -161,7 +161,7 @@ const PETS: Pet[] = [
     kind: PetKind.CAT,
     size: PetSize.SMALL,
     gender: PetGender.MALE,
-    birthDate: new Date('2016-12-25T00:00:00.000-03:00').toISOString(),
+    birthdate: new Date('2016-12-25T00:00:00.000-03:00').toISOString(),
     coordinates: {
       latitude: -31.3672425073277,
       longitude: -64.27726781385509,
@@ -199,7 +199,7 @@ const PETS: Pet[] = [
     kind: PetKind.DOG,
     size: PetSize.MEDIUM,
     gender: PetGender.MALE,
-    birthDate: new Date('2010-03-12T00:00:00.000-03:00').toISOString(),
+    birthdate: new Date('2010-03-12T00:00:00.000-03:00').toISOString(),
     coordinates: {
       latitude: -31.351503673448146,
       longitude: -64.23642173842458,

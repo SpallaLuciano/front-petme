@@ -1,16 +1,14 @@
 import { FC } from 'react';
-import { Grid, IconButton } from '@mui/material';
-import { PetCard } from '../../components';
+import { Grid } from '@mui/material';
+import { PetAddButton, PetCard } from '../../components';
 import { useAppSelector } from '../../state';
-import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import style from './MyPets.module.scss';
 
 export const MyPets: FC = () => {
-  const { pets, profile, coordinates } = useAppSelector((state) => {
+  const { pets, profile } = useAppSelector((state) => {
     return {
       pets: state.pet.pets,
       petsStatus: state.pet.status,
-      coordinates: state.coordinates.coordinates,
       profile: {
         pets: state.profile.profile?.pets
       }
@@ -20,13 +18,13 @@ export const MyPets: FC = () => {
   const profilePets = profile.pets?.map((key) => {
     if (pets[key]) {
       return <Grid key={key} item className={style.Pets} xs={12} sm={6} md={4} xl={3}>
-        <PetCard pet={pets[key]} coordinates={coordinates} edit={true} />
+        <PetCard id={key} edit={true} />
       </Grid>;
     }
   }).filter((value) => value !== undefined);
 
   const addButton =
-    <IconButton color="primary"><AddCircleOutlinedIcon fontSize="large" /></IconButton>;
+    <PetAddButton />;
 
   const content =
     <Grid container className={style.MyPets} spacing={2}>
