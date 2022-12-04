@@ -1,2 +1,2 @@
-export { signOut, loadAuth, isValidToken } from './auth.slice';
-export { signInAuth } from './auth.action-creators';
+export { isValidToken } from './auth.slice';
+export { signInAuth, loadAuth, signOut } from './auth.action-creators';

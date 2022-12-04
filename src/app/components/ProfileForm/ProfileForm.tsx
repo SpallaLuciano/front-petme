@@ -18,12 +18,12 @@ export const ProfileForm: FC<Props> = ({ edit, setEdit }) => {
   const dispatch = useAppDispatch();
 
   const { name, lastname, birthdate } = useAppSelector((state) => {
-    console.log('appSelector', state.profile.profile?.birthdate);
+    const profile = state.profile.profile;
 
     return {
-      name: state.profile.profile?.name,
-      lastname: state.profile.profile?.lastname,
-      birthdate: state.profile.profile?.birthdate
+      name: profile?.name || '',
+      lastname: profile?.lastname || '',
+      birthdate: profile?.birthdate || ''
     };
   });
 

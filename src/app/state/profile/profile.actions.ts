@@ -1,6 +1,6 @@
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
-import { Image, Pet, Profile } from '../../interfaces';
+import { Auth, Image, Profile, TokenDecoded } from '../../interfaces';
 import { ProfileState } from './profile.state';
 
 export const actionProfilePending =
@@ -9,9 +9,40 @@ export const actionProfilePending =
     state.status = GeneralStatus.LOADING;
   };
 
-export const fetchCreateUpdateProfileFulfilled =
+export const signInAuthProfileFulfilled =
+  (state: ProfileState, { payload }: PayloadAction<Auth>) => {
+    state.user = payload.user || 0;
+    state.status = GeneralStatus.SUCCESS;
+  };
+
+export const signOutAuthProfileFulfilled =
+  (state: ProfileState) => {
+    state.user = 0;
+    state.profile = null;
+    state.status = GeneralStatus.SUCCESS;
+  };
+
+export const loadAuthProfileFulfilled =
+  (state: ProfileState, { payload }: PayloadAction<TokenDecoded>) => {
+    state.user = payload.user;
+    state.status = GeneralStatus.SUCCESS;
+  };
+
+export const fetchProfilesFulfilled = 
+  (state: ProfileState, { payload }: PayloadAction<Profile[]>) => {
+    payload.forEach((profile) => {
+      state.profiles[profile.id] = profile;
+    });
+    if (state.user) {
+      state.profile = state.profiles[state.user];
+    }
+    state.status = GeneralStatus.SUCCESS;
+  };
+
+
+export const createUpdateProfileFulfilled =
   (state: ProfileState, { payload }: PayloadAction<Profile>) => {
-    state.profile = payload;
+    state.profiles[payload.id] = payload;
     state.status = GeneralStatus.SUCCESS;
   };
 
@@ -29,23 +60,16 @@ export const actionRemoveProfileCase: CaseReducer<ProfileState> =
 
 export const actionImageUpdatedFulfilled =
   (state: ProfileState, { payload }: PayloadAction<Image>) => {
-    if (state.profile) {
-      state.profile.image = payload;
+    if (state.profiles) {
+      state.profiles[state.user].image = payload;
       state.status = GeneralStatus.SUCCESS;
     }
   };
 
 export const actionImageRemoveFulfilled =
 (state: ProfileState) => {
-  if (state.profile) {
-    state.profile.image = null;
+  if (state.profiles) {
+    state.profiles[state.user].image = null;
     state.status = GeneralStatus.SUCCESS;
-  }
-};
-
-export const actionCreatePetFullfilled =
-(state: ProfileState, { payload }: PayloadAction<Pet>) => {
-  if (state.profile) {
-    state.profile?.pets.push(payload.id);
   }
 };

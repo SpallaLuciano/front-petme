@@ -2,7 +2,6 @@ import { Menu, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../state/hooks';
 import { signOut } from '../../state/auth';
-import { removeProfile } from '../../state/profile';
 import { SignInForm } from '../SignInForm';
 import { FC, useEffect } from 'react';
 
@@ -24,7 +23,6 @@ export const AvatarMenu: FC<Props> = ({ open = false, onClose, anchorEl }) => {
 
   const sOut = () => {
     dispatch(signOut());
-    dispatch(removeProfile());
   };
 
   useEffect(() => {

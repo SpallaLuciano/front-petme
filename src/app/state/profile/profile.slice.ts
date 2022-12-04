@@ -1,26 +1,29 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
-import { createPet } from '../pet';
+import { signInAuth, loadAuth } from '../auth';
 import {
   createProfile,
-  fetchProfile,
+  fetchProfiles,
   removeImageProfile,
   updateImageProfile,
   updateProfile
 } from './profile.action-creators';
 import {
-  actionRemoveProfileCase,
+  signInAuthProfileFulfilled,
+  loadAuthProfileFulfilled,
+  fetchProfilesFulfilled,
   actionProfilePending,
   actionProfileRejected,
-  fetchCreateUpdateProfileFulfilled,
+  createUpdateProfileFulfilled,
   actionImageRemoveFulfilled,
-  actionImageUpdatedFulfilled,
-  actionCreatePetFullfilled
+  actionImageUpdatedFulfilled
 } from './profile.actions';
 import { ProfileState } from './profile.state';
 
 const initialState: ProfileState = {
   status: GeneralStatus.IDLE,
+  profiles: {},
+  user: 0,
   profile: null,
   error: null
 };
@@ -28,20 +31,19 @@ const initialState: ProfileState = {
 export const profileSlice = createSlice({
   name: 'profile',
   initialState,
-  reducers: {
-    actionRemoveProfile: actionRemoveProfileCase
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchProfile.fulfilled, fetchCreateUpdateProfileFulfilled)
-      .addCase(createProfile.fulfilled, fetchCreateUpdateProfileFulfilled)
-      .addCase(updateProfile.fulfilled, fetchCreateUpdateProfileFulfilled)
+      .addCase(signInAuth.fulfilled, signInAuthProfileFulfilled)
+      .addCase(loadAuth.fulfilled, loadAuthProfileFulfilled)
+      .addCase(fetchProfiles.fulfilled, fetchProfilesFulfilled)
+      .addCase(createProfile.fulfilled, createUpdateProfileFulfilled)
+      .addCase(updateProfile.fulfilled, createUpdateProfileFulfilled)
       .addCase(updateImageProfile.fulfilled, actionImageUpdatedFulfilled)
       .addCase(removeImageProfile.fulfilled, actionImageRemoveFulfilled)
-      .addCase(createPet.fulfilled, actionCreatePetFullfilled)
       .addMatcher(
         isAnyOf(
-          fetchProfile.pending,
+          fetchProfiles.pending,
           createProfile.pending,
           updateProfile.pending,
           updateImageProfile.pending,
@@ -51,7 +53,7 @@ export const profileSlice = createSlice({
       )
       .addMatcher(
         isAnyOf(
-          fetchProfile.rejected,
+          fetchProfiles.rejected,
           createProfile.rejected,
           updateProfile.rejected,
           updateImageProfile.rejected,
@@ -63,4 +65,3 @@ export const profileSlice = createSlice({
 });
 
 export default profileSlice.reducer;
-export const removeProfile = profileSlice.actions.actionRemoveProfile;

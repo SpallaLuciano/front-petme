@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { PROFILE } from '../../mocks/profile.mock';
+import { PROFILES } from '../../mocks/profile.mock';
 import { Image, Profile } from '../../interfaces';
 
 interface ProfileInput {
@@ -8,9 +8,9 @@ interface ProfileInput {
   birthdate: string;
 }
 
-export const fetchProfile = createAsyncThunk<
-  Profile,
-  number,
+export const fetchProfiles = createAsyncThunk<
+  Profile[],
+  void,
   {
     rejectValue: string
   }
@@ -18,7 +18,7 @@ export const fetchProfile = createAsyncThunk<
   'profile/fetch',
   async (input, { rejectWithValue }) => {
     try {
-      const { data } = await Promise.resolve({ data: PROFILE });
+      const { data } = await Promise.resolve({ data: PROFILES });
 
       return data;
     } catch (error) {
@@ -37,7 +37,7 @@ export const createProfile = createAsyncThunk<
   'profile/create',
   async (input, { rejectWithValue }) => {
     try {
-      const { data } = await Promise.resolve({ data: PROFILE });
+      const { data } = await Promise.resolve({ data: PROFILES[0] });
 
       return data;
     } catch (error) {
@@ -56,7 +56,7 @@ export const updateProfile = createAsyncThunk<
   'profile/update',
   async (input, { rejectWithValue }) => {
     try {
-      const { data } = await Promise.resolve({ data: { ...PROFILE, ...input } });
+      const { data } = await Promise.resolve({ data: { ...PROFILES[0], ...input } });
 
       return data;
     } catch (error) {
@@ -76,9 +76,13 @@ export const updateImageProfile = createAsyncThunk<
   async (image, { rejectWithValue }) => {
     try {
       console.log(image);
-      const { data } = await Promise.resolve({ data: { ...PROFILE.image }});
-
-      return data;
+      if (PROFILES[0].image) {
+        const { data } = await Promise.resolve({ data: { ...PROFILES[0].image }});
+  
+        return data;
+      } else {
+        throw new Error();
+      }
     } catch (error) {
       return rejectWithValue('error');
     }

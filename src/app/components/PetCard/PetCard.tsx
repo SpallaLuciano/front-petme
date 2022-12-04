@@ -1,27 +1,37 @@
 import style from './PetCard.module.scss';
-import { Card, CardContent, CardMedia, Grid, IconButton } from '@mui/material';
-import { FC } from 'react';
+import { Card, CardActionArea, CardContent, CardMedia, Grid, IconButton } from '@mui/material';
+import { FC, useState } from 'react';
 import {  LocationOn } from '@mui/icons-material';
-import { getAge, getDistanceFromLatLon } from '../../utils';
-import { getGenderIcon, getSizeKind } from '../../utils/pet.utils';
+import {
+  getAge,
+  getDistanceFromLatLon,
+  getFavoriteIcon,
+  getGenderIcon,
+  getSizeKind
+} from '../../utils';
+import {  } from '../../utils/pet.utils';
 import CancelIcon from '@mui/icons-material/Cancel';
 import InfoIcon from '@mui/icons-material/Info';
 import { removePet, useAppDispatch, useAppSelector } from '../../state';
 import { PetEditButton } from '../PetEditButton';
+import { useNavigate } from 'react-router-dom';
+import { ConfirmationDialog } from '../ConfirmationDialog/ConfirmationDialog';
 
 interface Props {
   id: number;
-  edit?: boolean;
 }
 
-export const PetCard: FC<Props> = ({ id, edit = false }) => {
+export const PetCard: FC<Props> = ({ id }) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const {
     pet,
     age,
     distance,
     favorite,
     gender,
-    sizeKind
+    sizeKind,
+    user
   } = useAppSelector((state) => {
     let distance: number | null = null;
     const pet = state.pet.pets[id];
@@ -34,16 +44,24 @@ export const PetCard: FC<Props> = ({ id, edit = false }) => {
     return {
       pet: pet,
       gender: getGenderIcon(pet.gender),
-      favorite: state.profile.profile?.favs.includes(id),
+      favorite: getFavoriteIcon(state.profile.profile?.favs.includes(id) || false),
       age: getAge(pet.birthdate),
       sizeKind: getSizeKind(pet.kind, pet.size),
-      distance: distance
+      distance: distance,
+      user: state.auth.auth.user
     };
   });
-  const dispatch = useAppDispatch();
+  const [open, setOpen] = useState(false);
+  const dialogTitle = 'Eliminar Mascota';
+  const dialogDescription = '¿Está seguro que desea eliminar esta mascota?\n' + pet.name;
+
+  const edit = user === pet.owner;
+
+  const navigateDetail = () => navigate(`/pet-detail/${id}`);
 
   const remove = () => {
     dispatch(removePet(pet.id));
+    setOpen(false);
   };
 
   const likeButton = edit ?
@@ -55,13 +73,22 @@ export const PetCard: FC<Props> = ({ id, edit = false }) => {
     undefined;
 
   const removeButton = edit ? 
-    <IconButton className={style.Remove} onClick={remove}>
-      <CancelIcon fontSize='large' />
-    </IconButton> :
+    <>
+      <ConfirmationDialog
+        open={open}
+        description={dialogDescription}
+        title={dialogTitle}
+        onClose={() => setOpen(false)}
+        onConfirmation={remove}
+      />
+      <IconButton className={style.Remove} onClick={() => setOpen(true)}>
+        <CancelIcon fontSize='large' />
+      </IconButton>
+    </> :
     undefined;
 
   const infoButton = 
-    <IconButton className={style.Edit}>
+    <IconButton className={style.Edit} onClick={navigateDetail}>
       <InfoIcon />
     </IconButton>;
   
@@ -73,7 +100,9 @@ export const PetCard: FC<Props> = ({ id, edit = false }) => {
     <Card className={style.PetCard}>
       <div className={style.Image}>
         {removeButton}
-        {cardMedia}
+        <CardActionArea onClick={navigateDetail}>
+          {cardMedia}
+        </CardActionArea>
       </div>
       <CardContent>
         <Grid className={style.PetGrid} container>

@@ -34,7 +34,8 @@ export const PetForm: FC<Props> = ({onSave, onCancel, id}) => {
       gender: pet?.gender || PetGender.MALE,
       kind: pet?.kind || PetKind.DOG,
       size: pet?.size || PetSize.LARGE,
-      birthdate: pet?.birthdate || ''
+      birthdate: pet?.birthdate,
+      description: pet?.description || ''
     };
   });
 
@@ -60,126 +61,149 @@ export const PetForm: FC<Props> = ({onSave, onCancel, id}) => {
 
   return <form onSubmit={handleSubmit(onSubmit)} className={style.Container} noValidate>
     <div className={style.Form}>
-      <FormControl className={style.FormControl}>
-        <TextField
-          fullWidth
-          label="Nombre"
-          id="name"
-          type="text"
-          variant="filled"
-          {...register('name')}
-          error={Boolean(errors.name)}
-          helperText={errors.name && errors.name.message}
-        />
-      </FormControl>
-      <FormControl
-        error={Boolean(errors.kind)}
-      >
-        <FormLabel id="kind-label">Especie</FormLabel>
-        <Controller
-          name="kind"
-          control={control}
-          render={({ field: { onChange, value } }) => 
-            <RadioGroup
-              className={style.RadioGroup}
-              aria-labelledby="kind-label"
-              onChange={onChange}
-              value={value}
-            >
-              {Object.values(PetKind).map((value) =>
-                <FormControlLabel key={value} value={value} control={<Radio />} label={value} />
-              )}
-            </RadioGroup>
-          }
-        />
-        <FormHelperText error={Boolean(errors.kind)}>
-          {errors.kind && errors.kind.message}
-        </FormHelperText>
-      </FormControl>
-      <FormControl
-        error={Boolean(errors.gender)}
-      >
-        <FormLabel id="gender-label">Género</FormLabel>
-        <Controller
-          name="gender"
-          control={control}
-          render={({ field: { onChange, value } }) => 
-            <RadioGroup
-              className={style.RadioGroup}
-              aria-labelledby="gender-label"
-              onChange={onChange}
-              value={value}
-            >
-              {Object.values(PetGender).map((value) =>
-                <FormControlLabel key={value} value={value} control={<Radio />} label={value} />
-              )}
-            </RadioGroup>
-          }
-        />
-        <FormHelperText error={Boolean(errors.gender)}>
-          {errors.gender && errors.gender.message}
-        </FormHelperText>
-      </FormControl>
-      <FormControl
-        error={Boolean(errors.size)}
-      >
-        <FormLabel id="size-label">Tamaño</FormLabel>
-        <Controller
-          name="size"
-          control={control}
-          render={({ field: { onChange, value } }) => 
-            <RadioGroup
-              className={style.RadioGroup}
-              aria-labelledby="size-label"
-              onChange={onChange}
-              value={value}
-            >
-              {Object.values(PetSize).map((value) =>
-                <FormControlLabel key={value} value={value} control={<Radio />} label={value} />
-              )}
-            </RadioGroup>
-          }
-        />
-        <FormHelperText error={Boolean(errors.size)}>
-          {errors.size && errors.size.message}
-        </FormHelperText>
-      </FormControl>
-      <FormControl>
-        <FormLabel id="birthdate-label">Fecha de nacimiento</FormLabel>
-        <Controller
-          name="birthdate"
-          control={control}
-          render={({ field: { onChange, value } }) => {
-            return (
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  disableFuture
-                  className={style.DatePicker}
-                  onChange={onChange}
-                  value={value}
-                  inputFormat='dd-MM-yyyy'
-                  renderInput={(params) => <TextField
-                    aria-labelledby='birthdate-labe'
-                    {...params}
-                  />}
-                />
-              </LocalizationProvider>
-            );
-          }}
-        />
-        <FormHelperText error={Boolean(errors.birthdate)}>
-          {errors.birthdate && errors.birthdate.message}
-        </FormHelperText>
-      </FormControl>
-      <Button type="submit">
-        {id ? 'Actualizar' : 'Crear'}
-      </Button>
-      <Button onClick={() => {
-        if (onCancel) onCancel();
-        reset();
-      }}>
-        Cancelar
-      </Button>
+      <div className={style.TextContainer}>
+        <FormControl className={style.FormControl}>
+          <FormLabel>Nombre</FormLabel>
+          <TextField
+            fullWidth
+            id="name"
+            type="text"
+            {...register('name')}
+            error={Boolean(errors.name)}
+            helperText={errors.name && errors.name.message}
+          />
+        </FormControl>
+        <FormControl className={style.FormControl}>
+          <FormLabel>Descripción</FormLabel>
+          <TextField
+            fullWidth
+            id="description"
+            type="text"
+            rows={4}
+            multiline
+            {...register('description')}
+            error={Boolean(errors.description)}
+            helperText={errors.description && errors.description.message}
+          />
+        </FormControl>
+      </div>
+      <div className={style.SelectorContainer}>
+        <FormControl
+          className={style.FormControl}
+          error={Boolean(errors.kind)}
+        >
+          <FormLabel id="kind-label">Especie</FormLabel>
+          <Controller
+            name="kind"
+            control={control}
+            render={({ field: { onChange, value } }) => 
+              <RadioGroup
+                className={style.RadioGroup}
+                aria-labelledby="kind-label"
+                onChange={onChange}
+                value={value}
+              >
+                {Object.values(PetKind).map((value) =>
+                  <FormControlLabel key={value} value={value} control={<Radio />} label={value} />
+                )}
+              </RadioGroup>
+            }
+          />
+          <FormHelperText error={Boolean(errors.kind)}>
+            {errors.kind && errors.kind.message}
+          </FormHelperText>
+        </FormControl>
+        <FormControl
+          error={Boolean(errors.gender)}
+          className={style.FormControl}
+        >
+          <FormLabel id="gender-label">Género</FormLabel>
+          <Controller
+            name="gender"
+            control={control}
+            render={({ field: { onChange, value } }) => 
+              <RadioGroup
+                className={style.RadioGroup}
+                aria-labelledby="gender-label"
+                onChange={onChange}
+                value={value}
+              >
+                {Object.values(PetGender).map((value) =>
+                  <FormControlLabel key={value} value={value} control={<Radio />} label={value} />
+                )}
+              </RadioGroup>
+            }
+          />
+          <FormHelperText error={Boolean(errors.gender)}>
+            {errors.gender && errors.gender.message}
+          </FormHelperText>
+        </FormControl>
+        <FormControl
+          error={Boolean(errors.size)}
+          className={style.FormControl}
+        >
+          <FormLabel id="size-label">Tamaño</FormLabel>
+          <Controller
+            name="size"
+            control={control}
+            render={({ field: { onChange, value } }) => 
+              <RadioGroup
+                className={style.RadioGroup}
+                aria-labelledby="size-label"
+                onChange={onChange}
+                value={value}
+              >
+                {Object.values(PetSize).map((value) =>
+                  <FormControlLabel key={value} value={value} control={<Radio />} label={value} />
+                )}
+              </RadioGroup>
+            }
+          />
+          <FormHelperText error={Boolean(errors.size)}>
+            {errors.size && errors.size.message}
+          </FormHelperText>
+        </FormControl>
+        <FormControl
+          className={style.FormControl}
+        >
+          <FormLabel id="birthdate-label">Fecha de nacimiento</FormLabel>
+          <Controller
+            name="birthdate"
+            control={control}
+            render={({ field: { onChange, value } }) => {
+              return (
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    disableFuture
+                    className={style.DatePicker}
+                    onChange={onChange}
+                    value={value || null}
+                    inputFormat='dd-MM-yyyy'
+                    renderInput={(params) => <TextField
+                      aria-labelledby='birthdate-labe'
+                      {...params}
+                    />}
+                  />
+                </LocalizationProvider>
+              );
+            }}
+          />
+          <FormHelperText error={Boolean(errors.birthdate)}>
+            {errors.birthdate && errors.birthdate.message}
+          </FormHelperText>
+        </FormControl>
+      </div>
+      <div className={style.ButtonContainer}>
+        <Button type="submit">
+          {id ? 'Actualizar' : 'Crear'}
+        </Button>
+        <Button onClick={() => {
+          if (onCancel) onCancel();
+          reset();
+        }}>
+          Cancelar
+        </Button>
+      </div>
     </div>
   </form>;
 };

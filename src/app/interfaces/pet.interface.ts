@@ -10,6 +10,7 @@ export interface Pet {
   gender: PetGender;
   birthdate: string;
   size: PetSize;
+  description: string;
   images: Image[];
   coordinates?: Coordinates;
   createdAt: string;

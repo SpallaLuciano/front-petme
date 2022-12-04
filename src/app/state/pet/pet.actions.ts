@@ -42,6 +42,7 @@ export const removePetFulfilled =
   (state: PetState, { payload }: PayloadAction<{ id: number, removed: boolean }>) => {
     if (payload.removed) {
       delete state.pets[payload.id];
+      state.order = state.order.filter((id) => Number(id) !== payload.id);
     }
     state.status = GeneralStatus.SUCCESS;
   };

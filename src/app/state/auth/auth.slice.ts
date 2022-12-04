@@ -1,12 +1,12 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
-import { signInAuth } from './auth.action-creators';
+import { loadAuth, signInAuth, signOut } from './auth.action-creators';
 import {
-  actionSignOutCase,
   actionAuthPending,
   actionAuthRejected,
   signInAuthFulfilled,
-  actionLoadAuthCase,
+  signOutAuthFulfilled,
+  loadAuthFulfilled,
   actionIsValidTokenCase
 } from './auth.actions';
 import { AuthState } from './auth.state';
@@ -27,20 +27,32 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    actionSignOut: actionSignOutCase,
-    actionLoadAuth: actionLoadAuthCase,
     actionIsValidToken: actionIsValidTokenCase
   },
   extraReducers: (builder) => {
     builder
+      .addCase(signOut.fulfilled, signOutAuthFulfilled)
+      .addCase(loadAuth.fulfilled, loadAuthFulfilled)
       .addCase(signInAuth.fulfilled, signInAuthFulfilled)
-      .addMatcher(isAnyOf(signInAuth.pending), actionAuthPending)
-      .addMatcher(isAnyOf(signInAuth.rejected), actionAuthRejected);
+      .addMatcher(
+        isAnyOf(
+          signInAuth.pending,
+          loadAuth.pending,
+          signOut.pending
+        ),
+        actionAuthPending
+      )
+      .addMatcher(
+        isAnyOf(
+          signInAuth.rejected,
+          loadAuth.rejected,
+          signOut.rejected
+        ),
+        actionAuthRejected
+      );
   }
 });
 
 export default authSlice.reducer;
 
-export const signOut = authSlice.actions.actionSignOut;
-export const loadAuth = authSlice.actions.actionLoadAuth;
 export const isValidToken = authSlice.actions.actionIsValidToken;

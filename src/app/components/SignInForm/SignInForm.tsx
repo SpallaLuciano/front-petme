@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Button, TextField } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Credentials } from '../../interfaces';
-import { useAppDispatch, signInAuth, fetchPet, fetchProfile } from '../../state';
+import { useAppDispatch, signInAuth, fetchPet, fetchProfiles } from '../../state';
 import style from './SignInForm.module.scss';
 import { signInValidationSchema } from '../../validation-schema';
 
@@ -21,7 +21,7 @@ export const SignInForm: FC = () => {
   const signIn = (credentials: Credentials) => {
     dispatch(signInAuth(credentials)).then(({ payload }) => {
       if (typeof payload === 'object' && payload.user) {
-        dispatch(fetchProfile(payload.user));
+        dispatch(fetchProfiles());
         dispatch(fetchPet());
       }
     });

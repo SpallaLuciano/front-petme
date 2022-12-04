@@ -69,6 +69,7 @@ export const updatePet = createAsyncThunk<
           kind: petFound.kind,
           name: petFound.name,
           size: petFound.size,
+          description: petFound.description,
           ...pet,
           owner: petFound.owner,
           createdAt: petFound.createdAt,

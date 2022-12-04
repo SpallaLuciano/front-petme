@@ -1,7 +1,6 @@
-export { removeProfile } from './profile.slice';
 export {
   createProfile,
-  fetchProfile,
+  fetchProfiles,
   updateProfile,
   updateImageProfile,
   removeImageProfile

@@ -1,5 +1,6 @@
+import jwt_decode from 'jwt-decode';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Auth, Credentials } from '../../interfaces';
+import { Auth, Credentials, TokenDecoded } from '../../interfaces';
 
 export const signInAuth = createAsyncThunk<
   Auth,
@@ -9,7 +10,7 @@ export const signInAuth = createAsyncThunk<
   }
 >(
   'auth/signIn',
-  async (input, { rejectWithValue }) => {
+  async (_input, { rejectWithValue }) => {
     try {
       const { data } = await Promise.resolve({ data: {
         // eslint-disable-next-line max-len
@@ -23,6 +24,45 @@ export const signInAuth = createAsyncThunk<
       localStorage.setItem('token', data.token);
 
       return data;
+    } catch (error) {
+      return rejectWithValue('error');
+    }
+  }
+);
+
+export const loadAuth = createAsyncThunk<
+  TokenDecoded,
+  void,
+  {
+    rejectValue: string
+  }
+>(
+  'auth/loadAuth',
+  async(_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token');
+      
+      if (token) {
+        return jwt_decode<TokenDecoded>(token);
+      }
+      throw new Error();
+    } catch (error) {
+      return rejectWithValue('error');
+    }
+  }
+);
+
+export const signOut = createAsyncThunk<
+  boolean,
+  void,
+  {
+    rejectValue: string
+  }
+>(
+  'auth/signOut',
+  async(_, { rejectWithValue }) => {
+    try {
+      return true;
     } catch (error) {
       return rejectWithValue('error');
     }

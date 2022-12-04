@@ -1,0 +1,64 @@
+@import '../../variables';
+
+.ImageContainer {
+  @media screen and (max-width: $small) {
+    max-height: 90vw;
+  }
+  @media screen and (max-width: $medium) {
+    max-height: 70vw;
+  }
+  @media screen and (min-width: ($medium + 1)) {
+    max-height: 40vw;
+  }
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.Image {
+  @media screen and (max-width: $small) {
+    object-fit: cover;
+  }
+  @media screen and (max-width: $medium) {
+    object-fit: cover;
+  }
+  @media screen and (min-width: ($medium+1)) {
+    object-fit: scale-down;
+  }
+
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+}
+
+.List {
+  width: 100%;
+  max-width: $medium;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ListItem {
+  @media screen and (max-width: $small) {
+    flex-basis: 100%;
+  }
+  @media screen and (min-width: ($small + 1)) {
+    flex-basis: 50%;
+  }
+}
+
+.Header {
+  width: 100%;
+  max-width: $medium;
+}
+
+.Container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
