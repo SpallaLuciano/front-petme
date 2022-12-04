@@ -6,4 +6,5 @@ export interface PetInput {
   gender: PetGender;
   size: PetSize;
   birthdate: string;
+  description: string;
 };

@@ -13,3 +13,4 @@ export { ImageMenu } from './ImageMenu';
 export { PetEditButton } from './PetEditButton';
 export { PetAddButton } from './PetAddButton';
 export { PetDialog } from './PetDialog';
+export { PetForm } from './PetForm';

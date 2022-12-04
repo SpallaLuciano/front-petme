@@ -18,10 +18,9 @@ export {
   updateOrderBy
 } from './pet';
 export {
-  fetchProfile,
+  fetchProfiles,
   createProfile,
   updateProfile,
-  removeProfile,
   updateImageProfile,
   removeImageProfile
 } from './profile';

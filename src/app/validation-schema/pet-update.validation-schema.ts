@@ -32,5 +32,21 @@ export const petUpdateValidationSchema = yup.object({
     .required('Seleccione el tamaño'),
   birthdate: yup
     .string()
-    .required('Fecha de nacimiento es requerida')
+    .required('Fecha de nacimiento es requerida'),
+  description: yup
+    .string()
+    .required('Nombre es requerido')
+    .min(2, 'Debe contener al menos dos letras')
+    .matches(
+      /[a-zA-Z ]+/g,
+      'Solo puede contener letras y espacios'
+    )
+    .matches(
+      /^[A-Za-z].*/g,
+      'Debe comenzar con una letra'
+    )
+    .matches(
+      /.*?[A-Za-z]$/g,
+      'Debe terminar con una letra'
+    ),
 });

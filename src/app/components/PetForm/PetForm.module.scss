@@ -1,38 +1,38 @@
+@import '../../variables';
+
 .RadioGroup {
   flex-direction: row !important;
 }
 
-.ImageList {
-  display: flex !important;
-  overflow-x: scroll;
-  overflow-y: hidden;
-  width: 100%;
-  img {
-    width: 25vw !important;
-    object-fit: scale-down;
-    display: block;
+.Form {
+  display: flex;
+  @media screen and (max-width: $small) {
+    flex-direction: column;
+    padding: 10px;
+    justify-content: center;
+  }
+  @media screen and (min-width: ($small + 1)) {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
   }
 }
 
-.FormControl {
-  width: 100%;
+.TextContainer {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 45%;
 }
 
-.GridItem {
-  padding: 16px;
-}
-
-.Form {
+.SelectorContainer {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  min-width: 320px;
-  max-width: 500px;
-  width: 100%;
+  flex-basis: 45%;
 }
 
-.Container {
+.ButtonContainer {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 100%;
+  justify-content: right;
 }

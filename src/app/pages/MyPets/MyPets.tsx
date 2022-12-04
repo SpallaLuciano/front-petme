@@ -5,20 +5,18 @@ import { useAppSelector } from '../../state';
 import style from './MyPets.module.scss';
 
 export const MyPets: FC = () => {
-  const { pets, profile } = useAppSelector((state) => {
+  const { pets, user } = useAppSelector((state) => {
     return {
       pets: state.pet.pets,
       petsStatus: state.pet.status,
-      profile: {
-        pets: state.profile.profile?.pets
-      }
+      user: state.profile.user 
     };
   });
 
-  const profilePets = profile.pets?.map((key) => {
-    if (pets[key]) {
-      return <Grid key={key} item className={style.Pets} xs={12} sm={6} md={4} xl={3}>
-        <PetCard id={key} edit={true} />
+  const profilePets = Object.values(pets).filter((pet) => pet.owner === user).map((pet) => {
+    if (pet) {
+      return <Grid key={pet.id} item className={style.Pets} xs={12} sm={6} md={4} xl={3}>
+        <PetCard id={pet.id} />
       </Grid>;
     }
   }).filter((value) => value !== undefined);
