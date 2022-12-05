@@ -30,6 +30,7 @@
     object-fit: scale-down;
   }
 
+  position: relative;
   width: 100%;
   height: 100%;
   backdrop-filter: blur(10px);
@@ -61,4 +62,29 @@
   width: 100%;
   flex-direction: column;
   align-items: center;
+}
+
+.Remove {
+  position: absolute !important;
+  top: 16px;
+  z-index: 20;
+  @media screen and (max-width: $small) {
+    margin-left: 90vw;
+  }
+  @media screen and (min-width: ($small + 1)) {
+    margin-left: 95vw;
+  }
+  svg {
+    font-size: 30px !important;
+    color: red !important;
+  }
+}
+
+.NoImage {
+  background-color: #747474;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }

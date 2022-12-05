@@ -58,10 +58,10 @@ export const updatePet = createAsyncThunk<
   'pet/update',
   async ({ id, pet }, {rejectWithValue}) => {
     try {
-      const petFound = PETS.find((pet) => pet.id === id);
+      const petFound: Pet | undefined = PETS.find((pet) => pet.id === id);
 
       if (petFound) {
-        const { data }: { data: Pet } = await Promise.resolve({ data: {
+        const { data } = await Promise.resolve({ data: {
           id: petFound.id,
           birthdate: petFound.birthdate,
           gender: petFound.gender,
@@ -99,6 +99,33 @@ export const removePet = createAsyncThunk<
       const { data } = await Promise.resolve({ data: { id: input, removed: true } });
 
       return data;
+    } catch (error) {
+      return rejectWithValue('error');
+    }
+  }
+);
+
+export const removePetImage = createAsyncThunk<
+  {
+    image: number,
+    pet: number,
+    removed: boolean
+  },
+  number,
+  {
+    rejectValue: string
+  }
+>(
+  'pet/removeImage',
+  async (input, {rejectWithValue}) => {
+    try {
+      const pet = PETS.find((pet) => pet.images.find((image) => image.id === input));
+      
+      if (pet) {
+        return { pet: pet.id, image: input, removed: true};
+      } else {
+        throw new Error('Not Found');
+      }
     } catch (error) {
       return rejectWithValue('error');
     }

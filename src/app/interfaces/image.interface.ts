@@ -1,6 +1,6 @@
 export interface Image {
+  id: number;
   description: string;
-  owner: number;
   url: string;
   createdAt: string;
   updatedAt: string;

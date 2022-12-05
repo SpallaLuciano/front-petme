@@ -14,3 +14,6 @@ export { PetEditButton } from './PetEditButton';
 export { PetAddButton } from './PetAddButton';
 export { PetDialog } from './PetDialog';
 export { PetForm } from './PetForm';
+export { ConfirmationDialog } from './ConfirmationDialog';
+export { Carousel } from './Carousel';
+export { DetailHeader } from './DetailHeader';
