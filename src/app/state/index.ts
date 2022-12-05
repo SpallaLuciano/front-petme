@@ -15,7 +15,8 @@ export {
   updateGenderFilter,
   updateKindFilter,
   updateSizeFilter,
-  updateOrderBy
+  updateOrderBy,
+  removePetImage
 } from './pet';
 export {
   fetchProfiles,

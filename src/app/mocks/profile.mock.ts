@@ -8,7 +8,7 @@ export const PROFILES: Profile[] = [
     birthdate: new Date('1998-03-12T00:00:00.000-03:00').toISOString(),
     favs: [4],
     image: {
-      owner: 1,
+      id: 1,
       description: 'Profile pic',
       createdAt: new Date('2022-03-12T00:00:00.000-03:00').toISOString(),
       updatedAt: new Date('2022-03-12T00:00:00.000-03:00').toISOString(),
@@ -22,7 +22,7 @@ export const PROFILES: Profile[] = [
     birthdate: new Date('2000-07-30T00:00:00.000-03:00').toISOString(),
     favs: [4],
     image: {
-      owner: 1,
+      id: 2,
       description: 'Profile pic',
       createdAt: new Date('2022-03-12T00:00:00.000-03:00').toISOString(),
       updatedAt: new Date('2022-03-12T00:00:00.000-03:00').toISOString(),
