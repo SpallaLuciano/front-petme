@@ -32,6 +32,16 @@ export const fetchPetFulfilled =
     state.status = GeneralStatus.SUCCESS;
   };
 
+export const updateImagePetFulfilled =
+  (state: PetState, { payload }: PayloadAction<
+    {
+      image: Image,
+      petId: number
+    }
+  >) => {
+    state.pets[payload.petId].images.push(payload.image);
+  };
+
 export const removePetImageFulfilled =
   (state: PetState, { payload }: PayloadAction<
     {

@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Carousel, ConfirmationDialog, DetailHeader } from '../../components';
+import { Carousel, ConfirmationDialog, DetailHeader, ImagePetForm } from '../../components';
 import { removePetImage, useAppDispatch, useAppSelector } from '../../state';
 import { getAge, getGenderIcon } from '../../utils';
 import CakeIcon from '@mui/icons-material/Cake';
@@ -11,8 +11,10 @@ import PetsIcon from '@mui/icons-material/Pets';
 import StraightenIcon from '@mui/icons-material/Straighten';
 import DescriptionIcon from '@mui/icons-material/Description';
 import CancelIcon from '@mui/icons-material/Cancel';
+import AddIcon from '@mui/icons-material/Add';
 import { Image } from '../../interfaces';
 import style from './PetDetail.module.scss';
+import { updateImagePet } from '../../state/pet/pet.action-creators';
 
 export const PetDetail: FC = () => {
   const { petId } = useParams();
@@ -130,6 +132,39 @@ export const PetDetail: FC = () => {
     ) :
     undefined;
 
+  const confirmationTitle = 'Agregar imagen';
+  const confirmationDescription = '¿Está seguro que desea agregar la imagen?';
+  const handleUpload = (image: FormData) => {
+    if (pet?.id) {
+      dispatch(updateImagePet({
+        image,
+        petId: pet.id
+      }));
+    }
+  };
+
+  const petImageButton = (
+    <ImagePetForm
+      buttonChildren={<AddIcon />}
+      title={confirmationTitle}
+      description={confirmationDescription}
+      imageUpload={handleUpload}
+      multiple={false}
+    />
+  );
+
+  const addImageButton = edit ? () =>
+    petImageButton :
+    undefined;
+
+  const carousel = pet?.images && pet.images.length ? (
+    <Carousel rightButton={addImageButton}>
+      {images}
+    </Carousel>
+  ) :
+    edit ?
+      petImageButton :
+      <div>Sin imágenes</div>;
   return <div className={style.Container}>
     <ConfirmationDialog
       open={open}
@@ -139,9 +174,7 @@ export const PetDetail: FC = () => {
       onConfirmation={() => remove(id)}
     />
     {header}
-    <Carousel>
-      {images}
-    </Carousel>
+    {carousel}
     {footer}
   </div>;
 };

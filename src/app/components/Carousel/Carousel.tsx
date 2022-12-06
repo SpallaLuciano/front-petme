@@ -7,6 +7,7 @@ import style from './Carousel.module.scss';
 
 interface Props {
   children?: ReactNode | ReactNode[];
+  rightButton?: (props: ControlProps) => ReactNode;
 }
 
 const renderLeftButton = ({ previousSlide }: ControlProps) => (
@@ -21,12 +22,13 @@ const renderRightButton = ({ nextSlide }: ControlProps) => (
   </IconButton>
 );
 
-export const Carousel: FC<Props> = ({children}) => {
+export const Carousel: FC<Props> = ({children, rightButton}) => {
   return <ReactCarousel
     slidesToShow={1}
     wrapAround={true}
     renderCenterLeftControls={renderLeftButton}
     renderCenterRightControls={renderRightButton}
+    renderBottomRightControls={rightButton}
   >
     {children}
   </ReactCarousel>;
