@@ -1,6 +1,13 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { GeneralStatus, OrderBy } from '../../enums';
-import { createPet, fetchPet, removePet, removePetImage, updatePet } from './pet.action-creators';
+import {
+  createPet,
+  fetchPet,
+  removePet,
+  removePetImage,
+  updateImagePet,
+  updatePet
+} from './pet.action-creators';
 import {
   actionPetPending,
   actionPetRejected,
@@ -16,7 +23,8 @@ import {
   actionRemoveFilterSizeCase,
   actionResetFilterAgeBetweenCase,
   actionUpdateOrderByCase,
-  removePetImageFulfilled
+  removePetImageFulfilled,
+  updateImagePetFulfilled
 } from './pet.actions';
 import { PetState } from './pet.state';
 
@@ -57,13 +65,15 @@ export const petSlice = createSlice({
       .addCase(updatePet.fulfilled, createUpdatePetFulfilled)
       .addCase(removePet.fulfilled, removePetFulfilled)
       .addCase(removePetImage.fulfilled, removePetImageFulfilled)
+      .addCase(updateImagePet.fulfilled, updateImagePetFulfilled)
       .addMatcher(
         isAnyOf(
           fetchPet.pending,
           createPet.pending,
           updatePet.pending,
           removePet.pending,
-          removePetImage.pending
+          removePetImage.pending,
+          updateImagePet.pending
         ),
         actionPetPending
       )
@@ -73,7 +83,8 @@ export const petSlice = createSlice({
           createPet.rejected,
           updatePet.rejected,
           removePet.rejected,
-          removePetImage.rejected
+          removePetImage.rejected,
+          updateImagePet.rejected
         ),
         actionPetRejected
       );

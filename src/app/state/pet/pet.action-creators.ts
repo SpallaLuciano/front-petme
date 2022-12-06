@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import PETS from '../../mocks/pets.mock';
-import { Pet } from '../../interfaces';
+import { Image, Pet } from '../../interfaces';
 import { PetInput } from '../../inputs';
 
 export const fetchPet = createAsyncThunk<
@@ -125,6 +125,33 @@ export const removePetImage = createAsyncThunk<
         return { pet: pet.id, image: input, removed: true};
       } else {
         throw new Error('Not Found');
+      }
+    } catch (error) {
+      return rejectWithValue('error');
+    }
+  }
+);
+
+export const updateImagePet = createAsyncThunk<
+  { image: Image, petId: number },
+  { image: FormData, petId: number },
+  {
+    rejectValue: string
+  }
+>(
+  'pet/updateImage',
+  async (payload, { rejectWithValue }) => {
+    try {
+      console.log(payload);
+      if (PETS[0].images[0]) {
+        const { data } = await Promise.resolve({ data: {
+          image: { ...PETS[0].images[0] },
+          petId: payload.petId
+        }});
+  
+        return data;
+      } else {
+        throw new Error();
       }
     } catch (error) {
       return rejectWithValue('error');
