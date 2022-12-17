@@ -107,3 +107,29 @@ export const removeImageProfile = createAsyncThunk<
     }
   }
 );
+
+export const rateProfile = createAsyncThunk<
+  { profileId: number, rating: number },
+  { profileId: number, rate: number },
+  {
+    rejectValue: string
+  }
+>(
+  'profile/rateProfile',
+  async ({ profileId, rate }, { rejectWithValue }) => {
+    try {
+      const { data } = await Promise.resolve({
+        data: {
+          profileId: profileId,
+          rating: (
+            (PROFILES.find((profile) => profile.id === profileId)?.rating || rate) + rate / 2
+          )
+        } 
+      });
+
+      return data;
+    } catch (error) {
+      return rejectWithValue('error');
+    }
+  }
+);

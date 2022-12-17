@@ -57,7 +57,7 @@ export const PetCard: FC<Props> = ({ id }) => {
 
   const edit = user === pet.owner;
 
-  const navigateDetail = () => navigate(`/pet-detail/${id}`);
+  const navigateDetail = () => navigate(`/pets/${id}`);
 
   const remove = () => {
     dispatch(removePet(pet.id));
