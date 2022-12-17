@@ -3,5 +3,6 @@ export {
   fetchProfiles,
   updateProfile,
   updateImageProfile,
-  removeImageProfile
+  removeImageProfile,
+  rateProfile
 } from './profile.action-creators';

@@ -4,6 +4,7 @@ import { signInAuth, loadAuth } from '../auth';
 import {
   createProfile,
   fetchProfiles,
+  rateProfile,
   removeImageProfile,
   updateImageProfile,
   updateProfile
@@ -16,7 +17,8 @@ import {
   actionProfileRejected,
   createUpdateProfileFulfilled,
   actionImageRemoveFulfilled,
-  actionImageUpdatedFulfilled
+  actionImageUpdatedFulfilled,
+  actionRateProfileFulfilled
 } from './profile.actions';
 import { ProfileState } from './profile.state';
 
@@ -41,13 +43,15 @@ export const profileSlice = createSlice({
       .addCase(updateProfile.fulfilled, createUpdateProfileFulfilled)
       .addCase(updateImageProfile.fulfilled, actionImageUpdatedFulfilled)
       .addCase(removeImageProfile.fulfilled, actionImageRemoveFulfilled)
+      .addCase(rateProfile.fulfilled, actionRateProfileFulfilled)
       .addMatcher(
         isAnyOf(
           fetchProfiles.pending,
           createProfile.pending,
           updateProfile.pending,
           updateImageProfile.pending,
-          removeImageProfile.pending
+          removeImageProfile.pending,
+          rateProfile.pending
         ),
         actionProfilePending
       )
@@ -57,7 +61,8 @@ export const profileSlice = createSlice({
           createProfile.rejected,
           updateProfile.rejected,
           updateImageProfile.rejected,
-          removeImageProfile.rejected
+          removeImageProfile.rejected,
+          rateProfile.rejected
         ),
         actionProfileRejected
       );

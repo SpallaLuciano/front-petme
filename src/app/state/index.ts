@@ -23,5 +23,6 @@ export {
   createProfile,
   updateProfile,
   updateImageProfile,
-  removeImageProfile
+  removeImageProfile,
+  rateProfile
 } from './profile';

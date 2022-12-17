@@ -73,3 +73,12 @@ export const actionImageRemoveFulfilled =
     state.status = GeneralStatus.SUCCESS;
   }
 };
+
+export const actionRateProfileFulfilled =
+(state: ProfileState, { payload }: PayloadAction<{
+  profileId: number,
+  rating: number
+}>) => {
+  state.profiles[payload.profileId].rating = payload.rating;
+  state.status = GeneralStatus.SUCCESS;
+};

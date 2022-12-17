@@ -7,6 +7,7 @@ export const PROFILES: Profile[] = [
     lastname: 'Spalla',
     birthdate: new Date('1998-03-12T00:00:00.000-03:00').toISOString(),
     favs: [4],
+    rating: 3.8,
     image: {
       id: 1,
       description: 'Profile pic',
@@ -21,6 +22,7 @@ export const PROFILES: Profile[] = [
     lastname: 'Oliveros',
     birthdate: new Date('2000-07-30T00:00:00.000-03:00').toISOString(),
     favs: [4],
+    rating: 4.5,
     image: {
       id: 2,
       description: 'Profile pic',
@@ -33,6 +35,7 @@ export const PROFILES: Profile[] = [
     id: 3,
     name: 'Claudina Elizabeth',
     lastname: 'Solis',
+    rating: 3.2,
     birthdate: new Date('1965-09-08T00:00:00.000-03:00').toISOString(),
     favs: [4],
     image: null,

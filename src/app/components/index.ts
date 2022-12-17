@@ -18,3 +18,4 @@ export { ConfirmationDialog } from './ConfirmationDialog';
 export { Carousel } from './Carousel';
 export { DetailHeader } from './DetailHeader';
 export { ImagePetForm } from './ImagePetForm';
+export { Rating } from './Rating';
