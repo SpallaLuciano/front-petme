@@ -40,9 +40,7 @@ export const Profile: FC = () => {
       </div>
       <div>
         <h2>Animales</h2>
-        <div className={style.CardsContainer}>
-          {petCards}
-        </div>
+        <div className={style.CardsContainer}>{petCards}</div>
       </div>
     </div>
   );

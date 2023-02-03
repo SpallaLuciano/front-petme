@@ -14,7 +14,7 @@ export const PROFILES: Profile[] = [
       createdAt: new Date('2022-03-12T00:00:00.000-03:00').toISOString(),
       updatedAt: new Date('2022-03-12T00:00:00.000-03:00').toISOString(),
       url: 'https://drive.google.com/uc?export=view&id=1URGPkeJPxpay6Nv8LlIKaAy3u2bakPud'
-    },
+    }
   },
   {
     id: 2,
@@ -29,7 +29,7 @@ export const PROFILES: Profile[] = [
       createdAt: new Date('2022-03-12T00:00:00.000-03:00').toISOString(),
       updatedAt: new Date('2022-03-12T00:00:00.000-03:00').toISOString(),
       url: 'https://drive.google.com/uc?export=view&id=1mgKTg9vCQVRWrlAmo9UGoQHYMt4p9Gbs'
-    },
+    }
   },
   {
     id: 3,
@@ -38,6 +38,6 @@ export const PROFILES: Profile[] = [
     rating: 3.2,
     birthdate: new Date('1965-09-08T00:00:00.000-03:00').toISOString(),
     favs: [4],
-    image: null,
-  },
+    image: null
+  }
 ];

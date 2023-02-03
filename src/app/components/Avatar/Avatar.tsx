@@ -6,11 +6,11 @@ import style from './Avatar.module.scss';
 
 export const Avatar: FC = () => {
   const { profile } = useAppSelector((state) => {
-    return { 
+    return {
       profile: {
         name: state.profile.profile?.name,
         imageUrl: state.profile.profile?.image?.url
-      },
+      }
     };
   });
 
@@ -24,21 +24,13 @@ export const Avatar: FC = () => {
 
   const avatar = (
     <div className={style.Avatar}>
-      <span onClick={handleClick}>
-        {profile?.name ? profile.name : 'Iniciar sesión'}
-      </span>
-      <AvatarMUI
-        onClick={handleClick}
-        alt={profile.name}
-        src={profile.imageUrl}
-      >
+      <span onClick={handleClick}>{profile?.name ? profile.name : 'Iniciar sesión'}</span>
+      <AvatarMUI onClick={handleClick} alt={profile.name} src={profile.imageUrl}>
         {profile?.name ? profile.name.substring(0, 1) : undefined}
       </AvatarMUI>
     </div>
   );
-  const menu = (
-    <AvatarMenu anchorEl={anchorEl} open={open} onClose={handleClose} />
-  );
+  const menu = <AvatarMenu anchorEl={anchorEl} open={open} onClose={handleClose} />;
 
   return (
     <>

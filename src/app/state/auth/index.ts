@@ -1,2 +1,8 @@
 export { isValidToken } from './auth.slice';
-export { signInAuth, loadAuth, signOut } from './auth.action-creators';
+export {
+  signInAuth,
+  signUpAuth,
+  loadAuth,
+  signOut,
+  confirmEmailAuth
+} from './auth.action-creators';

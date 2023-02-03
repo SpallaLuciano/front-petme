@@ -3,5 +3,5 @@ export const enum CoordinatesStatus {
   PENDING = 'PENDING',
   ALLOWED = 'ALLOWED',
   NOT_ALLOWED = 'NOT_ALLOWED',
-  FAILED = 'FAILED',
+  FAILED = 'FAILED'
 }

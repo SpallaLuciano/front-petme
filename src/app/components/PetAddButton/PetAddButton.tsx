@@ -5,7 +5,6 @@ import { PetForm } from '../PetForm/PetForm';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import style from './PetAddButton.module.scss';
 
-
 export const PetAddButton: FC = () => {
   const [open, setOpen] = useState(false);
 
@@ -17,18 +16,16 @@ export const PetAddButton: FC = () => {
     setOpen(false);
   };
 
-  return <>
-    <IconButton color="primary" onClick={handleClickOpen}>
-      <AddCircleOutlinedIcon fontSize="large" />
-    </IconButton>
-    <PetDialog
-      label="Crear Mascota"
-      open={open}
-      onClose={handleClose}
-    >
-      <div className={style.PetForm}>
-        <PetForm onSave={handleClose} onCancel={handleClose} />
-      </div>
-    </PetDialog>
-  </>;
+  return (
+    <>
+      <IconButton color="primary" onClick={handleClickOpen}>
+        <AddCircleOutlinedIcon fontSize="large" />
+      </IconButton>
+      <PetDialog label="Crear Mascota" open={open} onClose={handleClose}>
+        <div className={style.PetForm}>
+          <PetForm onSave={handleClose} onCancel={handleClose} />
+        </div>
+      </PetDialog>
+    </>
+  );
 };

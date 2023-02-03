@@ -6,7 +6,7 @@ import style from './DetailHeader.module.scss';
 
 interface Props {
   petId: number;
-};
+}
 
 export const DetailHeader: FC<Props> = ({ petId }) => {
   const navigate = useNavigate();
@@ -28,10 +28,7 @@ export const DetailHeader: FC<Props> = ({ petId }) => {
     <div className={style.Container}>
       <h1>{petName}</h1>
       <div className={style.Profile} onClick={() => navigate(`/profiles/${profile.id}`)}>
-        <Avatar
-          alt={profile.name}
-          src={profile.image?.url}
-        >
+        <Avatar alt={profile.name} src={profile.image?.url}>
           {profile.name ? profile.name.substring(0, 1) : undefined}
         </Avatar>
         <h2>{profile.name}</h2>

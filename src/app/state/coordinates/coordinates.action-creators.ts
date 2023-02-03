@@ -5,25 +5,19 @@ export const fetchCoordinates = createAsyncThunk<
   Coordinates,
   void,
   {
-    rejectValue: string
+    rejectValue: string;
   }
->(
-  'coordinates/fetch',
-  async (input, { rejectWithValue }) => {
-    try {
-      return await new Promise(function (resolve, reject) {
-        navigator.geolocation.getCurrentPosition(
-          ({ coords }: GeolocationPosition) => {
-            resolve({
-              latitude: coords.latitude,
-              longitude: coords.longitude,
-            });
-          },
-          reject,
-        );
-      });
-    } catch (error) {
-      return rejectWithValue('error');
-    }
+>('coordinates/fetch', async (input, { rejectWithValue }) => {
+  try {
+    return await new Promise(function (resolve, reject) {
+      navigator.geolocation.getCurrentPosition(({ coords }: GeolocationPosition) => {
+        resolve({
+          latitude: coords.latitude,
+          longitude: coords.longitude
+        });
+      }, reject);
+    });
+  } catch (error) {
+    return rejectWithValue('error');
   }
-);
+});

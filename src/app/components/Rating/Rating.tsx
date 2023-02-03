@@ -19,12 +19,7 @@ export const Rating: FC<Props> = ({ profileId }) => {
 
   return (
     <div className={style.Rating}>
-      <RatingMUI
-        value={rating}
-        precision={0.5}
-        onChange={handleRate}
-        size="large"
-      />
+      <RatingMUI value={rating} precision={0.5} onChange={handleRate} size="large" />
       <Chip label={rating} size="medium" />
     </div>
   );

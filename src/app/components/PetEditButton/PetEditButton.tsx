@@ -9,7 +9,7 @@ interface Props {
   id: number;
 }
 
-export const PetEditButton: FC<Props> = ({id}) => {
+export const PetEditButton: FC<Props> = ({ id }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -20,18 +20,16 @@ export const PetEditButton: FC<Props> = ({id}) => {
     setOpen(false);
   };
 
-  return <>
-    <IconButton className={style.Edit} onClick={handleClickOpen}>
-      <EditIcon />
-    </IconButton>
-    <PetDialog
-      label="Editar Mascota"
-      open={open}
-      onClose={handleClose}
-    >
-      <div className={style.PetForm}>
-        <PetForm id={id} onSave={handleClose} onCancel={handleClose} />
-      </div>
-    </PetDialog>
-  </>;
+  return (
+    <>
+      <IconButton className={style.Edit} onClick={handleClickOpen}>
+        <EditIcon />
+      </IconButton>
+      <PetDialog label="Editar Mascota" open={open} onClose={handleClose}>
+        <div className={style.PetForm}>
+          <PetForm id={id} onSave={handleClose} onCancel={handleClose} />
+        </div>
+      </PetDialog>
+    </>
+  );
 };

@@ -7,61 +7,56 @@ export const fetchPet = createAsyncThunk<
   Pet[],
   Partial<PetInput> | undefined,
   {
-    rejectValue: string
+    rejectValue: string;
   }
->(
-  'pet/fetch',
-  async (input, { rejectWithValue }) => {
-    try {
-      const { data } = await Promise.resolve({ data: PETS });
+>('pet/fetch', async (input, { rejectWithValue }) => {
+  try {
+    const { data } = await Promise.resolve({ data: PETS });
 
-      return data;
-    } catch (error) {
-      return rejectWithValue('error');
-    }
+    return data;
+  } catch (error) {
+    return rejectWithValue('error');
   }
-);
+});
 
 export const createPet = createAsyncThunk<
   Pet,
   PetInput,
   {
-    rejectValue: string
+    rejectValue: string;
   }
->(
-  'pet/create',
-  async (input, { rejectWithValue }) => {
-    try {
-      const { data } = await Promise.resolve({ data: {
+>('pet/create', async (input, { rejectWithValue }) => {
+  try {
+    const { data } = await Promise.resolve({
+      data: {
         id: PETS.length,
         owner: 1,
         ...input,
         images: [],
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
-      } });
+      }
+    });
 
-      return data;
-    } catch (error) {
-      return rejectWithValue('error');
-    }
+    return data;
+  } catch (error) {
+    return rejectWithValue('error');
   }
-);
+});
 
 export const updatePet = createAsyncThunk<
   Pet,
-  { pet: Partial<PetInput>, id: number },
+  { pet: Partial<PetInput>; id: number },
   {
-    rejectValue: string
+    rejectValue: string;
   }
->(
-  'pet/update',
-  async ({ id, pet }, {rejectWithValue}) => {
-    try {
-      const petFound: Pet | undefined = PETS.find((pet) => pet.id === id);
+>('pet/update', async ({ id, pet }, { rejectWithValue }) => {
+  try {
+    const petFound: Pet | undefined = PETS.find((pet) => pet.id === id);
 
-      if (petFound) {
-        const { data } = await Promise.resolve({ data: {
+    if (petFound) {
+      const { data } = await Promise.resolve({
+        data: {
           id: petFound.id,
           birthdate: petFound.birthdate,
           gender: petFound.gender,
@@ -74,87 +69,80 @@ export const updatePet = createAsyncThunk<
           owner: petFound.owner,
           createdAt: petFound.createdAt,
           updatedAt: new Date().toISOString()
-        }});
-  
-        return data;
-      } else {
-        throw new Error('Pet not found');
-      }
-    } catch (error) {
-      return rejectWithValue('error');
-    }
-  }
-);
-
-export const removePet = createAsyncThunk<
-  { id: number, removed: boolean },
-  number,
-  {
-    rejectValue: string
-  }
->(
-  'pet/remove',
-  async (input, {rejectWithValue}) => {
-    try {
-      const { data } = await Promise.resolve({ data: { id: input, removed: true } });
+        }
+      });
 
       return data;
-    } catch (error) {
-      return rejectWithValue('error');
+    } else {
+      throw new Error('Pet not found');
     }
+  } catch (error) {
+    return rejectWithValue('error');
   }
-);
+});
+
+export const removePet = createAsyncThunk<
+  { id: number; removed: boolean },
+  number,
+  {
+    rejectValue: string;
+  }
+>('pet/remove', async (input, { rejectWithValue }) => {
+  try {
+    const { data } = await Promise.resolve({ data: { id: input, removed: true } });
+
+    return data;
+  } catch (error) {
+    return rejectWithValue('error');
+  }
+});
 
 export const removePetImage = createAsyncThunk<
   {
-    image: number,
-    pet: number,
-    removed: boolean
+    image: number;
+    pet: number;
+    removed: boolean;
   },
   number,
   {
-    rejectValue: string
+    rejectValue: string;
   }
->(
-  'pet/removeImage',
-  async (input, {rejectWithValue}) => {
-    try {
-      const pet = PETS.find((pet) => pet.images.find((image) => image.id === input));
-      
-      if (pet) {
-        return { pet: pet.id, image: input, removed: true};
-      } else {
-        throw new Error('Not Found');
-      }
-    } catch (error) {
-      return rejectWithValue('error');
+>('pet/removeImage', async (input, { rejectWithValue }) => {
+  try {
+    const pet = PETS.find((pet) => pet.images.find((image) => image.id === input));
+
+    if (pet) {
+      return { pet: pet.id, image: input, removed: true };
+    } else {
+      throw new Error('Not Found');
     }
+  } catch (error) {
+    return rejectWithValue('error');
   }
-);
+});
 
 export const updateImagePet = createAsyncThunk<
-  { image: Image, petId: number },
-  { image: FormData, petId: number },
+  { image: Image; petId: number },
+  { image: FormData; petId: number },
   {
-    rejectValue: string
+    rejectValue: string;
   }
->(
-  'pet/updateImage',
-  async (payload, { rejectWithValue }) => {
-    try {
-      console.log(payload);
-      if (PETS[0].images[0]) {
-        const { data } = await Promise.resolve({ data: {
+>('pet/updateImage', async (payload, { rejectWithValue }) => {
+  try {
+    console.log(payload);
+    if (PETS[0].images[0]) {
+      const { data } = await Promise.resolve({
+        data: {
           image: { ...PETS[0].images[0] },
           petId: payload.petId
-        }});
-  
-        return data;
-      } else {
-        throw new Error();
-      }
-    } catch (error) {
-      return rejectWithValue('error');
+        }
+      });
+
+      return data;
+    } else {
+      throw new Error();
     }
+  } catch (error) {
+    return rejectWithValue('error');
   }
-);
+});

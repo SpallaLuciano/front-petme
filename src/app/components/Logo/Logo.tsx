@@ -12,7 +12,7 @@ export const Logo: FC = () => {
 
   return (
     <div className={styles.Logo} onClick={onClick}>
-      <img src={logo} alt="Dog icons created by Freepik - Flaticon" />
+      <img loading="lazy" src={logo} alt="Dog icons created by Freepik - Flaticon" />
       <span>PetMe</span>
     </div>
   );

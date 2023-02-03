@@ -8,35 +8,25 @@ const Transition = forwardRef(function Transition(
   props: TransitionProps & {
     children: ReactElement;
   },
-  ref: Ref<unknown>,
+  ref: Ref<unknown>
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 interface Props {
-  label: string
+  label: string;
   open: boolean;
-  children?: ReactNode
+  children?: ReactNode;
   onClose: () => void;
 }
 
-export const PetDialog: FC<Props> = ({label, open, onClose, children}) => {
+export const PetDialog: FC<Props> = ({ label, open, onClose, children }) => {
   return (
-    <Dialog
-      fullScreen
-      open={open}
-      onClose={onClose}
-      TransitionComponent={Transition}
-    >
+    <Dialog fullScreen open={open} onClose={onClose} TransitionComponent={Transition}>
       <AppBar className={style.AppBar}>
         <Toolbar className={style.Toolbar}>
           <div className={style.LeftSide}>
-            <IconButton
-              edge="start"
-              color="inherit"
-              onClick={onClose}
-              aria-label="close"
-            >
+            <IconButton edge="start" color="inherit" onClick={onClose} aria-label="close">
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" component="div">
@@ -45,9 +35,7 @@ export const PetDialog: FC<Props> = ({label, open, onClose, children}) => {
           </div>
         </Toolbar>
       </AppBar>
-      <div className={style.Container}>
-        {children}
-      </div>
+      <div className={style.Container}>{children}</div>
     </Dialog>
   );
 };

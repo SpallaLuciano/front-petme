@@ -7,4 +7,4 @@ export interface PetInput {
   size: PetSize;
   birthdate: string;
   description: string;
-};
+}

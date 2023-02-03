@@ -1,10 +1,4 @@
-import {
-  Favorite,
-  FavoriteBorder,
-  Female,
-  Male,
-  QuestionMark,
-} from '@mui/icons-material';
+import { Favorite, FavoriteBorder, Female, Male, QuestionMark } from '@mui/icons-material';
 import { differenceInMonths, differenceInYears } from 'date-fns';
 import { PetGender, PetKind, PetSize } from '../enums';
 

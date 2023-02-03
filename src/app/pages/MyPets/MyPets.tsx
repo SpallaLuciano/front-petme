@@ -9,37 +9,42 @@ export const MyPets: FC = () => {
     return {
       pets: state.pet.pets,
       petsStatus: state.pet.status,
-      user: state.profile.user 
+      user: state.profile.user
     };
   });
 
-  const profilePets = Object.values(pets).filter((pet) => pet.owner === user).map((pet) => {
-    if (pet) {
-      return <Grid key={pet.id} item className={style.Pets} xs={12} sm={6} md={4} xl={3}>
-        <PetCard id={pet.id} />
-      </Grid>;
-    }
-  }).filter((value) => value !== undefined);
-
-  const addButton =
-    <PetAddButton />;
-
-  const content =
-    <Grid container className={style.MyPets} spacing={2}>
-      {
-        profilePets?.length ?
-          profilePets :
-          <Grid item>No tiene mascotas cargadas en este momento {addButton}</Grid>
+  const profilePets = Object.values(pets)
+    .filter((pet) => pet.owner === user)
+    .map((pet) => {
+      if (pet) {
+        return (
+          <Grid key={pet.id} item className={style.Pets} xs={12} sm={6} md={4} xl={3}>
+            <PetCard id={pet.id} />
+          </Grid>
+        );
       }
-    </Grid>;
+    })
+    .filter((value) => value !== undefined);
 
-  return <div>
-    <div className={style.Header}>
-      <div>
-        {addButton}
+  const addButton = <PetAddButton />;
+
+  const content = (
+    <Grid container className={style.MyPets} spacing={2}>
+      {profilePets?.length ? (
+        profilePets
+      ) : (
+        <Grid item>No tiene mascotas cargadas en este momento {addButton}</Grid>
+      )}
+    </Grid>
+  );
+
+  return (
+    <div>
+      <div className={style.Header}>
+        <div>{addButton}</div>
+        <h2>Mis Mascotas</h2>
       </div>
-      <h2>Mis Mascotas</h2>
+      {content}
     </div>
-    {content}
-  </div>;
+  );
 };

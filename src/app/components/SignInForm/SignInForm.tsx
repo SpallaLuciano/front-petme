@@ -6,9 +6,11 @@ import { Credentials } from '../../interfaces';
 import { useAppDispatch, signInAuth, fetchPet, fetchProfiles } from '../../state';
 import style from './SignInForm.module.scss';
 import { signInValidationSchema } from '../../validation-schema';
+import { useNavigate } from 'react-router-dom';
 
 export const SignInForm: FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -51,7 +53,9 @@ export const SignInForm: FC = () => {
         Iniciar sesión
       </Button>
       <Button variant="text">Olvidé mi contraseña</Button>
-      <Button variant="text">Registrarme</Button>
+      <Button variant="text" onClick={() => navigate('/sign-up')}>
+        Registrarme
+      </Button>
     </form>
   );
 };
