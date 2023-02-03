@@ -8,7 +8,7 @@ import style from './MyProfile.module.scss';
 export const MyProfile: FC = () => {
   const { image } = useAppSelector((state) => {
     return {
-      image: state.profile.profile?.image,
+      image: state.profile.profile?.image
     };
   });
   const [edit, setEdit] = useState(false);
@@ -29,7 +29,7 @@ export const MyProfile: FC = () => {
         </IconButton>
       </div>
       <div className={style.ProfileForm}>
-        <ProfileForm edit={edit} setEdit={setEdit}/>
+        <ProfileForm edit={edit} setEdit={setEdit} />
       </div>
     </div>
   );

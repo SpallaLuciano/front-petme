@@ -47,20 +47,19 @@ export const ProfileForm: FC<Props> = ({ edit, setEdit }) => {
     dispatch(updateProfile(values));
   };
 
-
   const buttons = (
     <>
-      <Button
-        variant="contained"
-        color="primary"
-        type="submit"
-      >
+      <Button variant="contained" color="primary" type="submit">
         Guardar
       </Button>
-      <Button variant="contained" color="secondary" onClick={() => {
-        setEdit(false);
-        reset();
-      }}>
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={() => {
+          setEdit(false);
+          reset();
+        }}
+      >
         Cancelar
       </Button>
     </>
@@ -80,9 +79,7 @@ export const ProfileForm: FC<Props> = ({ edit, setEdit }) => {
             error={Boolean(errors.name)}
             helperText={errors.name && errors.name.message}
           />
-          <FormHelperText id="name-helper">
-            No puede contener números ni, símbolos
-          </FormHelperText>
+          <FormHelperText id="name-helper">No puede contener números ni, símbolos</FormHelperText>
         </Grid>
         <Grid item className={style.GridItem} xs={12} md={6} lg={4}>
           <TextField
@@ -112,7 +109,7 @@ export const ProfileForm: FC<Props> = ({ edit, setEdit }) => {
                     className={style.DatePicker}
                     onChange={onChange}
                     value={value}
-                    inputFormat='dd-MM-yyyy'
+                    inputFormat="dd-MM-yyyy"
                     renderInput={(params) => <TextField {...params} />}
                   />
                 </LocalizationProvider>
@@ -121,9 +118,7 @@ export const ProfileForm: FC<Props> = ({ edit, setEdit }) => {
           />
         </Grid>
       </Grid>
-      <div className={style.Buttons}>
-        {edit ? buttons : null}
-      </div>
+      <div className={style.Buttons}>{edit ? buttons : null}</div>
     </form>
   );
 };

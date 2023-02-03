@@ -39,7 +39,7 @@ const initialState: PetState = {
     kind: [],
     gender: [],
     size: [],
-    orderBy: OrderBy.NEWEST,
+    orderBy: OrderBy.NEWEST
   },
   order: []
 };
@@ -53,9 +53,9 @@ export const petSlice = createSlice({
     actionUpdateKindFilter: actionUpdateFilterKindCase,
     actionUpdateSizeFilter: actionUpdateFilterSizeCase,
     actionResetFilterAgeBetween: actionResetFilterAgeBetweenCase,
-    actionRemoveFilterGender:   actionRemoveFilterGenderCase,
-    actionRemoveFilterKind:   actionRemoveFilterKindCase,
-    actionRemoveFilterSize:   actionRemoveFilterSizeCase,
+    actionRemoveFilterGender: actionRemoveFilterGenderCase,
+    actionRemoveFilterKind: actionRemoveFilterKindCase,
+    actionRemoveFilterSize: actionRemoveFilterSizeCase,
     actionUpdateOrderBy: actionUpdateOrderByCase
   },
   extraReducers: (builder) => {

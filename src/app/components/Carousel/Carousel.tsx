@@ -17,19 +17,21 @@ const renderLeftButton = ({ previousSlide }: ControlProps) => (
 );
 
 const renderRightButton = ({ nextSlide }: ControlProps) => (
-  <IconButton color="primary" onClick={nextSlide} >
+  <IconButton color="primary" onClick={nextSlide}>
     <ArrowCircleRightIcon className={style.Button} fontSize="large" />
   </IconButton>
 );
 
-export const Carousel: FC<Props> = ({children, rightButton}) => {
-  return <ReactCarousel
-    slidesToShow={1}
-    wrapAround={true}
-    renderCenterLeftControls={renderLeftButton}
-    renderCenterRightControls={renderRightButton}
-    renderBottomRightControls={rightButton}
-  >
-    {children}
-  </ReactCarousel>;
+export const Carousel: FC<Props> = ({ children, rightButton }) => {
+  return (
+    <ReactCarousel
+      slidesToShow={1}
+      wrapAround={true}
+      renderCenterLeftControls={renderLeftButton}
+      renderCenterRightControls={renderRightButton}
+      renderBottomRightControls={rightButton}
+    >
+      {children}
+    </ReactCarousel>
+  );
 };

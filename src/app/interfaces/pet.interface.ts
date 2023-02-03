@@ -15,6 +15,6 @@ export interface Pet {
   coordinates?: Coordinates;
   createdAt: string;
   updatedAt: string;
-};
+}
 
 export type PetFilters = PetKind | PetGender | PetSize | PetKind;

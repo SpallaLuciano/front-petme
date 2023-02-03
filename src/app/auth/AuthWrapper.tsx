@@ -1,6 +1,5 @@
 import { FC, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
-import { SignIn } from '../pages/SignIn';
+import { Navigate, Outlet } from 'react-router-dom';
 import { useAppDispatch, useAppSelector, isValidToken } from '../state';
 
 export const AuthWrapper: FC = () => {
@@ -14,7 +13,5 @@ export const AuthWrapper: FC = () => {
     dispatch(isValidToken());
   }, []);
 
-  return validToken
-    ? <Outlet/>
-    : <SignIn />;
+  return validToken ? <Outlet /> : <Navigate to="/sign-in" replace />;
 };

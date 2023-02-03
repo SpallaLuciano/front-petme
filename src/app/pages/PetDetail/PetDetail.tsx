@@ -25,7 +25,7 @@ export const PetDetail: FC = () => {
     if (petId) {
       const pet = state.pet.pets[petId];
       if (pet) {
-        return { pet, edit: state.profile.user  === pet.owner };
+        return { pet, edit: state.profile.user === pet.owner };
       }
     }
     return {};
@@ -49,7 +49,7 @@ export const PetDetail: FC = () => {
       return (
         <div className={style.RemoveContainer}>
           <IconButton className={style.Remove} onClick={() => handleButtonClick(image.id)}>
-            <CancelIcon fontSize='large' />
+            <CancelIcon fontSize="large" />
           </IconButton>
         </div>
       );
@@ -58,88 +58,75 @@ export const PetDetail: FC = () => {
     }
   };
 
-  const header = pet?.id ?
+  const header = pet?.id ? (
     <div className={style.Header}>
       <DetailHeader petId={pet?.id} />
-    </div> :
-    undefined;
+    </div>
+  ) : undefined;
 
-  const images = pet?.images ? pet.images.map((image, index) => {
-    const removeBtn = removeButton(image);
-    return (
-      <div className={style.ImageContainer} key={index} style={{
-        backgroundImage: `url("${image.url}")`
-      }}>
-        {removeBtn}
-        <img className={style.Image} src={image.url} />
-      </div>
-    );
-  }) : [];
+  const images = pet?.images
+    ? pet.images.map((image, index) => {
+        const removeBtn = removeButton(image);
+        return (
+          <div
+            className={style.ImageContainer}
+            key={index}
+            style={{
+              backgroundImage: `url("${image.url}")`
+            }}
+          >
+            {removeBtn}
+            <img loading="lazy" className={style.Image} src={image.url} />
+          </div>
+        );
+      })
+    : [];
 
-  const dateFormated = pet ? 
-    format(new Date(pet.birthdate), 'PPP', { locale: es }) :
-    '';
+  const dateFormated = pet ? format(new Date(pet.birthdate), 'PPP', { locale: es }) : '';
 
-  const footer = pet ?
-    (
-      <List className={style.List}>
-        <ListItem>
-          <ListItemIcon>
-            <DescriptionIcon />
-          </ListItemIcon>
-          <ListItemText
-            primary={pet.description}
-          />
-        </ListItem>
-        <ListItem className={style.ListItem}>
-          <ListItemIcon>
-            <PetsIcon />
-          </ListItemIcon>
-          <ListItemText
-            primary={pet.kind}
-          />
-        </ListItem>
-        <ListItem className={style.ListItem}>
-          <ListItemIcon>
-            {getGenderIcon(pet.gender)}
-          </ListItemIcon>
-          <ListItemText
-            primary={
-              pet.gender
-            }
-          />
-        </ListItem>
-        <ListItem className={style.ListItem}>
-          <ListItemIcon>
-            <CakeIcon />
-          </ListItemIcon>
-          <ListItemText
-            primary={dateFormated}
-            secondary={
-              getAge(pet.birthdate)
-            }
-          />
-        </ListItem>
-        <ListItem className={style.ListItem}>
-          <ListItemIcon>
-            <StraightenIcon />
-          </ListItemIcon>
-          <ListItemText
-            primary={pet.size}
-          />
-        </ListItem>
-      </List>
-    ) :
-    undefined;
+  const footer = pet ? (
+    <List className={style.List}>
+      <ListItem>
+        <ListItemIcon>
+          <DescriptionIcon />
+        </ListItemIcon>
+        <ListItemText primary={pet.description} />
+      </ListItem>
+      <ListItem className={style.ListItem}>
+        <ListItemIcon>
+          <PetsIcon />
+        </ListItemIcon>
+        <ListItemText primary={pet.kind} />
+      </ListItem>
+      <ListItem className={style.ListItem}>
+        <ListItemIcon>{getGenderIcon(pet.gender)}</ListItemIcon>
+        <ListItemText primary={pet.gender} />
+      </ListItem>
+      <ListItem className={style.ListItem}>
+        <ListItemIcon>
+          <CakeIcon />
+        </ListItemIcon>
+        <ListItemText primary={dateFormated} secondary={getAge(pet.birthdate)} />
+      </ListItem>
+      <ListItem className={style.ListItem}>
+        <ListItemIcon>
+          <StraightenIcon />
+        </ListItemIcon>
+        <ListItemText primary={pet.size} />
+      </ListItem>
+    </List>
+  ) : undefined;
 
   const confirmationTitle = 'Agregar imagen';
   const confirmationDescription = '¿Está seguro que desea agregar la imagen?';
   const handleUpload = (image: FormData) => {
     if (pet?.id) {
-      dispatch(updateImagePet({
-        image,
-        petId: pet.id
-      }));
+      dispatch(
+        updateImagePet({
+          image,
+          petId: pet.id
+        })
+      );
     }
   };
 
@@ -153,28 +140,28 @@ export const PetDetail: FC = () => {
     />
   );
 
-  const addImageButton = edit ? () =>
-    petImageButton :
-    undefined;
+  const addImageButton = edit ? () => petImageButton : undefined;
 
-  const carousel = pet?.images && pet.images.length ? (
-    <Carousel rightButton={addImageButton}>
-      {images}
-    </Carousel>
-  ) :
-    edit ?
-      petImageButton :
-      <div>Sin imágenes</div>;
-  return <div className={style.Container}>
-    <ConfirmationDialog
-      open={open}
-      description={dialogDescription}
-      title={dialogTitle}
-      onClose={() => setOpen(false)}
-      onConfirmation={() => remove(id)}
-    />
-    {header}
-    {carousel}
-    {footer}
-  </div>;
+  const carousel =
+    pet?.images && pet.images.length ? (
+      <Carousel rightButton={addImageButton}>{images}</Carousel>
+    ) : edit ? (
+      petImageButton
+    ) : (
+      <div>Sin imágenes</div>
+    );
+  return (
+    <div className={style.Container}>
+      <ConfirmationDialog
+        open={open}
+        description={dialogDescription}
+        title={dialogTitle}
+        onClose={() => setOpen(false)}
+        onConfirmation={() => remove(id)}
+      />
+      {header}
+      {carousel}
+      {footer}
+    </div>
+  );
 };

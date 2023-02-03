@@ -7,7 +7,7 @@ import style from './Home.module.scss';
 export const Home: FC = () => {
   const { order } = useAppSelector((state) => {
     return {
-      order: state.pet.order,
+      order: state.pet.order
     };
   });
 

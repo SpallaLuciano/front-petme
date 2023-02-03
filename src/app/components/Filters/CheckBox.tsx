@@ -7,16 +7,18 @@ interface Props {
   value: boolean;
   label: string;
   onClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-};
+}
 
 export const CheckBox: FC<Props> = ({ value, label, onClick }) => {
-  
-  return <>
-    <Checkbox
-      checked={value}
-      icon={<CircleOutlinedIcon />}
-      checkedIcon={<CircleIcon />}
-      onChange={onClick}
-    /> {label}
-  </>;
+  return (
+    <>
+      <Checkbox
+        checked={value}
+        icon={<CircleOutlinedIcon />}
+        checkedIcon={<CircleIcon />}
+        onChange={onClick}
+      />{' '}
+      {label}
+    </>
+  );
 };

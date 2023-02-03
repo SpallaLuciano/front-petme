@@ -3,4 +3,4 @@ export interface TokenDecoded {
   user: number;
   admin: boolean;
   expirationDate: string;
-};
+}

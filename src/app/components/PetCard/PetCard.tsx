@@ -1,7 +1,7 @@
 import style from './PetCard.module.scss';
 import { Card, CardActionArea, CardContent, CardMedia, Grid, IconButton } from '@mui/material';
 import { FC, useState } from 'react';
-import {  LocationOn } from '@mui/icons-material';
+import { LocationOn } from '@mui/icons-material';
 import {
   getAge,
   getDistanceFromLatLon,
@@ -9,7 +9,7 @@ import {
   getGenderIcon,
   getSizeKind
 } from '../../utils';
-import {  } from '../../utils/pet.utils';
+import {} from '../../utils/pet.utils';
 import CancelIcon from '@mui/icons-material/Cancel';
 import InfoIcon from '@mui/icons-material/Info';
 import { removePet, useAppDispatch, useAppSelector } from '../../state';
@@ -24,15 +24,7 @@ interface Props {
 export const PetCard: FC<Props> = ({ id }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const {
-    pet,
-    age,
-    distance,
-    favorite,
-    gender,
-    sizeKind,
-    user
-  } = useAppSelector((state) => {
+  const { pet, age, distance, favorite, gender, sizeKind, user } = useAppSelector((state) => {
     let distance: number | null = null;
     const pet = state.pet.pets[id];
 
@@ -64,15 +56,11 @@ export const PetCard: FC<Props> = ({ id }) => {
     setOpen(false);
   };
 
-  const likeButton = edit ?
-    undefined:
-    <IconButton>{favorite}</IconButton>;
+  const likeButton = edit ? undefined : <IconButton>{favorite}</IconButton>;
 
-  const editButton = edit ?
-    <PetEditButton id={pet.id} /> :
-    undefined;
+  const editButton = edit ? <PetEditButton id={pet.id} /> : undefined;
 
-  const removeButton = edit ? 
+  const removeButton = edit ? (
     <>
       <ConfirmationDialog
         open={open}
@@ -82,27 +70,29 @@ export const PetCard: FC<Props> = ({ id }) => {
         onConfirmation={remove}
       />
       <IconButton className={style.Remove} onClick={() => setOpen(true)}>
-        <CancelIcon fontSize='large' />
+        <CancelIcon fontSize="large" />
       </IconButton>
-    </> :
-    undefined;
+    </>
+  ) : undefined;
 
-  const infoButton = 
+  const infoButton = (
     <IconButton className={style.Edit} onClick={navigateDetail}>
       <InfoIcon />
-    </IconButton>;
-  
-  const cardMedia = pet.images[0] && pet.images[0].url ?
-    <CardMedia component="img" height="300" image={pet.images[0].url} alt={pet.name} />
-    : <div className={style.NoImage}>Sin imagen</div>;
+    </IconButton>
+  );
+
+  const cardMedia =
+    pet.images[0] && pet.images[0].url ? (
+      <CardMedia component="img" height="300" image={pet.images[0].url} alt={pet.name} />
+    ) : (
+      <div className={style.NoImage}>Sin imagen</div>
+    );
 
   return (
     <Card className={style.PetCard}>
       <div className={style.Image}>
         {removeButton}
-        <CardActionArea onClick={navigateDetail}>
-          {cardMedia}
-        </CardActionArea>
+        <CardActionArea onClick={navigateDetail}>{cardMedia}</CardActionArea>
       </div>
       <CardContent>
         <Grid className={style.PetGrid} container>

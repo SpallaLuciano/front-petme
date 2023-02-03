@@ -8,7 +8,7 @@ export const SignIn: FC = () => {
   return (
     <Grid className={styles.grid} container>
       <Grid className={styles.item} item xs={12} lg={6}>
-        <img src={logo} alt="Dog icons created by Freepik - Flaticon" />
+        <img loading="lazy" src={logo} alt="Dog icons created by Freepik - Flaticon" />
       </Grid>
       <Grid className={styles.item} item xs={12} lg={6}>
         <h1>Iniciar Sesión</h1>

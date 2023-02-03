@@ -4,4 +4,6 @@ export interface Auth {
   email: string | null;
   admin: boolean;
   validToken: boolean;
+  isSignedUp: boolean;
+  isEmailValidated: boolean;
 }

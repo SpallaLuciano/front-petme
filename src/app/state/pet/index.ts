@@ -1,10 +1,4 @@
-export {
-  createPet,
-  fetchPet,
-  removePet,
-  updatePet,
-  removePetImage
-} from './pet.action-creators';
+export { createPet, fetchPet, removePet, updatePet, removePetImage } from './pet.action-creators';
 export {
   updateAgeBetweenFilter,
   updateGenderFilter,

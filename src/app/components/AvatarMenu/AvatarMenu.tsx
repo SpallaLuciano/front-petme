@@ -17,7 +17,7 @@ export const AvatarMenu: FC<Props> = ({ open = false, onClose, anchorEl }) => {
 
   const { signed } = useAppSelector((state) => {
     return {
-      signed: Boolean(state.auth.auth?.user),
+      signed: Boolean(state.auth.auth?.user)
     };
   });
 
@@ -41,7 +41,7 @@ export const AvatarMenu: FC<Props> = ({ open = false, onClose, anchorEl }) => {
     </MenuItem>,
     <MenuItem key="signout" onClick={sOut}>
       Cerrar Sesión
-    </MenuItem>,
+    </MenuItem>
   ];
 
   const MenuSign = (

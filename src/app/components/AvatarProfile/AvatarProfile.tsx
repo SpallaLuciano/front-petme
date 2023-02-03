@@ -38,7 +38,7 @@ export const AvatarProfile: FC<Props> = (props) => {
           >
             <PhotoCamera />
           </IconButton>
-          <ImageMenu open={open} onClose={handleClose} anchorEl={anchorEl}/>
+          <ImageMenu open={open} onClose={handleClose} anchorEl={anchorEl} />
         </>
       }
     >

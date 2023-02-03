@@ -14,7 +14,7 @@ const Transition = forwardRef(function Transition(
   props: TransitionProps & {
     children: ReactElement;
   },
-  ref: React.Ref<unknown>,
+  ref: React.Ref<unknown>
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -34,13 +34,8 @@ export const ConfirmationDialog: FC<Props> = ({
   onConfirmation,
   onClose
 }) => {
-  return(
-    <Dialog
-      open={open}
-      onClose={onClose}
-      keepMounted
-      TransitionComponent={Transition}
-    >
+  return (
+    <Dialog open={open} onClose={onClose} keepMounted TransitionComponent={Transition}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{description}</DialogContentText>

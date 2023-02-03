@@ -8,6 +8,7 @@ export { PetCard } from './PetCard';
 export { PetFilters } from './PetFilters';
 export { ProfileForm } from './ProfileForm';
 export { SignInForm } from './SignInForm';
+export { SignUpForm } from './SignUpForm';
 export { FilterSummary } from './FilterSummary';
 export { ImageMenu } from './ImageMenu';
 export { PetEditButton } from './PetEditButton';
