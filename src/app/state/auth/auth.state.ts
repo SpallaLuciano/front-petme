@@ -1,8 +1,5 @@
-import { GeneralStatus } from '../../enums';
-import { Auth } from '../../interfaces';
+import { Auth, GeneralState } from '../../interfaces';
 
-export interface AuthState {
-  status: GeneralStatus;
-  error: null | string;
+export interface AuthState extends GeneralState {
   auth: Auth;
 }

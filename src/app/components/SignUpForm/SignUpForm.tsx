@@ -2,21 +2,21 @@ import { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Button, TextField } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { SignUp } from '../../inputs';
 import { signUpValidationSchema } from '../../validation-schema';
 import { useNavigate } from 'react-router-dom';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { sub } from 'date-fns/esm';
 import { useAppDispatch, useAppSelector } from '../../state';
-import { signUpAuth } from '../../state/auth';
+import { signUpSignUp } from '../../state/sign-up';
 import style from './SignUpForm.module.scss';
+import { SignUpInput } from '../../inputs/sign-up.input';
 
 export const SignUpForm: FC = () => {
   const navigate = useNavigate();
   const maxDate = sub(new Date(), { years: 18 });
   const dispatch = useAppDispatch();
-  const isSignedUp = useAppSelector((state) => state.auth.auth.isSignedUp);
+  const isSignedUp = useAppSelector((state) => state.signUp.signUp.isSignedUp);
 
   if (isSignedUp) {
     navigate('/signed-up');
@@ -27,15 +27,15 @@ export const SignUpForm: FC = () => {
     handleSubmit,
     control,
     formState: { errors }
-  } = useForm<SignUp>({
+  } = useForm<SignUpInput>({
     resolver: yupResolver(signUpValidationSchema),
     defaultValues: {
       birthdate: null
     }
   });
 
-  const signUp = async (signUp: SignUp) => {
-    dispatch(signUpAuth(signUp));
+  const signUp = async (signUp: SignUpInput) => {
+    dispatch(signUpSignUp(signUp));
   };
 
   return (
@@ -62,33 +62,6 @@ export const SignUpForm: FC = () => {
             error={Boolean(errors.lastname)}
             helperText={errors.lastname && errors.lastname.message}
           />
-          {/* <Controller
-            name="birthdate"
-            control={control}
-            render={({ field: { onChange, value } }) => {
-              return (
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    maxDate={maxDate}
-                    defaultCalendarMonth={maxDate}
-                    className={style.Inputs}
-                    onChange={onChange}
-                    value={value}
-                    inputFormat='dd-MM-yyyy'
-                    renderInput={(params) =>
-                      <TextField
-                        {...params}
-                        defaultValue={null}
-                        label="Fecha de nacimiento"
-                        error={Boolean(errors.birthdate)}
-                        helperText={errors.birthdate && errors.birthdate.message}
-                      />
-                    }
-                  />
-                </LocalizationProvider>
-              );
-            }}
-          /> */}
           <Controller
             name="birthdate"
             control={control}

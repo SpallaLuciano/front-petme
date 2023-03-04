@@ -2,6 +2,7 @@ export { useAppDispatch, useAppSelector } from './hooks';
 export { store } from './store';
 export { signInAuth, signOut, isValidToken, loadAuth } from './auth';
 export { fetchCoordinates, removeCoordinates } from './coordinates';
+export { confirmEmailSignUp, signUpSignUp } from './sign-up';
 export {
   fetchPet,
   createPet,
@@ -26,3 +27,4 @@ export {
   removeImageProfile,
   rateProfile
 } from './profile';
+export { recoverPasswordRecoverPassword } from './recover-password';

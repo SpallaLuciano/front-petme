@@ -5,3 +5,6 @@ export { Coordinates } from './coordinates.interface';
 export { Profile } from './profile.interface';
 export { Auth } from './auth.interface';
 export { TokenDecoded } from './token-decoded.interface';
+export { SignUp } from './sign-up.interface';
+export { GeneralState } from './general-state.interface';
+export { RecoverPassword } from './recover-password.interface';
