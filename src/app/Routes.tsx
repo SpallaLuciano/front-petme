@@ -8,6 +8,9 @@ import {
   MyProfile,
   PetDetail,
   Profile,
+  RecoverPassword,
+  RecoverPasswordSend,
+  ResetPassword,
   SignedUp,
   SignUp
 } from './pages';
@@ -19,6 +22,9 @@ export const AppRoutes: FC = () => (
     <Route path="/sign-up" element={<SignUp />} />
     <Route path="/signed-up" element={<SignedUp />} />
     <Route path="/confirm-email/:token" element={<EmailValidation />} />
+    <Route path="/recover-password" element={<RecoverPassword />} />
+    <Route path="/recover-password-send" element={<RecoverPasswordSend />} />
+    <Route path="/reset-password/:token" element={<ResetPassword />} />
     <Route element={<AuthWrapper />}>
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Navigate to="/" replace />} />

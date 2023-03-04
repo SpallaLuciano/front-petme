@@ -1,7 +1,7 @@
 import jwt_decode from 'jwt-decode';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Auth, Credentials, TokenDecoded } from '../../interfaces';
-import { SignUp, Registration, Confirmation } from '../../inputs';
+import { Confirmation, RecoverPasswordInput } from '../../inputs';
 import { AxiosResponse } from 'axios';
 
 export const signInAuth = createAsyncThunk<
@@ -34,34 +34,13 @@ export const signInAuth = createAsyncThunk<
   }
 });
 
-export const signUpAuth = createAsyncThunk<
-  Registration,
-  SignUp,
-  {
-    rejectValue: string;
-  }
->('auth/signUp', async (_, { rejectWithValue }) => {
-  try {
-    const { data } = await Promise.resolve<AxiosResponse<Registration>>({
-      data: {
-        isSignedUp: true,
-        error: null
-      }
-    } as AxiosResponse<Registration>);
-
-    return data;
-  } catch (error) {
-    return rejectWithValue('error');
-  }
-});
-
-export const confirmEmailAuth = createAsyncThunk<
+export const recoverPassword = createAsyncThunk<
   Confirmation,
-  string,
+  RecoverPasswordInput,
   {
     rejectValue: string;
   }
->('auth/confirmEmail', async (_, { rejectWithValue }) => {
+>('auth/recoverPassword', async (_, { rejectWithValue }) => {
   try {
     const { data } = await Promise.resolve<AxiosResponse<Confirmation>>({
       data: {

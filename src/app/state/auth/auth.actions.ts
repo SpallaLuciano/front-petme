@@ -24,20 +24,8 @@ export const signOutAuthFulfilled = (state: AuthState) => {
     token: null,
     user: null,
     admin: false,
-    validToken: false,
-    isSignedUp: false,
-    isEmailValidated: false
+    validToken: false
   };
-  state.status = GeneralStatus.SUCCESS;
-};
-
-export const signUpAuthFulfilled = (state: AuthState) => {
-  state.auth.isSignedUp = true;
-  state.status = GeneralStatus.SUCCESS;
-};
-
-export const confirmEmailAuthFulfilled = (state: AuthState) => {
-  state.auth.isEmailValidated = true;
   state.status = GeneralStatus.SUCCESS;
 };
 

@@ -52,7 +52,9 @@ export const SignInForm: FC = () => {
       <Button type="submit" variant="contained">
         Iniciar sesión
       </Button>
-      <Button variant="text">Olvidé mi contraseña</Button>
+      <Button variant="text" onClick={() => navigate('/recover-password')}>
+        Olvidé mi contraseña
+      </Button>
       <Button variant="text" onClick={() => navigate('/sign-up')}>
         Registrarme
       </Button>

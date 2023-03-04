@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import { FC } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from '../../state';
-import { confirmEmailAuth } from '../../state/auth';
+import { confirmEmailSignUp } from '../../state/sign-up';
 import style from './EmailValidation.module.scss';
 
 export const EmailValidation: FC = () => {
@@ -11,7 +11,7 @@ export const EmailValidation: FC = () => {
   const { token } = useParams();
 
   if (token) {
-    dispatch(confirmEmailAuth(token));
+    dispatch(confirmEmailSignUp(token));
   }
 
   return (
