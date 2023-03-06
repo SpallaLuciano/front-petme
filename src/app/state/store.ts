@@ -5,6 +5,7 @@ import petReducer from './pet/pet.slice';
 import profileReducer from './profile/profile.slice';
 import signUpReducer from './sign-up/sign-up.slice';
 import recoverPasswordReducer from './recover-password/recover-password.slice';
+import chatsReducer from './chats/chats.slice';
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ export const store = configureStore({
     pet: petReducer,
     profile: profileReducer,
     signUp: signUpReducer,
-    recoverPassword: recoverPasswordReducer
+    recoverPassword: recoverPasswordReducer,
+    chats: chatsReducer
   },
   devTools: true
 });

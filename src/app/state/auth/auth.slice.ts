@@ -1,9 +1,8 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
+import { actionPending, actionRejected } from '../actions';
 import { loadAuth, signInAuth, signOut } from './auth.action-creators';
 import {
-  actionAuthPending,
-  actionAuthRejected,
   signInAuthFulfilled,
   signOutAuthFulfilled,
   loadAuthFulfilled,
@@ -34,10 +33,10 @@ export const authSlice = createSlice({
       .addCase(signOut.fulfilled, signOutAuthFulfilled)
       .addCase(loadAuth.fulfilled, loadAuthFulfilled)
       .addCase(signInAuth.fulfilled, signInAuthFulfilled)
-      .addMatcher(isAnyOf(signInAuth.pending, loadAuth.pending, signOut.pending), actionAuthPending)
+      .addMatcher(isAnyOf(signInAuth.pending, loadAuth.pending, signOut.pending), actionPending)
       .addMatcher(
         isAnyOf(signInAuth.rejected, loadAuth.rejected, signOut.rejected),
-        actionAuthRejected
+        actionRejected
       );
   }
 });

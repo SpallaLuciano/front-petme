@@ -1,10 +1,7 @@
-import { GeneralStatus } from '../../enums';
 import { FiltersInput } from '../../inputs';
-import { Pet } from '../../interfaces';
+import { Pet, GeneralState } from '../../interfaces';
 
-export interface PetState {
-  status: GeneralStatus;
-  error: null | string;
+export interface PetState extends GeneralState {
   pets: { [key: string]: Pet };
   oldestBirth: string;
   lastestUpdate: string;

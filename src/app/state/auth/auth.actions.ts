@@ -6,11 +6,6 @@ import { Auth, TokenDecoded } from '../../interfaces';
 import { AuthState } from './auth.state';
 import { diffFromNow } from '../../utils';
 
-export const actionAuthPending = (state: AuthState) => {
-  state.error = null;
-  state.status = GeneralStatus.LOADING;
-};
-
 export const signInAuthFulfilled = (state: AuthState, { payload }: PayloadAction<Auth>) => {
   state.auth = payload;
   state.status = GeneralStatus.SUCCESS;
@@ -27,11 +22,6 @@ export const signOutAuthFulfilled = (state: AuthState) => {
     validToken: false
   };
   state.status = GeneralStatus.SUCCESS;
-};
-
-export const actionAuthRejected = (state: AuthState, { payload }: PayloadAction<unknown>) => {
-  state.error = payload as string;
-  state.status = GeneralStatus.FAILED;
 };
 
 export const loadAuthFulfilled = (state: AuthState, { payload }: PayloadAction<TokenDecoded>) => {

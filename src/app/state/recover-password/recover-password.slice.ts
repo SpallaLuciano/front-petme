@@ -1,13 +1,12 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
+import { actionPending, actionRejected } from '../actions';
 import {
   recoverPasswordRecoverPassword,
   resetPasswordRecoverPassword
 } from './recover-password.action-creators';
 import {
-  actionPending,
   actionRecoverPasswordFulfilled,
-  actionRejected,
   actionResetPasswordFulfilled
 } from './recover-password.actions';
 import { RecoverPasswordState } from './recover-password.state';
