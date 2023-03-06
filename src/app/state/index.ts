@@ -28,3 +28,4 @@ export {
   rateProfile
 } from './profile';
 export { recoverPasswordRecoverPassword } from './recover-password';
+export { fetchChats } from './chats';

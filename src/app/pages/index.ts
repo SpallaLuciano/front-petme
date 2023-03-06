@@ -7,3 +7,4 @@ export { Profile } from './Profile';
 export { SignUp } from './SignUp';
 export { SignedUp } from './SignedUp';
 export { RecoverPassword, RecoverPasswordSend, ResetPassword } from './RecoverPassword';
+export { Chats, Chat } from './Chats';

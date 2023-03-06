@@ -22,3 +22,4 @@ export { ImagePetForm } from './ImagePetForm';
 export { Rating } from './Rating';
 export { RecoverPasswordForm } from './RecoverPasswordForm';
 export { ResetPasswordForm } from './ResetPasswordForm';
+export { ChatList, Chat } from './Chats';

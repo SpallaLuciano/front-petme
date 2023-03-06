@@ -2,6 +2,8 @@ import { FC } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AuthWrapper } from './auth';
 import {
+  Chat,
+  Chats,
   EmailValidation,
   Home,
   MyPets,
@@ -32,6 +34,8 @@ export const AppRoutes: FC = () => (
       <Route path="/my-pets" element={<MyPets />} />
       <Route path="/pets/:petId" element={<PetDetail />} />
       <Route path="/profiles/:profileId" element={<Profile />} />
+      <Route path="/chats" element={<Chats />} />
+      <Route path="/chats/:chatId" element={<Chat />} />
     </Route>
     <Route path="*" element={<div>Página no encontrada</div>} />
   </Routes>

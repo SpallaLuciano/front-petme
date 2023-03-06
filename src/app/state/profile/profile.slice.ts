@@ -1,5 +1,6 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
+import { actionPending, actionRejected } from '../actions';
 import { signInAuth, loadAuth } from '../auth';
 import {
   createProfile,
@@ -13,8 +14,6 @@ import {
   signInAuthProfileFulfilled,
   loadAuthProfileFulfilled,
   fetchProfilesFulfilled,
-  actionProfilePending,
-  actionProfileRejected,
   createUpdateProfileFulfilled,
   actionImageRemoveFulfilled,
   actionImageUpdatedFulfilled,
@@ -53,7 +52,7 @@ export const profileSlice = createSlice({
           removeImageProfile.pending,
           rateProfile.pending
         ),
-        actionProfilePending
+        actionPending
       )
       .addMatcher(
         isAnyOf(
@@ -64,7 +63,7 @@ export const profileSlice = createSlice({
           removeImageProfile.rejected,
           rateProfile.rejected
         ),
-        actionProfileRejected
+        actionRejected
       );
   }
 });

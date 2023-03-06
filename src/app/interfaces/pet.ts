@@ -1,6 +1,6 @@
 import { PetGender, PetKind, PetSize } from '../enums/pet.enum';
-import { Coordinates } from './coordinates.interface';
-import { Image } from './image.interface';
+import { Coordinates } from './coordinates';
+import { Image } from './image';
 
 export interface Pet {
   id: number;

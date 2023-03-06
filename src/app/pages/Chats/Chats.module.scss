@@ -1,0 +1,21 @@
+@import '../../variables';
+
+.ChatList {
+  max-width: $small;
+  width: 100%;
+}
+
+.Container {
+  display: flex;
+  justify-content: center;
+}
+
+.ChatContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.Back {
+  display: flex;
+  align-items: center;
+}

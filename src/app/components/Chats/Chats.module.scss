@@ -1,0 +1,75 @@
+@import '../../variables';
+
+.ChatPreview {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ChatContainer {
+  width: 100%;
+  max-width: $medium;
+  justify-content: center;
+}
+
+.ChatBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.Paper {
+  display: flex;
+  flex-direction: column;
+  align-items: 'flex-start';
+  padding: 6px;
+  margin: 6px;
+  width: fit-content;
+  max-width: '50%';
+  border-radius: '10px';
+  background-color: #f5f5f5;
+}
+
+.PaperRight {
+  display: flex;
+  flex-direction: column;
+  align-items: 'flex-start';
+  padding: 6px;
+  margin: 6px;
+  width: fit-content;
+  max-width: '50%';
+  border-radius: '10px';
+  background-color: #f5f5f5;
+  float: right;
+}
+
+.SenderName {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.Header {
+  display: flex;
+  background-color: $primary-color;
+  color: $primary-light-text-color;
+  margin-left: 8px;
+}
+
+.Rating {
+  display: flex;
+  align-items: center;
+  margin-left: 4px;
+}
+
+.Name {
+  font-weight: bold;
+  margin-left: 4px;
+}
+
+.HeaderClick {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.ArrowBack {
+  color: $primary-light-text-color;
+}

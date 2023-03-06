@@ -33,11 +33,14 @@ export const AvatarMenu: FC<Props> = ({ open = false, onClose, anchorEl }) => {
     <MenuItem key="home" onClick={() => navigate('')}>
       Inicio
     </MenuItem>,
-    <MenuItem key="my-profile" onClick={() => navigate('my-profile')}>
+    <MenuItem key="my-profile" onClick={() => navigate('/my-profile')}>
       Mi Perfil
     </MenuItem>,
-    <MenuItem key="my-pets" onClick={() => navigate('my-pets')}>
+    <MenuItem key="my-pets" onClick={() => navigate('/my-pets')}>
       Mis Mascotas
+    </MenuItem>,
+    <MenuItem key="chats" onClick={() => navigate('/chats')}>
+      Chats
     </MenuItem>,
     <MenuItem key="signout" onClick={sOut}>
       Cerrar Sesión

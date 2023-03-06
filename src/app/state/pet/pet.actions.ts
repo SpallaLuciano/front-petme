@@ -5,11 +5,6 @@ import { Image, Pet } from '../../interfaces';
 import { sortByNewest, sortByOldest } from '../../utils';
 import { PetState } from './pet.state';
 
-export const actionPetPending = (state: PetState) => {
-  state.error = null;
-  state.status = GeneralStatus.LOADING;
-};
-
 export const fetchPetFulfilled = (state: PetState, { payload }: PayloadAction<Pet[]>) => {
   state.oldestBirth = new Date().toISOString();
 
@@ -76,13 +71,6 @@ export const removePetFulfilled = (
     state.order = state.order.filter((id) => Number(id) !== payload.id);
   }
   state.status = GeneralStatus.SUCCESS;
-};
-
-export const actionPetRejected = (state: PetState, { payload }: PayloadAction<unknown>) => {
-  if (payload) {
-    state.error = payload as string;
-  }
-  state.status = GeneralStatus.FAILED;
 };
 
 export const actionUpdateFilterAgeBetweenCase: CaseReducer<

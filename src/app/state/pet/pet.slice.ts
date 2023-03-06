@@ -1,5 +1,6 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { GeneralStatus, OrderBy } from '../../enums';
+import { actionPending, actionRejected } from '../actions';
 import {
   createPet,
   fetchPet,
@@ -9,8 +10,6 @@ import {
   updatePet
 } from './pet.action-creators';
 import {
-  actionPetPending,
-  actionPetRejected,
   fetchPetFulfilled,
   createUpdatePetFulfilled,
   removePetFulfilled,
@@ -75,7 +74,7 @@ export const petSlice = createSlice({
           removePetImage.pending,
           updateImagePet.pending
         ),
-        actionPetPending
+        actionPending
       )
       .addMatcher(
         isAnyOf(
@@ -86,7 +85,7 @@ export const petSlice = createSlice({
           removePetImage.rejected,
           updateImagePet.rejected
         ),
-        actionPetRejected
+        actionRejected
       );
   }
 });

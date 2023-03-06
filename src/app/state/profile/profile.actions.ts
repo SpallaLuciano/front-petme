@@ -3,11 +3,6 @@ import { GeneralStatus } from '../../enums';
 import { Auth, Image, Profile, TokenDecoded } from '../../interfaces';
 import { ProfileState } from './profile.state';
 
-export const actionProfilePending = (state: ProfileState) => {
-  state.error = null;
-  state.status = GeneralStatus.LOADING;
-};
-
 export const signInAuthProfileFulfilled = (
   state: ProfileState,
   { payload }: PayloadAction<Auth>
@@ -49,11 +44,6 @@ export const createUpdateProfileFulfilled = (
 ) => {
   state.profiles[payload.id] = payload;
   state.status = GeneralStatus.SUCCESS;
-};
-
-export const actionProfileRejected = (state: ProfileState, { payload }: PayloadAction<unknown>) => {
-  state.error = payload as string;
-  state.status = GeneralStatus.FAILED;
 };
 
 export const actionRemoveProfileCase: CaseReducer<ProfileState> = (state) => {

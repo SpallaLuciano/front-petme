@@ -1,12 +1,8 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
+import { actionPending, actionRejected } from '../actions';
 import { confirmEmailSignUp, signUpSignUp } from './sign-up.action-creators';
-import {
-  actionSignUpPending,
-  actionSignUpRejected,
-  confirmEmailSignUpFulfilled,
-  signUpSignUpFulfilled
-} from './sign-up.actions';
+import { confirmEmailSignUpFulfilled, signUpSignUpFulfilled } from './sign-up.actions';
 import { SignUpState } from './sign-up.state';
 
 const initialState: SignUpState = {
@@ -26,11 +22,8 @@ export const signUpSlice = createSlice({
     builder
       .addCase(signUpSignUp.fulfilled, signUpSignUpFulfilled)
       .addCase(confirmEmailSignUp.fulfilled, confirmEmailSignUpFulfilled)
-      .addMatcher(isAnyOf(signUpSignUp.pending, confirmEmailSignUp.pending), actionSignUpPending)
-      .addMatcher(
-        isAnyOf(signUpSignUp.rejected, confirmEmailSignUp.rejected),
-        actionSignUpRejected
-      );
+      .addMatcher(isAnyOf(signUpSignUp.pending, confirmEmailSignUp.pending), actionPending)
+      .addMatcher(isAnyOf(signUpSignUp.rejected, confirmEmailSignUp.rejected), actionRejected);
   }
 });
 
