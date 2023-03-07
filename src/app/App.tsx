@@ -1,12 +1,22 @@
 import { ThemeProvider } from '@mui/material';
 import { FC, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Header } from './components';
 import { AppRoutes } from './Routes';
-import { fetchCoordinates, fetchPet, fetchProfiles, loadAuth, useAppDispatch } from './state';
+import {
+  fetchChats,
+  fetchCoordinates,
+  fetchPet,
+  fetchProfiles,
+  loadAuth,
+  receiveMessage,
+  useAppDispatch
+} from './state';
 import theme from './theme';
 
 export const App: FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(loadAuth()).then(({ payload }) => {
@@ -14,6 +24,9 @@ export const App: FC = () => {
         dispatch(fetchProfiles());
         dispatch(fetchPet());
         dispatch(fetchCoordinates());
+        dispatch(fetchChats());
+        dispatch(receiveMessage());
+        navigate('/home');
       }
     });
   }, []);
