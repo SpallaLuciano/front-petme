@@ -6,7 +6,7 @@ import { ChatInput } from './ChatInput';
 import style from './Chats.module.scss';
 
 export const Chat: FC<{ chatId: number }> = ({ chatId }) => {
-  const chat = useAppSelector((state) => state.chats.chats.find((chat) => chat.id === chatId));
+  const chat = useAppSelector((state) => state.chats.chats[chatId]);
 
   return (
     <div className={style.ChatContainer}>

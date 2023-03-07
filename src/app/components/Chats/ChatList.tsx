@@ -9,7 +9,9 @@ export const ChatList: FC = () => {
   const navigate = useNavigate();
 
   const chats = useAppSelector((state) => {
-    return state.chats.chats.map((chat) => {
+    const chats = Object.values(state.chats.chats);
+
+    return chats.map((chat) => {
       const user = chat.users.filter((user) => user !== state.auth.auth.user)[0];
       const profile = state.profile.profiles[user];
 

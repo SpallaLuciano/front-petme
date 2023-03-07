@@ -1,13 +1,13 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
 import { actionPending, actionRejected } from '../actions';
-import { fetchChats } from './chats.action-creators';
-import { actionFetchChatsFulfilled } from './chats.actions';
+import { fetchChats, receiveMessage, sendMessage } from './chats.action-creators';
+import { actionFetchChatsFulfilled, actionSendAndReceiveMessageFulfilled } from './chats.actions';
 import { ChatsState } from './chats.state';
 
 const initialState: ChatsState = {
   status: GeneralStatus.IDLE,
-  chats: [],
+  chats: {},
   error: null
 };
 
@@ -18,8 +18,16 @@ export const chatsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchChats.fulfilled, actionFetchChatsFulfilled)
-      .addMatcher(isAnyOf(fetchChats.pending), actionPending)
-      .addMatcher(isAnyOf(fetchChats.rejected), actionRejected);
+      .addCase(sendMessage.fulfilled, actionSendAndReceiveMessageFulfilled)
+      .addCase(receiveMessage.fulfilled, actionSendAndReceiveMessageFulfilled)
+      .addMatcher(
+        isAnyOf(fetchChats.pending, sendMessage.pending, receiveMessage.pending),
+        actionPending
+      )
+      .addMatcher(
+        isAnyOf(fetchChats.rejected, sendMessage.rejected, receiveMessage.rejected),
+        actionRejected
+      );
   }
 });
 
