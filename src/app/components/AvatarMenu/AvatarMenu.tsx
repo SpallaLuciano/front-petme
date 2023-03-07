@@ -23,29 +23,23 @@ export const AvatarMenu: FC<Props> = ({ open = false, onClose, anchorEl }) => {
 
   const sOut = () => {
     dispatch(signOut());
-    onClose();
   };
 
   useEffect(() => {
     onClose();
   }, [signed]);
 
-  const onClick = (navigateCall: () => void) => {
-    navigateCall();
-    onClose();
-  };
-
   const MenuSignedIn = [
-    <MenuItem key="home" onClick={() => onClick(() => navigate('/home'))}>
+    <MenuItem key="home" onClick={() => navigate('')}>
       Inicio
     </MenuItem>,
-    <MenuItem key="my-profile" onClick={() => onClick(() => navigate('/my-profile'))}>
+    <MenuItem key="my-profile" onClick={() => navigate('/my-profile')}>
       Mi Perfil
     </MenuItem>,
-    <MenuItem key="my-pets" onClick={() => onClick(() => navigate('/my-pets'))}>
+    <MenuItem key="my-pets" onClick={() => navigate('/my-pets')}>
       Mis Mascotas
     </MenuItem>,
-    <MenuItem key="chats" onClick={() => onClick(() => navigate('/chats'))}>
+    <MenuItem key="chats" onClick={() => navigate('/chats')}>
       Chats
     </MenuItem>,
     <MenuItem key="signout" onClick={sOut}>

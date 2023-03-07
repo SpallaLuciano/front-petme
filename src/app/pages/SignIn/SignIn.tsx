@@ -3,17 +3,8 @@ import { Grid } from '@mui/material';
 import { SignInForm } from '../../components';
 import logo from '../../assets/pets.png';
 import styles from './SignIn.module.scss';
-import { useAppSelector } from '../../state';
-import { useNavigate } from 'react-router-dom';
 
 export const SignIn: FC = () => {
-  const navigate = useNavigate();
-  const auth = useAppSelector((state) => state.auth.auth.user);
-
-  if (auth) {
-    navigate('/home');
-  }
-
   return (
     <Grid className={styles.grid} container>
       <Grid className={styles.item} item xs={12} lg={6}>

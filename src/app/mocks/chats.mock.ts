@@ -7,20 +7,17 @@ export const CHATS: Chat[] = [
       {
         content: 'Hola, como estas?',
         date: new Date(),
-        user: 2,
-        chat: 1
+        user: 2
       },
       {
         content: 'Hola, todo bien por suerte, y vos?',
         date: new Date(),
-        user: 1,
-        chat: 1
+        user: 1
       },
       {
         content: 'Muy bien también! c:',
         date: new Date(),
-        user: 2,
-        chat: 1
+        user: 2
       }
     ],
     users: [1, 2]
@@ -31,20 +28,17 @@ export const CHATS: Chat[] = [
       {
         content: 'Hola, como estas?',
         date: new Date(),
-        user: 1,
-        chat: 2
+        user: 1
       },
       {
         content: 'Hola, todo bien por suerte, y vos?',
         date: new Date(),
-        user: 3,
-        chat: 2
+        user: 3
       },
       {
         content: 'Muy bien también! c:',
         date: new Date(),
-        user: 1,
-        chat: 2
+        user: 1
       }
     ],
     users: [1, 3]

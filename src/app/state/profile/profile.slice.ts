@@ -1,7 +1,7 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
 import { actionPending, actionRejected } from '../actions';
-import { signInAuth, loadAuth, signOut } from '../auth';
+import { signInAuth, loadAuth } from '../auth';
 import {
   createProfile,
   fetchProfiles,
@@ -17,8 +17,7 @@ import {
   createUpdateProfileFulfilled,
   actionImageRemoveFulfilled,
   actionImageUpdatedFulfilled,
-  actionRateProfileFulfilled,
-  signOutAuthProfileFulfilled
+  actionRateProfileFulfilled
 } from './profile.actions';
 import { ProfileState } from './profile.state';
 
@@ -44,7 +43,6 @@ export const profileSlice = createSlice({
       .addCase(updateImageProfile.fulfilled, actionImageUpdatedFulfilled)
       .addCase(removeImageProfile.fulfilled, actionImageRemoveFulfilled)
       .addCase(rateProfile.fulfilled, actionRateProfileFulfilled)
-      .addCase(signOut.fulfilled, signOutAuthProfileFulfilled)
       .addMatcher(
         isAnyOf(
           fetchProfiles.pending,
