@@ -10,7 +10,7 @@ export const ChatHeader: FC<{ chatId: number }> = ({ chatId }) => {
   const navigate = useNavigate();
 
   const { id, fullname, image, rating } = useAppSelector((state) => {
-    const chat = state.chats.chats.find((chat) => chat.id === chatId);
+    const chat = state.chats.chats[chatId];
     const userId = chat?.users.filter((user) => state.auth.auth.user !== user)[0];
 
     if (userId) {

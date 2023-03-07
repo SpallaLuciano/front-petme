@@ -1,1 +1,1 @@
-export { fetchChats } from './chats.action-creators';
+export { fetchChats, receiveMessage, sendMessage } from './chats.action-creators';
