@@ -6,6 +6,7 @@ import profileReducer from './profile/profile.slice';
 import signUpReducer from './sign-up/sign-up.slice';
 import recoverPasswordReducer from './recover-password/recover-password.slice';
 import chatsReducer from './chats/chats.slice';
+import healthReducer from './health/health.slice';
 
 export const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ export const store = configureStore({
     profile: profileReducer,
     signUp: signUpReducer,
     recoverPassword: recoverPasswordReducer,
-    chats: chatsReducer
+    chats: chatsReducer,
+    health: healthReducer
   },
   devTools: true
 });

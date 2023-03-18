@@ -10,7 +10,7 @@ import { sub } from 'date-fns/esm';
 import { useAppDispatch, useAppSelector } from '../../state';
 import { signUpSignUp } from '../../state/sign-up';
 import style from './SignUpForm.module.scss';
-import { SignUpInput } from '../../inputs/sign-up.input';
+import { SignUpInput } from '../../inputs';
 
 export const SignUpForm: FC = () => {
   const navigate = useNavigate();

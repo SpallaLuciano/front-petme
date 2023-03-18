@@ -4,7 +4,7 @@ import { es } from 'date-fns/locale';
 import { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Carousel, ConfirmationDialog, DetailHeader, ImagePetForm } from '../../components';
-import { removePetImage, useAppDispatch, useAppSelector } from '../../state';
+import { removePetImage, useAppDispatch, useAppSelector, updateImagePet } from '../../state';
 import { getAge, getGenderIcon } from '../../utils';
 import CakeIcon from '@mui/icons-material/Cake';
 import PetsIcon from '@mui/icons-material/Pets';
@@ -14,7 +14,6 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import AddIcon from '@mui/icons-material/Add';
 import { Image } from '../../interfaces';
 import style from './PetDetail.module.scss';
-import { updateImagePet } from '../../state/pet/pet.action-creators';
 
 export const PetDetail: FC = () => {
   const { petId } = useParams();

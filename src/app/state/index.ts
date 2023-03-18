@@ -17,7 +17,8 @@ export {
   updateKindFilter,
   updateSizeFilter,
   updateOrderBy,
-  removePetImage
+  removePetImage,
+  updateImagePet
 } from './pet';
 export {
   fetchProfiles,
@@ -29,3 +30,4 @@ export {
 } from './profile';
 export { recoverPasswordRecoverPassword } from './recover-password';
 export { fetchChats, receiveMessage, sendMessage } from './chats';
+export { addVisitHealth, fetchVisitsHealth, removeVisitHealth, updateVisitHealth } from './health';
