@@ -8,3 +8,16 @@ export interface PetInput {
   birthdate: string;
   description: string;
 }
+
+export interface AddVisitInput {
+  visit: VisitInput;
+  petId: number;
+}
+
+export interface VisitInput {
+  datetime: string;
+  description: string;
+  type: string;
+  place: string;
+  address: string;
+}

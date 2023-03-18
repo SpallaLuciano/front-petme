@@ -8,6 +8,7 @@ import {
   fetchCoordinates,
   fetchPet,
   fetchProfiles,
+  fetchVisitsHealth,
   loadAuth,
   receiveMessage,
   useAppDispatch
@@ -23,6 +24,7 @@ export const App: FC = () => {
       if (typeof payload === 'object' && payload.user) {
         dispatch(fetchProfiles());
         dispatch(fetchPet());
+        dispatch(fetchVisitsHealth());
         dispatch(fetchCoordinates());
         dispatch(fetchChats());
         dispatch(receiveMessage());

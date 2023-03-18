@@ -23,3 +23,4 @@ export { Rating } from './Rating';
 export { RecoverPasswordForm } from './RecoverPasswordForm';
 export { ResetPasswordForm } from './ResetPasswordForm';
 export { ChatList, Chat } from './Chats';
+export { VisitCard, EventsList } from './Events';

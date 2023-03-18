@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import PETS from '../../mocks/pets.mock';
 import { Image, Pet } from '../../interfaces';
 import { PetInput } from '../../inputs';
+import { AxiosResponse } from 'axios';
 
 export const fetchPet = createAsyncThunk<
   Pet[],
@@ -52,10 +53,10 @@ export const updatePet = createAsyncThunk<
   }
 >('pet/update', async ({ id, pet }, { rejectWithValue }) => {
   try {
-    const petFound: Pet | undefined = PETS.find((pet) => pet.id === id);
+    const petFound = PETS.find((pet) => pet.id === id);
 
     if (petFound) {
-      const { data } = await Promise.resolve({
+      const { data } = await Promise.resolve<AxiosResponse<Pet>>({
         data: {
           id: petFound.id,
           birthdate: petFound.birthdate,
@@ -70,7 +71,7 @@ export const updatePet = createAsyncThunk<
           createdAt: petFound.createdAt,
           updatedAt: new Date().toISOString()
         }
-      });
+      } as AxiosResponse);
 
       return data;
     } else {

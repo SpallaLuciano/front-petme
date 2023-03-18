@@ -1,7 +1,8 @@
-import { Avatar } from '@mui/material';
+import { Avatar, Button } from '@mui/material';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../state';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import style from './DetailHeader.module.scss';
 
 interface Props {
@@ -26,7 +27,16 @@ export const DetailHeader: FC<Props> = ({ petId }) => {
 
   return (
     <div className={style.Container}>
-      <h1>{petName}</h1>
+      <div>
+        <h1>{petName}</h1>
+        <Button
+          variant="contained"
+          onClick={() => navigate('events')}
+          startIcon={<LocalHospitalIcon />}
+        >
+          Visitas a veterinaria
+        </Button>
+      </div>
       <div className={style.Profile} onClick={() => navigate(`/profiles/${profile.id}`)}>
         <Avatar alt={profile.name} src={profile.image?.url}>
           {profile.name ? profile.name.substring(0, 1) : undefined}

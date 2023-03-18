@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Registration, Confirmation } from '../../inputs';
+import { Registration, Confirmation, SignUpInput } from '../../inputs';
 import { AxiosResponse } from 'axios';
-import { SignUpInput } from '../../inputs/sign-up.input';
 
 export const signUpSignUp = createAsyncThunk<
   Registration,

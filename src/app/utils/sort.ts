@@ -1,15 +1,5 @@
-/**
- * function compare(a, b) {
-  if (a es menor que b según criterio de ordenamiento) {
-    return -1;
-  }
-  if (a es mayor que b según criterio de ordenamiento) {
-    return 1;
-  }
-  // a debe ser igual b
-  return 0;
-}
- */
+import { compareDesc } from 'date-fns';
+import { Visit } from '../interfaces';
 
 export const sortByNewest = (a: string, b: string) => {
   if (a < b) {
@@ -29,4 +19,11 @@ export const sortByOldest = (a: string, b: string) => {
     return -1;
   }
   return 0;
+};
+
+export const sortVisitsByDate = (a: Visit, b: Visit) => {
+  const aDate = new Date(a.datetime);
+  const bDate = new Date(b.datetime);
+
+  return compareDesc(aDate, bDate);
 };
