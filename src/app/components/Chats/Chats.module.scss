@@ -6,9 +6,10 @@
 }
 
 .ChatContainer {
-  width: 100%;
   max-width: $medium;
-  justify-content: center;
+  flex-grow: 1;
+  width: 100%;
+  background-color: lightgray;
 }
 
 .ChatBox {
@@ -50,7 +51,6 @@
   display: flex;
   background-color: $primary-color;
   color: $primary-light-text-color;
-  margin-left: 8px;
 }
 
 .Rating {
@@ -72,4 +72,25 @@
 
 .ArrowBack {
   color: $primary-light-text-color;
+}
+
+.InputBottom {
+  position: fixed;
+  bottom: 0;
+  flex-grow: 1;
+  max-width: ($medium - 40px);
+  padding: 20px;
+  width: 100%;
+}
+
+.Content {
+  margin-top: 100px;
+  padding: 20px;
+}
+
+.HeaderTop {
+  position: fixed;
+  width: 100%;
+  max-width: $medium;
+  z-index: 9999;
 }

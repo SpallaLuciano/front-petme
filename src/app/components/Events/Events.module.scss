@@ -7,13 +7,15 @@
 }
 
 .CardContainer {
-  width: fit-content;
-  min-width: 380px;
+  width: 100%;
+  min-width: 300px;
 }
 
 .Right {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
+  gap: 8px;
 }
 
 .DeleteIcon {
@@ -21,7 +23,6 @@
 }
 
 .AddCard {
-  background-color: $primary-color !important;
   padding: 8px 0 8px 0;
 }
 

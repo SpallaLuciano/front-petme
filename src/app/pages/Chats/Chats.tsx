@@ -12,7 +12,7 @@ export const Chats: FC = () => {
     <div className={style.Container}>
       <div className={style.ChatList}>
         <div className={style.Back}>
-          <IconButton className={style.ArrowBack} onClick={() => navigate('/home')}>
+          <IconButton className={style.ArrowBack} onClick={() => navigate(-1)}>
             <ArrowBackIcon />
           </IconButton>
           <Typography variant="body1">Volver al inicio</Typography>

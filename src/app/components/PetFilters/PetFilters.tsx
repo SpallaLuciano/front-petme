@@ -14,7 +14,6 @@ export const PetFilters: FC = () => {
     } else {
       setExpanded('');
     }
-    console.log(expanded);
   };
 
   return (

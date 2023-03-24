@@ -39,5 +39,14 @@ export const PROFILES: Profile[] = [
     birthdate: new Date('1965-09-08T00:00:00.000-03:00').toISOString(),
     favs: [4],
     image: null
+  },
+  {
+    id: 4,
+    name: 'Andres Agustín',
+    lastname: 'Solis',
+    rating: 3.2,
+    birthdate: new Date('2000-01-05T00:00:00.000-03:00').toISOString(),
+    favs: [4],
+    image: null
   }
 ];

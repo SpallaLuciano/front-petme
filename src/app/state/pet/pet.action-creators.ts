@@ -130,7 +130,6 @@ export const updateImagePet = createAsyncThunk<
   }
 >('pet/updateImage', async (payload, { rejectWithValue }) => {
   try {
-    console.log(payload);
     if (PETS[0].images[0]) {
       const { data } = await Promise.resolve({
         data: {

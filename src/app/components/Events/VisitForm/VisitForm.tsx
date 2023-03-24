@@ -18,7 +18,7 @@ import { AddVisitInput } from '../../../inputs';
 import { Visit } from '../../../interfaces';
 import { useAppDispatch, addVisitHealth, updateVisitHealth } from '../../../state';
 import { visitValidationSchema } from '../../../validation-schema';
-import { VisitSchema } from '../../../validation-schema/visit';
+import { VisitSchema } from '../../../validation-schema/health';
 import style from './VisitForm.module.scss';
 
 export const VisitForm: FC<{ visit?: Visit; onClose: () => void; petId?: number }> = ({
@@ -55,7 +55,6 @@ export const VisitForm: FC<{ visit?: Visit; onClose: () => void; petId?: number 
   const submitVisit = ({ datetime, ...input }: VisitSchema) => {
     if (datetime && type) {
       if (petId) {
-        console.log(petId);
         const addVisit: AddVisitInput = {
           petId,
           visit: {
@@ -67,7 +66,6 @@ export const VisitForm: FC<{ visit?: Visit; onClose: () => void; petId?: number 
 
         dispatch(addVisitHealth(addVisit));
       } else if (visit) {
-        console.log(visit);
         dispatch(
           updateVisitHealth({
             visitId: visit.id,

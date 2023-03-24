@@ -6,4 +6,4 @@ export {
   recoverPasswordValidationSchema,
   resetPasswordValidationSchema
 } from './recover-password.validation-schema';
-export { visitValidationSchema } from './visit';
+export { visitValidationSchema, generalHealthValidationSchema } from './health';

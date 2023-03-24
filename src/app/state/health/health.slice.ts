@@ -4,19 +4,26 @@ import { actionPending, actionRejected } from '../actions';
 import {
   addVisitHealth,
   fetchVisitsHealth,
+  removeVaccineHealth,
   removeVisitHealth,
-  updateVisitHealth
+  updateVaccineHealth,
+  updateVisitHealth,
+  updateWeightHealth
 } from './health.action-creators';
 import {
   actionAddVisitHealthFulfilled,
   actionFetchVisitsHealthFulfilled,
-  actionRemoveVisitHealthFulfilled
+  actionRemoveVisitHealthFulfilled,
+  actionUpdateWeightHealthFulfilled,
+  actionUpdateVaccineHealthFulfilled,
+  actionRemoveVaccineHealthFulfilled
 } from './health.actions';
 import { HealthState } from './health.state';
 
 const initialState: HealthState = {
   status: GeneralStatus.IDLE,
   health: {},
+  vaccines: [],
   error: null
 };
 
@@ -30,12 +37,18 @@ export const signUpSlice = createSlice({
       .addCase(updateVisitHealth.fulfilled, actionAddVisitHealthFulfilled)
       .addCase(addVisitHealth.fulfilled, actionAddVisitHealthFulfilled)
       .addCase(removeVisitHealth.fulfilled, actionRemoveVisitHealthFulfilled)
+      .addCase(updateWeightHealth.fulfilled, actionUpdateWeightHealthFulfilled)
+      .addCase(updateVaccineHealth.fulfilled, actionUpdateVaccineHealthFulfilled)
+      .addCase(removeVaccineHealth.fulfilled, actionRemoveVaccineHealthFulfilled)
       .addMatcher(
         isAnyOf(
           updateVisitHealth.pending,
           addVisitHealth.pending,
           removeVisitHealth.pending,
-          fetchVisitsHealth.pending
+          fetchVisitsHealth.pending,
+          updateWeightHealth.pending,
+          updateVaccineHealth.pending,
+          removeVaccineHealth.pending
         ),
         actionPending
       )
@@ -44,7 +57,10 @@ export const signUpSlice = createSlice({
           updateVisitHealth.rejected,
           addVisitHealth.rejected,
           removeVisitHealth.rejected,
-          fetchVisitsHealth.rejected
+          fetchVisitsHealth.rejected,
+          updateWeightHealth.rejected,
+          updateVaccineHealth.rejected,
+          removeVaccineHealth.rejected
         ),
         actionRejected
       );

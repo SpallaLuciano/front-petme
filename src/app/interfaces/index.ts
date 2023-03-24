@@ -9,4 +9,4 @@ export { SignUp } from './sign-up';
 export { GeneralState } from './general-state';
 export { RecoverPassword } from './recover-password';
 export { Chat, Message } from './chat';
-export { Visit } from './events';
+export { Visit, Health, Vaccine, ApliedVaccine } from './health';

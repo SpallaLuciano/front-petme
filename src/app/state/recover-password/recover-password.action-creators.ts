@@ -11,7 +11,6 @@ export const recoverPasswordRecoverPassword = createAsyncThunk<
   }
 >('recoverPassword/recoverPassword', async (recoverPasswordInput, { rejectWithValue }) => {
   try {
-    console.log(recoverPasswordInput);
     const { data } = await Promise.resolve<AxiosResponse<RecoverPasswordOutput>>({
       data: {
         emailSend: true
@@ -32,8 +31,6 @@ export const resetPasswordRecoverPassword = createAsyncThunk<
   }
 >('resetPassword/recoverPassword', async (resetPasswordInput, { rejectWithValue }) => {
   try {
-    console.log(resetPasswordInput);
-
     const { data } = await Promise.resolve<AxiosResponse<ResetPasswordOutput>>({
       data: {
         resetPassword: true

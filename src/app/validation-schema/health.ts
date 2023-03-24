@@ -36,3 +36,15 @@ export interface VisitSchema {
   place: string;
   address: string;
 }
+
+export const generalHealthValidationSchema = yup.object({
+  weight: yup.number().required().positive()
+});
+
+export const vaccinesValidationSchema = yup.object({
+  date: yup
+    .string()
+    .nullable()
+    .required('La fecha de visita es requerida')
+    .test('is-today-or-before', 'Debe ser hoy o anterior', isTodayOrBefore)
+});

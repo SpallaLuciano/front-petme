@@ -3,10 +3,14 @@ import { FC, useState } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import { sendMessage, useAppDispatch, useAppSelector } from '../../state';
 
-export const ChatInput: FC<{ chatId: number }> = ({ chatId }) => {
+export const ChatInput: FC<{ userId: number }> = ({ userId }) => {
   const dispatch = useAppDispatch();
   const [content, setContent] = useState('');
-  const user = useAppSelector((state) => state.auth.auth.user);
+
+  const { user, chatId } = useAppSelector((state) => ({
+    user: state.auth.auth.user,
+    chatId: state.chats.chats[userId]?.id
+  }));
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setContent(event.target.value);
@@ -36,6 +40,7 @@ export const ChatInput: FC<{ chatId: number }> = ({ chatId }) => {
       value={content}
       onChange={handleInputChange}
       onKeyDown={onKeyDown}
+      style={{ backgroundColor: 'white' }}
       endAdornment={
         <IconButton onClick={handleSend}>
           <SendIcon />
