@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useParams } from 'react-router-dom';
-import { EventsList } from '../../components';
+import { Backward, EventsList } from '../../components';
 import style from './Events.module.scss';
 
 export const Events: FC = () => {
@@ -8,7 +8,10 @@ export const Events: FC = () => {
 
   return (
     <div className={style.Container}>
-      <h1>Listado de eventos</h1>
+      <div className={style.Backward}>
+        <Backward />
+        <h1>Listado de eventos</h1>
+      </div>
       <div className={style.ListCenter}>
         <EventsList petId={Number(petId)} />
       </div>

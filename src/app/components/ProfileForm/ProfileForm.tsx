@@ -101,7 +101,6 @@ export const ProfileForm: FC<Props> = ({ edit, setEdit }) => {
             name="birthdate"
             control={control}
             render={({ field: { onChange, value } }) => {
-              console.log('Control render 2', value);
               return (
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker

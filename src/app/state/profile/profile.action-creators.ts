@@ -64,7 +64,6 @@ export const updateImageProfile = createAsyncThunk<
   }
 >('profile/imageUpdate', async (image, { rejectWithValue }) => {
   try {
-    console.log(image);
     if (PROFILES[0].image) {
       const { data } = await Promise.resolve({ data: { ...PROFILES[0].image } });
 

@@ -24,3 +24,5 @@ export { RecoverPasswordForm } from './RecoverPasswordForm';
 export { ResetPasswordForm } from './ResetPasswordForm';
 export { ChatList, Chat } from './Chats';
 export { VisitCard, EventsList } from './Events';
+export { Backward } from './Backward';
+export { HealthInfo } from './HealthInfo';

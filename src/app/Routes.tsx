@@ -6,6 +6,7 @@ import {
   Chats,
   EmailValidation,
   Events,
+  Health,
   Home,
   MyPets,
   MyProfile,
@@ -36,8 +37,9 @@ export const AppRoutes: FC = () => (
       <Route path="/pets/:petId" element={<PetDetail />} />
       <Route path="/profiles/:profileId" element={<Profile />} />
       <Route path="/chats" element={<Chats />} />
-      <Route path="/chats/:chatId" element={<Chat />} />
-      <Route path="/pets/:petId/events" element={<Events />} />
+      <Route path="/chats/:userId" element={<Chat />} />
+      <Route path="/pets/:petId/health/visits" element={<Events />} />
+      <Route path="/pets/:petId/health" element={<Health />} />
     </Route>
     <Route path="*" element={<div>Página no encontrada</div>} />
   </Routes>

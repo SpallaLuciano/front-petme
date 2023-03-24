@@ -1,2 +1,9 @@
 export { RecoverPasswordOutput, ResetPasswordOutput } from './recover-password';
-export { DeleteVisitOutput, AddUpdateVisitOutput } from './health';
+export {
+  WeightOutput,
+  DeleteVisitOutput,
+  AddUpdateVisitOutput,
+  FetchHealthOutput,
+  RemovedVaccineOutput
+} from './health';
+export { ChatMessageOutput, FetchChatOutput } from './chats';

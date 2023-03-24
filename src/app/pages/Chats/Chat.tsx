@@ -4,11 +4,11 @@ import { Chat as ChatComponent } from '../../components';
 import style from './Chats.module.scss';
 
 export const Chat: FC = () => {
-  const { chatId } = useParams();
+  const { userId } = useParams();
 
   return (
     <div className={style.ChatContainer}>
-      <ChatComponent chatId={Number(chatId)} />
+      <ChatComponent userId={Number(userId)} />
     </div>
   );
 };

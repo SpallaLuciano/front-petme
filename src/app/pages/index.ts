@@ -9,3 +9,4 @@ export { SignedUp } from './SignedUp';
 export { RecoverPassword, RecoverPasswordSend, ResetPassword } from './RecoverPassword';
 export { Chats, Chat } from './Chats';
 export { Events } from './Events';
+export { Health } from './Health';

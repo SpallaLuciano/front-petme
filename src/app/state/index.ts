@@ -30,4 +30,12 @@ export {
 } from './profile';
 export { recoverPasswordRecoverPassword } from './recover-password';
 export { fetchChats, receiveMessage, sendMessage } from './chats';
-export { addVisitHealth, fetchVisitsHealth, removeVisitHealth, updateVisitHealth } from './health';
+export {
+  updateWeightHealth,
+  addVisitHealth,
+  fetchVisitsHealth,
+  removeVisitHealth,
+  updateVisitHealth,
+  removeVaccineHealth,
+  updateVaccineHealth
+} from './health';

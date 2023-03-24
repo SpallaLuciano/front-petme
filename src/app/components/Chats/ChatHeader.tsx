@@ -1,18 +1,15 @@
-import { Avatar, Icon, IconButton, Typography } from '@mui/material';
+import { Avatar, Icon, Typography } from '@mui/material';
 import { FC } from 'react';
 import { useAppSelector } from '../../state';
 import { useNavigate } from 'react-router-dom';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import StarIcon from '@mui/icons-material/Star';
 import style from './Chats.module.scss';
+import { Backward } from '../Backward';
 
-export const ChatHeader: FC<{ chatId: number }> = ({ chatId }) => {
+export const ChatHeader: FC<{ userId: number }> = ({ userId }) => {
   const navigate = useNavigate();
 
   const { id, fullname, image, rating } = useAppSelector((state) => {
-    const chat = state.chats.chats[chatId];
-    const userId = chat?.users.filter((user) => state.auth.auth.user !== user)[0];
-
     if (userId) {
       const { image, lastname, name, rating, id } = state.profile.profiles[userId];
 
@@ -40,12 +37,10 @@ export const ChatHeader: FC<{ chatId: number }> = ({ chatId }) => {
 
   return (
     <div className={style.Header}>
-      <IconButton className={style.ArrowBack} onClick={() => navigate('/chats')}>
-        <ArrowBackIcon />
-      </IconButton>
+      <Backward />
       <div className={style.HeaderClick} onClick={() => navigate(`/profiles/${id}`)}>
         <Avatar alt={image.description} src={image.url}>
-          {fullname}
+          {fullname.charAt(0)}
         </Avatar>
         <Typography variant="body2" className={style.Name}>
           {fullname}

@@ -1,8 +1,12 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
 import { actionPending, actionRejected } from '../actions';
-import { fetchChats, receiveMessage, sendMessage } from './chats.action-creators';
-import { actionFetchChatsFulfilled, actionSendAndReceiveMessageFulfilled } from './chats.actions';
+import { createChat, fetchChats, receiveMessage, sendMessage } from './chats.action-creators';
+import {
+  actionCreateChatFulfilled,
+  actionFetchChatsFulfilled,
+  actionSendAndReceiveMessageFulfilled
+} from './chats.actions';
 import { ChatsState } from './chats.state';
 
 const initialState: ChatsState = {
@@ -20,12 +24,23 @@ export const chatsSlice = createSlice({
       .addCase(fetchChats.fulfilled, actionFetchChatsFulfilled)
       .addCase(sendMessage.fulfilled, actionSendAndReceiveMessageFulfilled)
       .addCase(receiveMessage.fulfilled, actionSendAndReceiveMessageFulfilled)
+      .addCase(createChat.fulfilled, actionCreateChatFulfilled)
       .addMatcher(
-        isAnyOf(fetchChats.pending, sendMessage.pending, receiveMessage.pending),
+        isAnyOf(
+          fetchChats.pending,
+          sendMessage.pending,
+          receiveMessage.pending,
+          createChat.pending
+        ),
         actionPending
       )
       .addMatcher(
-        isAnyOf(fetchChats.rejected, sendMessage.rejected, receiveMessage.rejected),
+        isAnyOf(
+          fetchChats.rejected,
+          sendMessage.rejected,
+          receiveMessage.rejected,
+          createChat.rejected
+        ),
         actionRejected
       );
   }

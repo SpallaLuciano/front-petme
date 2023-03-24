@@ -2,5 +2,8 @@ export {
   addVisitHealth,
   removeVisitHealth,
   updateVisitHealth,
-  fetchVisitsHealth
+  fetchVisitsHealth,
+  updateWeightHealth,
+  removeVaccineHealth,
+  updateVaccineHealth
 } from './health.action-creators';

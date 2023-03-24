@@ -19,7 +19,16 @@ export const ChatMessage: FC<{ message: Message }> = ({ message: { content, date
   const isCurrentUser = currentUser === user;
 
   return (
-    <Paper className={isCurrentUser ? style.PaperRight : style.Paper}>
+    <Paper
+      className={isCurrentUser ? style.PaperRight : style.Paper}
+      style={
+        isCurrentUser
+          ? {
+              backgroundColor: '#ffd2a4'
+            }
+          : undefined
+      }
+    >
       <Typography variant="body2" className={style.SenderName}>
         {isCurrentUser ? 'Tú' : profile.fullname}
       </Typography>

@@ -46,7 +46,7 @@ const PETS: Pet[] = [
   {
     id: 2,
     name: 'Luna',
-    owner: 1,
+    owner: 4,
     kind: PetKind.DOG,
     gender: PetGender.FEMALE,
     size: PetSize.MEDIUM,

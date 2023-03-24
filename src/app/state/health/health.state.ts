@@ -1,9 +1,8 @@
-import { Visit, GeneralState } from '../../interfaces';
+import { GeneralState, Health, Vaccine } from '../../interfaces';
 
 export interface HealthState extends GeneralState {
   health: {
-    [key: string]: {
-      visits: Visit[];
-    };
+    [key: string]: Health;
   };
+  vaccines: Vaccine[];
 }
