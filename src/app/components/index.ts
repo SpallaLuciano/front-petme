@@ -26,3 +26,5 @@ export { ChatList, Chat } from './Chats';
 export { VisitCard, EventsList } from './Events';
 export { Backward } from './Backward';
 export { HealthInfo } from './HealthInfo';
+export { Alert } from './Alert';
+export { Comments, Comment } from './Comments';

@@ -16,6 +16,7 @@ import { removePet, useAppDispatch, useAppSelector } from '../../state';
 import { PetEditButton } from '../PetEditButton';
 import { useNavigate } from 'react-router-dom';
 import { ConfirmationDialog } from '../ConfirmationDialog/ConfirmationDialog';
+import { likeProfile } from '../../state/profile/profile.action-creators';
 
 interface Props {
   id: number;
@@ -56,7 +57,11 @@ export const PetCard: FC<Props> = ({ id }) => {
     setOpen(false);
   };
 
-  const likeButton = edit ? undefined : <IconButton>{favorite}</IconButton>;
+  const handleLike = () => {
+    dispatch(likeProfile({ petId: pet.id }));
+  };
+
+  const likeButton = edit ? undefined : <IconButton onClick={handleLike}>{favorite}</IconButton>;
 
   const editButton = edit ? <PetEditButton id={pet.id} /> : undefined;
 

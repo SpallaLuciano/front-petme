@@ -10,3 +10,4 @@ export { RecoverPassword, RecoverPasswordSend, ResetPassword } from './RecoverPa
 export { Chats, Chat } from './Chats';
 export { Events } from './Events';
 export { Health } from './Health';
+export { Favorites } from './Favorites';

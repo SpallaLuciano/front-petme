@@ -1,7 +1,7 @@
 import { Avatar } from '@mui/material';
 import { FC } from 'react';
 import { useParams } from 'react-router-dom';
-import { PetCard, Rating } from '../../components';
+import { Comments, PetCard, Rating } from '../../components';
 import { useAppSelector } from '../../state';
 import style from './Profile.module.scss';
 
@@ -36,6 +36,9 @@ export const Profile: FC = () => {
         <div>
           <h2>Calificación</h2>
           <Rating profileId={Number(profileId)} />
+        </div>
+        <div>
+          <Comments profileId={Number(profileId)} />
         </div>
       </div>
       <div>

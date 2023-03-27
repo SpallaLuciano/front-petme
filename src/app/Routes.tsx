@@ -16,7 +16,8 @@ import {
   RecoverPasswordSend,
   ResetPassword,
   SignedUp,
-  SignUp
+  SignUp,
+  Favorites
 } from './pages';
 import { SignIn } from './pages/SignIn';
 
@@ -34,6 +35,7 @@ export const AppRoutes: FC = () => (
       <Route path="/home" element={<Navigate to="/" replace />} />
       <Route path="/my-profile" element={<MyProfile />} />
       <Route path="/my-pets" element={<MyPets />} />
+      <Route path="/my-favs" element={<Favorites />} />
       <Route path="/pets/:petId" element={<PetDetail />} />
       <Route path="/profiles/:profileId" element={<Profile />} />
       <Route path="/chats" element={<Chats />} />

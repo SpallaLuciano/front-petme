@@ -3,6 +3,7 @@ import PETS from '../../mocks/pets.mock';
 import { Image, Pet } from '../../interfaces';
 import { PetInput } from '../../inputs';
 import { AxiosResponse } from 'axios';
+import { setAlert } from '../alert';
 
 export const fetchPet = createAsyncThunk<
   Pet[],
@@ -26,7 +27,7 @@ export const createPet = createAsyncThunk<
   {
     rejectValue: string;
   }
->('pet/create', async (input, { rejectWithValue }) => {
+>('pet/create', async (input, { rejectWithValue, dispatch }) => {
   try {
     const { data } = await Promise.resolve({
       data: {
@@ -39,8 +40,24 @@ export const createPet = createAsyncThunk<
       }
     });
 
+    dispatch(
+      setAlert({
+        severity: 'success',
+        title: 'Creación de mascota',
+        message: 'Se creó con éxito la mascota'
+      })
+    );
+
     return data;
   } catch (error) {
+    dispatch(
+      setAlert({
+        severity: 'error',
+        title: 'Creación de mascota',
+        message: 'Hubo un problema al crear la mascota'
+      })
+    );
+
     return rejectWithValue('error');
   }
 });
@@ -51,7 +68,7 @@ export const updatePet = createAsyncThunk<
   {
     rejectValue: string;
   }
->('pet/update', async ({ id, pet }, { rejectWithValue }) => {
+>('pet/update', async ({ id, pet }, { rejectWithValue, dispatch }) => {
   try {
     const petFound = PETS.find((pet) => pet.id === id);
 
@@ -73,11 +90,27 @@ export const updatePet = createAsyncThunk<
         }
       } as AxiosResponse);
 
+      dispatch(
+        setAlert({
+          severity: 'success',
+          title: 'Actualización de mascota',
+          message: 'Se actualizó con éxito la mascota'
+        })
+      );
+
       return data;
     } else {
       throw new Error('Pet not found');
     }
   } catch (error) {
+    dispatch(
+      setAlert({
+        severity: 'error',
+        title: 'Actualización de mascota',
+        message: 'Hubo un problema al actualizar la mascota'
+      })
+    );
+
     return rejectWithValue('error');
   }
 });
@@ -88,12 +121,28 @@ export const removePet = createAsyncThunk<
   {
     rejectValue: string;
   }
->('pet/remove', async (input, { rejectWithValue }) => {
+>('pet/remove', async (input, { rejectWithValue, dispatch }) => {
   try {
     const { data } = await Promise.resolve({ data: { id: input, removed: true } });
 
+    dispatch(
+      setAlert({
+        severity: 'success',
+        title: 'Eliminado de mascota',
+        message: 'Se eliminó con éxito la mascota'
+      })
+    );
+
     return data;
   } catch (error) {
+    dispatch(
+      setAlert({
+        severity: 'error',
+        title: 'Eliminado de mascota',
+        message: 'Hubo un problema al eliminar la mascota'
+      })
+    );
+
     return rejectWithValue('error');
   }
 });
@@ -108,16 +157,32 @@ export const removePetImage = createAsyncThunk<
   {
     rejectValue: string;
   }
->('pet/removeImage', async (input, { rejectWithValue }) => {
+>('pet/removeImage', async (input, { rejectWithValue, dispatch }) => {
   try {
     const pet = PETS.find((pet) => pet.images.find((image) => image.id === input));
 
     if (pet) {
+      dispatch(
+        setAlert({
+          severity: 'success',
+          title: 'Eliminado de imagen de mascota',
+          message: 'Se eliminó con éxito la imagen de mascota'
+        })
+      );
+
       return { pet: pet.id, image: input, removed: true };
     } else {
       throw new Error('Not Found');
     }
   } catch (error) {
+    dispatch(
+      setAlert({
+        severity: 'error',
+        title: 'Eliminado de imagen de mascota',
+        message: 'Hubo un problema al eliminar la imagen de mascota'
+      })
+    );
+
     return rejectWithValue('error');
   }
 });
@@ -128,7 +193,7 @@ export const updateImagePet = createAsyncThunk<
   {
     rejectValue: string;
   }
->('pet/updateImage', async (payload, { rejectWithValue }) => {
+>('pet/updateImage', async (payload, { rejectWithValue, dispatch }) => {
   try {
     if (PETS[0].images[0]) {
       const { data } = await Promise.resolve({
@@ -138,11 +203,27 @@ export const updateImagePet = createAsyncThunk<
         }
       });
 
+      dispatch(
+        setAlert({
+          severity: 'success',
+          title: 'Actualización de imagen de mascota',
+          message: 'Se actualizó con éxito la imagen de mascota'
+        })
+      );
+
       return data;
     } else {
       throw new Error();
     }
   } catch (error) {
+    dispatch(
+      setAlert({
+        severity: 'error',
+        title: 'Actualización de imagen de mascota',
+        message: 'Hubo un problema al actualizar la imagen de mascota'
+      })
+    );
+
     return rejectWithValue('error');
   }
 });

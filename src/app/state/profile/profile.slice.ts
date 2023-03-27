@@ -5,8 +5,10 @@ import { signInAuth, loadAuth, signOut } from '../auth';
 import {
   createProfile,
   fetchProfiles,
+  likeProfile,
   rateProfile,
   removeImageProfile,
+  removeRateProfile,
   updateImageProfile,
   updateProfile
 } from './profile.action-creators';
@@ -18,7 +20,9 @@ import {
   actionImageRemoveFulfilled,
   actionImageUpdatedFulfilled,
   actionRateProfileFulfilled,
-  signOutAuthProfileFulfilled
+  signOutAuthProfileFulfilled,
+  actionLikeProfileFulfilled,
+  actionRemoveRateProfileFulfilled
 } from './profile.actions';
 import { ProfileState } from './profile.state';
 
@@ -45,6 +49,8 @@ export const profileSlice = createSlice({
       .addCase(removeImageProfile.fulfilled, actionImageRemoveFulfilled)
       .addCase(rateProfile.fulfilled, actionRateProfileFulfilled)
       .addCase(signOut.fulfilled, signOutAuthProfileFulfilled)
+      .addCase(likeProfile.fulfilled, actionLikeProfileFulfilled)
+      .addCase(removeRateProfile.fulfilled, actionRemoveRateProfileFulfilled)
       .addMatcher(
         isAnyOf(
           fetchProfiles.pending,
@@ -52,7 +58,9 @@ export const profileSlice = createSlice({
           updateProfile.pending,
           updateImageProfile.pending,
           removeImageProfile.pending,
-          rateProfile.pending
+          rateProfile.pending,
+          likeProfile.pending,
+          removeRateProfile.pending
         ),
         actionPending
       )
@@ -63,7 +71,9 @@ export const profileSlice = createSlice({
           updateProfile.rejected,
           updateImageProfile.rejected,
           removeImageProfile.rejected,
-          rateProfile.rejected
+          rateProfile.rejected,
+          likeProfile.rejected,
+          removeRateProfile.rejected
         ),
         actionRejected
       );

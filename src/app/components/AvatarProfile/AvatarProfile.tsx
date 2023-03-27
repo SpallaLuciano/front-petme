@@ -1,6 +1,6 @@
 import { PhotoCamera } from '@mui/icons-material';
 import { Avatar, Badge, IconButton } from '@mui/material';
-import { FC, MouseEvent, useEffect, useState } from 'react';
+import { FC, MouseEvent, useState } from 'react';
 import { ImageMenu } from '../ImageMenu';
 import style from './AvatarProfile.module.scss';
 
@@ -17,10 +17,6 @@ export const AvatarProfile: FC<Props> = (props) => {
   const handleClick = (event: MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
 
   const handleClose = () => setAnchorEl(null);
-
-  useEffect(() => {
-    console.log(open, anchorEl);
-  }, [anchorEl]);
 
   return (
     <Badge

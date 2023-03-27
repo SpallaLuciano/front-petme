@@ -9,7 +9,7 @@ export const fetchCoordinates = createAsyncThunk<
   }
 >('coordinates/fetch', async (input, { rejectWithValue }) => {
   try {
-    return await new Promise(function (resolve, reject) {
+    return await new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(({ coords }: GeolocationPosition) => {
         resolve({
           latitude: coords.latitude,

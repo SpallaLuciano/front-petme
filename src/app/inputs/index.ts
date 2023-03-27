@@ -1,4 +1,9 @@
-export { ProfileFormInput } from './profile-form.input';
+export {
+  ProfileFormInput,
+  ProfileCommentInput,
+  LikeInput,
+  RemoveProfileCommentInput
+} from './profile.input';
 export { FiltersInput } from './filters.input';
 export { PetInput } from './pet.input';
 export { Registration, Confirmation, SignUpInput } from './sign-up.input';
