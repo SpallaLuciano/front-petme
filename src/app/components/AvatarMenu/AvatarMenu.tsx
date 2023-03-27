@@ -45,6 +45,9 @@ export const AvatarMenu: FC<Props> = ({ open = false, onClose, anchorEl }) => {
     <MenuItem key="my-pets" onClick={() => onClick(() => navigate('/my-pets'))}>
       Mis Mascotas
     </MenuItem>,
+    <MenuItem key="my-favs" onClick={() => onClick(() => navigate('/my-favs'))}>
+      Mis Favoritos
+    </MenuItem>,
     <MenuItem key="chats" onClick={() => onClick(() => navigate('/chats'))}>
       Chats
     </MenuItem>,

@@ -7,3 +7,4 @@ export {
   RemovedVaccineOutput
 } from './health';
 export { ChatMessageOutput, FetchChatOutput } from './chats';
+export { LikeOutput, RemoveProfileCommentOutput } from './profile';

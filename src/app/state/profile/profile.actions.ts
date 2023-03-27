@@ -1,6 +1,7 @@
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
-import { Auth, Image, Profile, TokenDecoded } from '../../interfaces';
+import { Auth, Comment, Image, Profile, TokenDecoded } from '../../interfaces';
+import { LikeOutput, RemoveProfileCommentOutput } from '../../outputs';
 import { ProfileState } from './profile.state';
 
 export const signInAuthProfileFulfilled = (
@@ -70,13 +71,51 @@ export const actionImageRemoveFulfilled = (state: ProfileState) => {
 
 export const actionRateProfileFulfilled = (
   state: ProfileState,
-  {
-    payload
-  }: PayloadAction<{
-    profileId: number;
-    rating: number;
-  }>
+  { payload: { to, rating, ...comment } }: PayloadAction<Comment>
 ) => {
-  state.profiles[payload.profileId].rating = payload.rating;
+  const comments = state.profiles[to].comments;
+
+  comments.push({ to, rating, ...comment });
+
+  const newRating = comments.reduce((acc, comment) => (acc += comment.rating), 0) / comments.length;
+
+  state.profiles[to].rating = newRating;
+
+  state.status = GeneralStatus.SUCCESS;
+};
+
+export const actionLikeProfileFulfilled = (
+  state: ProfileState,
+  { payload: { like, petId } }: PayloadAction<LikeOutput>
+) => {
+  if (state.profile) {
+    const likes = state.profile?.favs;
+
+    if (like) {
+      likes.push(petId);
+    } else {
+      state.profile.favs = likes.filter((id) => id !== petId);
+    }
+  }
+
+  state.status = GeneralStatus.SUCCESS;
+};
+
+export const actionRemoveRateProfileFulfilled = (
+  state: ProfileState,
+  { payload: { commentId, deleted, profileId } }: PayloadAction<RemoveProfileCommentOutput>
+) => {
+  if (deleted) {
+    const newComments = state.profiles[profileId].comments.filter(
+      (comment) => comment.id !== commentId
+    );
+
+    const newRating =
+      newComments.reduce((acc, comment) => (acc += comment.rating), 0) / newComments.length;
+
+    state.profiles[profileId].rating = isNaN(newRating) ? 0 : newRating;
+    state.profiles[profileId].comments = newComments;
+  }
+
   state.status = GeneralStatus.SUCCESS;
 };

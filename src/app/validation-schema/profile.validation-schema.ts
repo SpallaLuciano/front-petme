@@ -17,3 +17,7 @@ export const profileUpdateSchema = yup.object({
     .matches(/.*?[A-Za-z]$/g, 'Debe terminar con una letra'),
   birthdate: yup.string().required('Fecha de nacimiento es requerida')
 });
+
+export const rateValidationSchema = yup.object({
+  comment: yup.string().min(2, 'Debe contener al menos dos letras')
+});

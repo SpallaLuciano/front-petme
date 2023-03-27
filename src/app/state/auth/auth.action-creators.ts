@@ -3,6 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Auth, Credentials, TokenDecoded } from '../../interfaces';
 import { Confirmation, RecoverPasswordInput } from '../../inputs';
 import { AxiosResponse } from 'axios';
+import { setAlert } from '../alert';
 
 export const signInAuth = createAsyncThunk<
   Auth,
@@ -10,7 +11,7 @@ export const signInAuth = createAsyncThunk<
   {
     rejectValue: string;
   }
->('auth/signIn', async (_input, { rejectWithValue }) => {
+>('auth/signIn', async (_input, { rejectWithValue, dispatch }) => {
   try {
     const { data } = await Promise.resolve({
       data: {
@@ -28,8 +29,23 @@ export const signInAuth = createAsyncThunk<
 
     localStorage.setItem('token', data.token);
 
+    dispatch(
+      setAlert({
+        severity: 'success',
+        title: 'Inicio de sesión exitoso',
+        message: 'El usuario ingreso sesión exitosamente'
+      })
+    );
+
     return data;
   } catch (error) {
+    dispatch(
+      setAlert({
+        severity: 'error',
+        title: 'Inicio de sesión exitoso',
+        message: 'El usuario ingreso sesión exitosamente'
+      })
+    );
     return rejectWithValue('error');
   }
 });
@@ -80,10 +96,26 @@ export const signOut = createAsyncThunk<
   {
     rejectValue: string;
   }
->('auth/signOut', async (_, { rejectWithValue }) => {
+>('auth/signOut', async (_, { rejectWithValue, dispatch }) => {
   try {
+    dispatch(
+      setAlert({
+        severity: 'success',
+        title: 'Cierre de sesión exitoso',
+        message: 'El usuario cerro sesión exitosamente'
+      })
+    );
+
     return true;
   } catch (error) {
+    dispatch(
+      setAlert({
+        severity: 'error',
+        title: 'Inicio de sesión exitoso',
+        message: 'El usuario ingreso sesión exitosamente'
+      })
+    );
+
     return rejectWithValue('error');
   }
 });

@@ -39,3 +39,4 @@ export {
   removeVaccineHealth,
   updateVaccineHealth
 } from './health';
+export { setAlert, clearAlert } from './alert';
