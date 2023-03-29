@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../state';
 import { Backward } from '../Backward';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-import ChatIcon from '@mui/icons-material/Chat';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import style from './DetailHeader.module.scss';
 import { likeProfile } from '../../state/profile/profile.action-creators';
@@ -50,15 +49,6 @@ export const DetailHeader: FC<Props> = ({ petId }) => {
       <div className={style.Buttons}>
         {isCurrentUser ? undefined : (
           <>
-            <Button
-              style={{ backgroundColor: '#0084ff' }}
-              className={style.Button}
-              variant="contained"
-              onClick={() => navigate(`/chats/${profile.id}`)}
-              startIcon={<ChatIcon />}
-            >
-              Chatear
-            </Button>
             <Button
               style={{ backgroundColor: 'red' }}
               className={style.Button}

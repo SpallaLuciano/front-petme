@@ -43,6 +43,13 @@
   flex-wrap: wrap;
 }
 
+.Requirements {
+  width: 100%;
+  max-width: $medium;
+  display: flex;
+  flex-direction: column;
+}
+
 .ListItem {
   @media screen and (max-width: $small) {
     flex-basis: 100%;

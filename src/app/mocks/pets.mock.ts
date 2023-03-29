@@ -17,6 +17,7 @@ const PETS: Pet[] = [
       latitude: -31.368929552484754,
       longitude: -64.24609940279937
     },
+    requirements: [],
     images: [
       {
         id: 3,
@@ -57,6 +58,20 @@ const PETS: Pet[] = [
       latitude: -31.357882131428852,
       longitude: -64.23642179611878
     },
+    requirements: [
+      {
+        required: true,
+        requirement: 'Algo requerido 1'
+      },
+      {
+        required: true,
+        requirement: 'Algo requerido 2'
+      },
+      {
+        required: false,
+        requirement: 'Algo no requerido'
+      }
+    ],
     images: [
       {
         id: 6,
@@ -97,6 +112,7 @@ const PETS: Pet[] = [
       latitude: -31.34085960909544,
       longitude: -64.27988882905628
     },
+    requirements: [],
     images: [
       {
         id: 9,
@@ -137,6 +153,7 @@ const PETS: Pet[] = [
       latitude: -31.39249300241515,
       longitude: -64.26374776461657
     },
+    requirements: [],
     images: [
       {
         id: 12,
@@ -177,6 +194,7 @@ const PETS: Pet[] = [
       latitude: -31.3672425073277,
       longitude: -64.27726781385509
     },
+    requirements: [],
     images: [
       {
         id: 15,
@@ -217,6 +235,7 @@ const PETS: Pet[] = [
       latitude: -31.351503673448146,
       longitude: -64.23642173842458
     },
+    requirements: [],
     images: [
       {
         id: 18,

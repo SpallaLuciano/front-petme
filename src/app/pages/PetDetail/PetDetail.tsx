@@ -1,8 +1,20 @@
-import { IconButton, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Fab,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Tooltip,
+  Typography
+} from '@mui/material';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { FC, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Carousel, ConfirmationDialog, DetailHeader, ImagePetForm } from '../../components';
 import { removePetImage, useAppDispatch, useAppSelector, updateImagePet } from '../../state';
 import { getAge, getGenderIcon } from '../../utils';
@@ -10,15 +22,19 @@ import CakeIcon from '@mui/icons-material/Cake';
 import PetsIcon from '@mui/icons-material/Pets';
 import StraightenIcon from '@mui/icons-material/Straighten';
 import DescriptionIcon from '@mui/icons-material/Description';
+import ChatIcon from '@mui/icons-material/Chat';
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddIcon from '@mui/icons-material/Add';
 import { Image } from '../../interfaces';
 import style from './PetDetail.module.scss';
+import { Requirements } from '../../components/Requirement/Requirements';
 
 export const PetDetail: FC = () => {
   const { petId } = useParams();
   const [open, setOpen] = useState(false);
+  const [allRequired, setAllRequired] = useState(false);
   const [id, setId] = useState(0);
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pet, edit } = useAppSelector((state) => {
     if (petId) {
@@ -149,8 +165,37 @@ export const PetDetail: FC = () => {
     ) : (
       <div>Sin imágenes</div>
     );
+
+  const requirements = !!pet?.requirements.length ? (
+    <Accordion className={style.Requirements}>
+      <AccordionSummary>
+        <Typography>Requerimientos para adoptar</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Requirements petId={Number(petId)} setAllRequired={setAllRequired} />
+      </AccordionDetails>
+    </Accordion>
+  ) : undefined;
+
   return (
     <div className={style.Container}>
+      {edit ? undefined : (
+        <Tooltip title="Necesita cumplir con todos los requerimientos">
+          <span style={{ position: 'fixed', bottom: '10%', right: '10%', zIndex: 1 }}>
+            <Fab
+              style={{
+                backgroundColor: '#0084ff'
+              }}
+              variant="extended"
+              disabled={!allRequired && !!pet?.requirements.length}
+              onClick={() => navigate(`/chats/${pet?.owner}`)}
+            >
+              <ChatIcon />
+              Chatear
+            </Fab>
+          </span>
+        </Tooltip>
+      )}
       <ConfirmationDialog
         open={open}
         description={dialogDescription}
@@ -160,6 +205,7 @@ export const PetDetail: FC = () => {
       />
       {header}
       {carousel}
+      {requirements}
       {footer}
     </div>
   );

@@ -35,6 +35,7 @@ export const createPet = createAsyncThunk<
         owner: 1,
         ...input,
         images: [],
+        requirements: [],
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       }

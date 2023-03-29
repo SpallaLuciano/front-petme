@@ -1,6 +1,7 @@
 import { PetGender, PetKind, PetSize } from '../enums/pet.enum';
 import { Coordinates } from './coordinates';
 import { Image } from './image';
+import { Requirement } from './requirement';
 
 export interface Pet {
   id: number;
@@ -12,6 +13,7 @@ export interface Pet {
   size: PetSize;
   description: string;
   images: Image[];
+  requirements: Requirement[];
   coordinates?: Coordinates;
   createdAt: string;
   updatedAt: string;
