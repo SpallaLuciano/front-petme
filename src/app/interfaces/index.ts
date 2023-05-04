@@ -12,3 +12,4 @@ export { Chat, Message } from './chat';
 export { Visit, Health, Vaccine, ApliedVaccine } from './health';
 export { Alert } from './alert';
 export { Requirement } from './requirement';
+export { Response } from './response';

@@ -8,3 +8,4 @@ export {
 } from './health';
 export { ChatMessageOutput, FetchChatOutput } from './chats';
 export { LikeOutput, RemoveProfileCommentOutput } from './profile';
+export { SignIn } from './auth';

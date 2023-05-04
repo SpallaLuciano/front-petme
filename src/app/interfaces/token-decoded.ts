@@ -1,6 +1,6 @@
 export interface TokenDecoded {
   email: string;
-  user: number;
+  user: string;
   admin: boolean;
   expirationDate: string;
 }

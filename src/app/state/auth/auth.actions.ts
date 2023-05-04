@@ -2,12 +2,25 @@ import jwt_decode from 'jwt-decode';
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit';
 import { parseISO } from 'date-fns';
 import { GeneralStatus } from '../../enums';
-import { Auth, TokenDecoded } from '../../interfaces';
+import { TokenDecoded } from '../../interfaces';
 import { AuthState } from './auth.state';
 import { diffFromNow } from '../../utils';
+import { SignIn } from '../../outputs';
 
-export const signInAuthFulfilled = (state: AuthState, { payload }: PayloadAction<Auth>) => {
-  state.auth = payload;
+export const signInAuthFulfilled = (state: AuthState, { payload }: PayloadAction<SignIn>) => {
+  const {
+    token,
+    user: { admin, id, email }
+  } = payload;
+
+  state.auth = {
+    ...state.auth,
+    admin,
+    email,
+    user: id,
+    token
+  };
+
   state.status = GeneralStatus.SUCCESS;
 };
 
