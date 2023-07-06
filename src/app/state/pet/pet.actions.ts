@@ -1,7 +1,7 @@
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit';
 import { differenceInYears } from 'date-fns';
 import { GeneralStatus, OrderBy, PetGender, PetKind, PetSize } from '../../enums';
-import { Image, Pet } from '../../interfaces';
+import { Pet } from '../../interfaces';
 import { sortByNewest, sortByOldest } from '../../utils';
 import { PetState } from './pet.state';
 
@@ -25,51 +25,15 @@ export const fetchPetFulfilled = (state: PetState, { payload }: PayloadAction<Pe
   state.status = GeneralStatus.SUCCESS;
 };
 
-export const updateImagePetFulfilled = (
-  state: PetState,
-  {
-    payload
-  }: PayloadAction<{
-    image: Image;
-    petId: number;
-  }>
-) => {
-  state.pets[payload.petId].images.push(payload.image);
-};
-
-export const removePetImageFulfilled = (
-  state: PetState,
-  {
-    payload
-  }: PayloadAction<{
-    image: number;
-    pet: number;
-    removed: boolean;
-  }>
-) => {
-  if (payload.removed) {
-    const pet: Pet = state.pets[payload.pet];
-
-    if (pet && pet.images) {
-      state.pets[pet.id].images = pet?.images.filter((image: Image) => image.id !== payload.image);
-    }
-  }
-  state.status = GeneralStatus.SUCCESS;
-};
-
-export const createUpdatePetFulfilled = (state: PetState, { payload }: PayloadAction<Pet>) => {
+export const assignPet = (state: PetState, { payload }: PayloadAction<Pet>) => {
   state.pets[payload.id] = payload;
   state.status = GeneralStatus.SUCCESS;
 };
 
-export const removePetFulfilled = (
-  state: PetState,
-  { payload }: PayloadAction<{ id: number; removed: boolean }>
-) => {
-  if (payload.removed) {
-    delete state.pets[payload.id];
-    state.order = state.order.filter((id) => Number(id) !== payload.id);
-  }
+export const removePetFulfilled = (state: PetState, { payload }: PayloadAction<Pet>) => {
+  delete state.pets[payload.id];
+  state.order = state.order.filter((id) => id !== payload.id);
+
   state.status = GeneralStatus.SUCCESS;
 };
 

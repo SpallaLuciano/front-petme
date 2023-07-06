@@ -2,8 +2,9 @@ import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
 import { actionPending, actionRejected } from '../actions';
 import {
+  addVaccineHealth,
   addVisitHealth,
-  fetchVisitsHealth,
+  fetchVaccinesHealth,
   removeVaccineHealth,
   removeVisitHealth,
   updateVaccineHealth,
@@ -11,14 +12,15 @@ import {
   updateWeightHealth
 } from './health.action-creators';
 import {
-  actionAddVisitHealthFulfilled,
-  actionFetchVisitsHealthFulfilled,
-  actionRemoveVisitHealthFulfilled,
-  actionUpdateWeightHealthFulfilled,
-  actionUpdateVaccineHealthFulfilled,
-  actionRemoveVaccineHealthFulfilled
+  actionAddHealthFulfilled,
+  actionFetchPetsFulfilled,
+  actionFetchVisitsVaccinesFulfilled,
+  actionAddVaccinationFulfilled,
+  actionRemoveVaccinationFulfilled,
+  actionUpdateVaccinationFulfilled
 } from './health.actions';
 import { HealthState } from './health.state';
+import { fetchPet } from '../pet';
 
 const initialState: HealthState = {
   status: GeneralStatus.IDLE,
@@ -33,22 +35,25 @@ export const signUpSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchVisitsHealth.fulfilled, actionFetchVisitsHealthFulfilled)
-      .addCase(updateVisitHealth.fulfilled, actionAddVisitHealthFulfilled)
-      .addCase(addVisitHealth.fulfilled, actionAddVisitHealthFulfilled)
-      .addCase(removeVisitHealth.fulfilled, actionRemoveVisitHealthFulfilled)
-      .addCase(updateWeightHealth.fulfilled, actionUpdateWeightHealthFulfilled)
-      .addCase(updateVaccineHealth.fulfilled, actionUpdateVaccineHealthFulfilled)
-      .addCase(removeVaccineHealth.fulfilled, actionRemoveVaccineHealthFulfilled)
+      .addCase(fetchPet.fulfilled, actionFetchPetsFulfilled)
+      .addCase(fetchVaccinesHealth.fulfilled, actionFetchVisitsVaccinesFulfilled)
+      .addCase(updateVisitHealth.fulfilled, actionAddHealthFulfilled)
+      .addCase(addVisitHealth.fulfilled, actionAddHealthFulfilled)
+      .addCase(removeVisitHealth.fulfilled, actionAddHealthFulfilled)
+      .addCase(updateWeightHealth.fulfilled, actionAddHealthFulfilled)
+      .addCase(addVaccineHealth.fulfilled, actionAddVaccinationFulfilled)
+      .addCase(updateVaccineHealth.fulfilled, actionUpdateVaccinationFulfilled)
+      .addCase(removeVaccineHealth.fulfilled, actionRemoveVaccinationFulfilled)
       .addMatcher(
         isAnyOf(
           updateVisitHealth.pending,
           addVisitHealth.pending,
           removeVisitHealth.pending,
-          fetchVisitsHealth.pending,
+          fetchVaccinesHealth.pending,
           updateWeightHealth.pending,
           updateVaccineHealth.pending,
-          removeVaccineHealth.pending
+          removeVaccineHealth.pending,
+          addVaccineHealth.pending
         ),
         actionPending
       )
@@ -57,10 +62,11 @@ export const signUpSlice = createSlice({
           updateVisitHealth.rejected,
           addVisitHealth.rejected,
           removeVisitHealth.rejected,
-          fetchVisitsHealth.rejected,
+          fetchVaccinesHealth.rejected,
           updateWeightHealth.rejected,
           updateVaccineHealth.rejected,
-          removeVaccineHealth.rejected
+          removeVaccineHealth.rejected,
+          addVaccineHealth.rejected
         ),
         actionRejected
       );

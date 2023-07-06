@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAppDispatch, useAppSelector, isValidToken } from '../state';
+import { isValidToken, useAppDispatch, useAppSelector } from '../state';
 
 export const AuthWrapper: FC = () => {
   const dispatch = useAppDispatch();

@@ -1,12 +1,15 @@
+import { TypeId } from './id';
+
 export interface Message {
-  user: number;
+  chat: TypeId;
+  sender: TypeId;
+  receiber: TypeId;
   content: string;
-  date: Date;
-  chat: number;
+  datetime: Date;
 }
 
 export interface Chat {
-  id: number;
+  id: TypeId;
   messages: Message[];
-  users: [number, number];
+  users: [TypeId, TypeId];
 }

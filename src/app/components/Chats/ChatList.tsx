@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../state';
 import { dateOrHour } from '../../utils';
 import style from './Chats.module.scss';
+import { TypeId } from '../../interfaces';
 
 export const ChatList: FC = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ export const ChatList: FC = () => {
     });
   });
 
-  const handleClick = (id: number) => {
+  const handleClick = (id: TypeId) => {
     navigate(`/chats/${id}`);
   };
 
@@ -42,7 +43,7 @@ export const ChatList: FC = () => {
           secondary={
             <div className={style.ChatPreview}>
               <span>{lastmessage.content}</span>
-              <span>{dateOrHour(lastmessage.date)}</span>
+              <span>{dateOrHour(lastmessage.datetime)}</span>
             </div>
           }
         />

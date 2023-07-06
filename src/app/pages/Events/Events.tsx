@@ -13,7 +13,7 @@ export const Events: FC = () => {
         <h1>Listado de eventos</h1>
       </div>
       <div className={style.ListCenter}>
-        <EventsList petId={Number(petId)} />
+        <EventsList petId={String(petId)} />
       </div>
     </div>
   );

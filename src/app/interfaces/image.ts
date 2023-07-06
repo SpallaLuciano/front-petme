@@ -1,5 +1,7 @@
+import { TypeId } from './id';
+
 export interface Image {
-  id: number;
+  id: TypeId;
   description: string;
   url: string;
   createdAt: string;

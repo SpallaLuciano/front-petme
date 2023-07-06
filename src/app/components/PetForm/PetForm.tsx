@@ -18,9 +18,10 @@ import { PetInput } from '../../inputs';
 import { createPet, updatePet, useAppDispatch, useAppSelector } from '../../state';
 import { petUpdateValidationSchema } from '../../validation-schema';
 import style from './PetForm.module.scss';
+import { TypeId } from '../../interfaces';
 
 interface Props {
-  id?: number;
+  id?: TypeId;
   onSave?: () => void;
   onCancel?: () => void;
 }

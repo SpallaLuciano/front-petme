@@ -7,9 +7,10 @@ import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import style from './DetailHeader.module.scss';
 import { likeProfile } from '../../state/profile/profile.action-creators';
+import { TypeId } from '../../interfaces';
 
 interface Props {
-  petId: number;
+  petId: TypeId;
 }
 
 export const DetailHeader: FC<Props> = ({ petId }) => {

@@ -1,32 +1,22 @@
-import { Health, Vaccine, Visit, ApliedVaccine } from '../interfaces';
+import { Visit, TypeId } from '../interfaces';
 
 export interface DeleteVisitOutput {
   deleted: boolean;
-  visitId: number;
-  petId: number;
+  visitId: TypeId;
+  petId: TypeId;
 }
 
 export interface AddUpdateVisitOutput {
   visit: Visit;
 }
 
-export interface FetchHealthOutput {
-  vaccines: Vaccine[];
-  healths: Health[];
-}
-
 export interface WeightOutput {
   weight: number;
-  petId: number;
-}
-
-export interface ApliedVaccineOutput {
-  apliedVaccine: ApliedVaccine;
-  petId: number;
+  petId: TypeId;
 }
 
 export interface RemovedVaccineOutput {
-  vaccineId: number;
+  vaccineId: TypeId;
   deleted: boolean;
-  petId: number;
+  petId: TypeId;
 }

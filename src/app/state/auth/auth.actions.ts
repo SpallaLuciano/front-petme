@@ -2,7 +2,7 @@ import jwt_decode from 'jwt-decode';
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit';
 import { parseISO } from 'date-fns';
 import { GeneralStatus } from '../../enums';
-import { TokenDecoded } from '../../interfaces';
+import { TokenDecoded, User } from '../../interfaces';
 import { AuthState } from './auth.state';
 import { diffFromNow } from '../../utils';
 import { SignIn } from '../../outputs';
@@ -25,7 +25,7 @@ export const signInAuthFulfilled = (state: AuthState, { payload }: PayloadAction
 };
 
 export const signOutAuthFulfilled = (state: AuthState) => {
-  localStorage.removeItem('token');
+  localStorage.removeItem('tkn');
 
   state.auth = {
     email: null,
@@ -37,13 +37,11 @@ export const signOutAuthFulfilled = (state: AuthState) => {
   state.status = GeneralStatus.SUCCESS;
 };
 
-export const loadAuthFulfilled = (state: AuthState, { payload }: PayloadAction<TokenDecoded>) => {
-  const diff = diffFromNow(parseISO(payload.expirationDate));
-
+export const loadAuthFulfilled = (state: AuthState, { payload }: PayloadAction<User>) => {
   state.auth.email = payload.email;
-  state.auth.user = payload.user;
+  state.auth.user = payload.id;
   state.auth.admin = payload.admin;
-  state.auth.validToken = diff > 0;
+  state.auth.validToken = true;
 
   state.status = GeneralStatus.SUCCESS;
 };
@@ -60,4 +58,6 @@ export const actionIsValidTokenCase: CaseReducer<AuthState> = (state: AuthState)
   } else {
     state.auth.validToken = false;
   }
+
+  state.status = GeneralStatus.SUCCESS;
 };

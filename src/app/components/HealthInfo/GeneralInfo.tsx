@@ -9,8 +9,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { generalHealthValidationSchema } from '../../validation-schema';
 import DoneIcon from '@mui/icons-material/Done';
 import ClearIcon from '@mui/icons-material/Clear';
+import { TypeId } from '../../interfaces';
 
-export const GeneralInfo: FC<{ petId: number }> = ({ petId }) => {
+export const GeneralInfo: FC<{ petId: TypeId }> = ({ petId }) => {
   const dispatch = useAppDispatch();
   const [edit, setEdit] = useState(false);
   const { isCurrentUser, pet, health } = useAppSelector((state) => {
@@ -29,7 +30,7 @@ export const GeneralInfo: FC<{ petId: number }> = ({ petId }) => {
     resolver: yupResolver(generalHealthValidationSchema),
     defaultValues: {
       weight: health.weight,
-      petId
+      healthId: health.id
     }
   });
 

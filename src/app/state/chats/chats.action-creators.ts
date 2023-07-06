@@ -1,10 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { Chat, Message } from '../../interfaces';
-import { CHATS } from '../../mocks/chats.mock';
-import { ChatMessageOutput, FetchChatOutput } from '../../outputs';
-import { socket } from '../../socket';
+import { FetchChatOutput } from '../../outputs';
+import { get, socket } from '../../utils';
 import { RootState } from '../store';
+import { SendMessageInput } from '../../inputs';
+
+const endpoint = 'chats';
 
 export const fetchChats = createAsyncThunk<
   FetchChatOutput,
@@ -12,17 +14,12 @@ export const fetchChats = createAsyncThunk<
   {
     rejectValue: string;
   }
->('chats/fetchChats', async (_, { rejectWithValue, getState }) => {
+>('chats/fetchChats', async (_, { rejectWithValue, dispatch, getState }) => {
   try {
-    const currentUser = (getState() as RootState).auth.auth.user;
+    const { data } = await get<Chat[]>(endpoint, dispatch);
+    const id = (getState() as RootState).profile.profile?.id || '';
 
-    if (!currentUser) throw new Error('error');
-
-    const { data } = await Promise.resolve({
-      data: CHATS
-    });
-
-    return { chats: data, currentUser };
+    return { chats: data, currentUser: id };
   } catch (error) {
     return rejectWithValue('error');
   }
@@ -53,26 +50,23 @@ export const createChat = createAsyncThunk<
 });
 
 export const sendMessage = createAsyncThunk<
-  ChatMessageOutput,
-  Message,
+  boolean,
+  SendMessageInput,
   {
     rejectValue: string;
   }
->('chats/sendMessage', async (message, { rejectWithValue, getState }) => {
+>('chats/sendMessage', async (message, { rejectWithValue }) => {
   try {
-    const currentUser = (getState() as RootState).auth.auth.user;
+    socket.emit('new-message', message);
 
-    if (!currentUser) throw new Error('error');
-
-    socket.emit('message', message);
-    return { message, currentUser };
+    return true;
   } catch (error) {
     return rejectWithValue('error');
   }
 });
 
 export const receiveMessage = createAsyncThunk<
-  ChatMessageOutput,
+  Message,
   void,
   {
     rejectValue: string;
@@ -83,9 +77,9 @@ export const receiveMessage = createAsyncThunk<
 
     if (!currentUser) throw new Error('error');
 
-    return new Promise<ChatMessageOutput>((resolve) => {
+    return new Promise<Message>((resolve) => {
       socket.on('message', (message: Message) => {
-        resolve({ message, currentUser });
+        resolve(message);
       });
     });
   } catch (error) {

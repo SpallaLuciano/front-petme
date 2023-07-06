@@ -1,3 +1,5 @@
+import { TypeId } from '../interfaces';
+
 export interface ProfileFormInput {
   name: string;
   lastname: string;
@@ -5,15 +7,15 @@ export interface ProfileFormInput {
 }
 
 export interface ProfileCommentInput {
-  profileId: number;
+  profileId: TypeId;
   rating: number;
   comment?: string;
 }
 
 export interface LikeInput {
-  petId: number;
+  petId: TypeId;
 }
 
 export interface RemoveProfileCommentInput {
-  commentId: number;
+  commentId: TypeId;
 }

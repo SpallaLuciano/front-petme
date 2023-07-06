@@ -11,7 +11,6 @@ import {
 } from './pet.action-creators';
 import {
   fetchPetFulfilled,
-  createUpdatePetFulfilled,
   removePetFulfilled,
   actionUpdateFilterAgeBetweenCase,
   actionUpdateFilterGenderCase,
@@ -22,8 +21,7 @@ import {
   actionRemoveFilterSizeCase,
   actionResetFilterAgeBetweenCase,
   actionUpdateOrderByCase,
-  removePetImageFulfilled,
-  updateImagePetFulfilled
+  assignPet
 } from './pet.actions';
 import { PetState } from './pet.state';
 
@@ -60,11 +58,11 @@ export const petSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPet.fulfilled, fetchPetFulfilled)
-      .addCase(createPet.fulfilled, createUpdatePetFulfilled)
-      .addCase(updatePet.fulfilled, createUpdatePetFulfilled)
+      .addCase(createPet.fulfilled, assignPet)
+      .addCase(updatePet.fulfilled, assignPet)
       .addCase(removePet.fulfilled, removePetFulfilled)
-      .addCase(removePetImage.fulfilled, removePetImageFulfilled)
-      .addCase(updateImagePet.fulfilled, updateImagePetFulfilled)
+      .addCase(removePetImage.fulfilled, assignPet)
+      .addCase(updateImagePet.fulfilled, assignPet)
       .addMatcher(
         isAnyOf(
           fetchPet.pending,

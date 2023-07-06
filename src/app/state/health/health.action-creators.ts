@@ -1,58 +1,54 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AxiosResponse } from 'axios';
 import {
   AddVisitInput,
-  ApliedVaccineInput,
+  CreateVaccinationInput,
+  UpdateVaccineInput,
   RemovedVaccineInput,
   VisitInput,
   WeightInput
 } from '../../inputs';
-import { HEALTH, VACCINES } from '../../mocks/health.mock';
-import {
-  AddUpdateVisitOutput,
-  DeleteVisitOutput,
-  FetchHealthOutput,
-  WeightOutput
-} from '../../outputs';
-import { ApliedVaccineOutput, RemovedVaccineOutput } from '../../outputs/health';
 import { setAlert } from '../alert';
+import { RequestError, get, post, put, remove } from '../../utils';
+import { Health, TypeId, Vaccination, Vaccine, ResponseStatus } from '../../interfaces';
 
-export const fetchVisitsHealth = createAsyncThunk<
-  FetchHealthOutput,
+export const fetchVaccinesHealth = createAsyncThunk<
+  Vaccine[],
   void,
   {
     rejectValue: string;
   }
->('health/fetchVisit', async (_, { rejectWithValue }) => {
+>('health/fetchVaccines', async (_, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await Promise.resolve<AxiosResponse<FetchHealthOutput>>({
-      data: {
-        healths: HEALTH,
-        vaccines: VACCINES
-      }
-    } as AxiosResponse);
+    const { data } = await get<Vaccine[]>('vaccines', dispatch);
 
     return data;
   } catch (error) {
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          title: 'Cargar de vacunas',
+          message: 'Hubo un error al cargar las vacunas'
+        })
+      );
+    }
+
     return rejectWithValue('error');
   }
 });
 
 export const updateVisitHealth = createAsyncThunk<
-  AddUpdateVisitOutput,
-  { visitId: number; visitInput: VisitInput },
+  Health,
+  { visitId: TypeId; visitInput: VisitInput },
   {
     rejectValue: string;
   }
 >('health/updateVisit', async ({ visitId, visitInput }, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await Promise.resolve<AxiosResponse<AddUpdateVisitOutput>>({
-      data: { visit: { id: visitId, ...visitInput, petId: 1 } }
-    } as AxiosResponse);
+    const { data, status } = await put<Health>(`visits/${visitId}`, visitInput, dispatch);
 
     dispatch(
       setAlert({
-        severity: 'success',
+        severity: status,
         title: 'Modificación de visita',
         message: 'Se modificó con éxito la visita'
       })
@@ -60,36 +56,32 @@ export const updateVisitHealth = createAsyncThunk<
 
     return data;
   } catch (error) {
-    dispatch(
-      setAlert({
-        severity: 'error',
-        title: 'Modificación de visita',
-        message: 'Hubo un error al modificar la visita'
-      })
-    );
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          severity: ResponseStatus.ERROR,
+          title: 'Modificación de visita',
+          message: 'Hubo un error al modificar la visita'
+        })
+      );
+    }
     return rejectWithValue('error');
   }
 });
 
 export const removeVisitHealth = createAsyncThunk<
-  DeleteVisitOutput,
-  number,
+  Health,
+  TypeId,
   {
     rejectValue: string;
   }
 >('health/removeVisit', async (visitId, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await Promise.resolve<AxiosResponse<DeleteVisitOutput>>({
-      data: {
-        deleted: true,
-        visitId,
-        petId: 1
-      }
-    } as AxiosResponse);
+    const { data, status } = await remove<Health>(`visit/${visitId}`, dispatch);
 
     dispatch(
       setAlert({
-        severity: 'success',
+        severity: status,
         title: 'Eliminación de visita',
         message: 'Se elminó con éxito la visita'
       })
@@ -97,38 +89,32 @@ export const removeVisitHealth = createAsyncThunk<
 
     return data;
   } catch (error) {
-    dispatch(
-      setAlert({
-        severity: 'error',
-        title: 'Eliminación de visita',
-        message: 'Hubo un problema al eliminar la visita'
-      })
-    );
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          severity: ResponseStatus.ERROR,
+          title: 'Eliminación de visita',
+          message: 'Hubo un problema al eliminar la visita'
+        })
+      );
+    }
     return rejectWithValue('error');
   }
 });
 
 export const addVisitHealth = createAsyncThunk<
-  AddUpdateVisitOutput,
+  Health,
   AddVisitInput,
   {
     rejectValue: string;
   }
 >('health/addVisit', async ({ visit, petId }, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await Promise.resolve<AxiosResponse<AddUpdateVisitOutput>>({
-      data: {
-        visit: {
-          id: 20,
-          ...visit,
-          petId
-        }
-      }
-    } as AxiosResponse);
+    const { data, status } = await post<Health>(`visit/${petId}`, visit, dispatch);
 
     dispatch(
       setAlert({
-        severity: 'success',
+        severity: status,
         title: 'Creación de visita',
         message: 'Se creó con éxito la visita'
       })
@@ -136,35 +122,32 @@ export const addVisitHealth = createAsyncThunk<
 
     return data;
   } catch (error) {
-    dispatch(
-      setAlert({
-        severity: 'error',
-        title: 'Creación de visita',
-        message: 'Hubo un problema al crear la visita'
-      })
-    );
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          severity: ResponseStatus.ERROR,
+          title: 'Creación de visita',
+          message: 'Hubo un problema al crear la visita'
+        })
+      );
+    }
     return rejectWithValue('error');
   }
 });
 
 export const updateWeightHealth = createAsyncThunk<
-  WeightOutput,
+  Health,
   WeightInput,
   {
     rejectValue: string;
   }
->('health/updateWeight', async ({ petId, weight }, { rejectWithValue, dispatch }) => {
+>('health/updateWeight', async ({ healthId, weight }, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await Promise.resolve<AxiosResponse<WeightOutput>>({
-      data: {
-        petId,
-        weight
-      }
-    } as AxiosResponse);
+    const { data, status } = await put<Health>(`health/${healthId}`, { weight }, dispatch);
 
     dispatch(
       setAlert({
-        severity: 'success',
+        severity: status,
         title: 'Actualizar el peso',
         message: 'Se actualizó con éxito el peso'
       })
@@ -172,91 +155,118 @@ export const updateWeightHealth = createAsyncThunk<
 
     return data;
   } catch (error) {
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          severity: ResponseStatus.ERROR,
+          title: 'Actualizar el peso',
+          message: 'Hubo un problema al actualizar el peso'
+        })
+      );
+    }
+    return rejectWithValue('error');
+  }
+});
+
+export const addVaccineHealth = createAsyncThunk<
+  Vaccination,
+  CreateVaccinationInput,
+  {
+    rejectValue: string;
+  }
+>('health/addVaccine', async (input, { rejectWithValue, dispatch }) => {
+  try {
+    const { data, status } = await post<Vaccination>('vaccination', input, dispatch);
+
     dispatch(
       setAlert({
-        severity: 'error',
-        title: 'Actualizar el peso',
-        message: 'Hubo un problema al actualizar el peso'
+        severity: status,
+        title: 'Registrar vacunación',
+        message: 'Se registró con éxito la vacunación'
       })
     );
+
+    return data;
+  } catch (error) {
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          severity: ResponseStatus.ERROR,
+          title: 'Registrar vacunación',
+          message: 'Hubo un problema al registrar la vacunación'
+        })
+      );
+    }
     return rejectWithValue('error');
   }
 });
 
 export const updateVaccineHealth = createAsyncThunk<
-  ApliedVaccineOutput,
-  ApliedVaccineInput,
+  Vaccination,
+  UpdateVaccineInput,
   {
     rejectValue: string;
   }
 >('health/updateVaccine', async (input, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await Promise.resolve<AxiosResponse<ApliedVaccineOutput>>({
-      data: {
-        apliedVaccine: {
-          id: input.vaccineId,
-          date: input.date
-        },
-        petId: input.petId
-      }
-    } as AxiosResponse);
+    const { data, status } = await put<Vaccination>(
+      `vaccination/${input.vaccinationId}`,
+      { vaccineId: input.vaccineId, datetime: input.date },
+      dispatch
+    );
 
     dispatch(
       setAlert({
-        severity: 'success',
-        title: 'Actualización de vacuna',
-        message: 'Se actualizó la vacuna con exito'
+        severity: status,
+        title: 'Actualización de vacunación',
+        message: 'Se actualizó la vacunación con exito'
       })
     );
 
     return data;
   } catch (error) {
-    dispatch(
-      setAlert({
-        severity: 'error',
-        title: 'Actualización de vacuna',
-        message: 'Hubo un problema al actualizar la vacuna'
-      })
-    );
-
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          severity: ResponseStatus.ERROR,
+          title: 'Actualización de vacunación',
+          message: 'Hubo un problema al actualizar la vacunación'
+        })
+      );
+    }
     return rejectWithValue('error');
   }
 });
 
 export const removeVaccineHealth = createAsyncThunk<
-  RemovedVaccineOutput,
+  Vaccination,
   RemovedVaccineInput,
   {
     rejectValue: string;
   }
->('health/removeVaccine', async ({ petId, vaccineId }, { rejectWithValue, dispatch }) => {
+>('health/removeVaccine', async ({ vaccinationId }, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await Promise.resolve<AxiosResponse<RemovedVaccineOutput>>({
-      data: {
-        petId,
-        vaccineId,
-        deleted: true
-      }
-    } as AxiosResponse);
+    const { data, status } = await remove<Vaccination>(`vaccines/${vaccinationId}`, dispatch);
 
     dispatch(
       setAlert({
-        severity: 'success',
-        title: 'Eliminado de vacuna',
-        message: 'Se eliminó con éxito la vacuna'
+        severity: status,
+        title: 'Eliminado de vacunación',
+        message: 'Se eliminó con éxito la vacunación'
       })
     );
 
     return data;
   } catch (error) {
-    dispatch(
-      setAlert({
-        severity: 'error',
-        title: 'Eliminado de vacuna',
-        message: 'Hubo un problema al eliminar la vacuna'
-      })
-    );
-
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          severity: ResponseStatus.ERROR,
+          title: 'Eliminado de vacunación',
+          message: 'Hubo un problema al eliminar la vacunación'
+        })
+      );
+    }
     return rejectWithValue('error');
   }
 });

@@ -1,11 +1,11 @@
-import { Chat, Message } from '../interfaces';
+import { Chat, Message, TypeId } from '../interfaces';
 
 export interface ChatMessageOutput {
-  currentUser: number;
+  currentUser: TypeId;
   message: Message;
 }
 
 export interface FetchChatOutput {
-  currentUser: number;
+  currentUser: TypeId;
   chats: Chat[];
 }

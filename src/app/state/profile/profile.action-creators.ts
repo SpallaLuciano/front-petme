@@ -1,17 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { PROFILES } from '../../mocks/profile.mock';
-import { Comment, Image, Profile } from '../../interfaces';
+import { Comment, Profile } from '../../interfaces';
 import { setAlert } from '../alert';
-import { LikeInput, ProfileCommentInput, RemoveProfileCommentInput } from '../../inputs';
-import { AxiosResponse } from 'axios';
-import { RootState } from '../store';
-import { LikeOutput, RemoveProfileCommentOutput } from '../../outputs';
+import {
+  LikeInput,
+  ProfileCommentInput,
+  ProfileFormInput,
+  RemoveProfileCommentInput
+} from '../../inputs';
+import { LikeOutput } from '../../outputs';
+import { RequestError, get, post, put, remove } from '../../utils';
 
-interface ProfileInput {
-  name: string;
-  lastname: string;
-  birthdate: string;
-}
+const endpoint = 'profiles';
 
 export const fetchProfiles = createAsyncThunk<
   Profile[],
@@ -19,29 +18,38 @@ export const fetchProfiles = createAsyncThunk<
   {
     rejectValue: string;
   }
->('profile/fetch', async (input, { rejectWithValue }) => {
+>('profile/fetch', async (_input, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await Promise.resolve({ data: PROFILES });
+    const { data } = await get<Profile[]>(endpoint, dispatch);
 
     return data;
   } catch (error) {
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          title: 'Error al cargar perfiles',
+          message: 'Hubo un problema al cargar los perfiles'
+        })
+      );
+    }
+
     return rejectWithValue('error');
   }
 });
 
 export const createProfile = createAsyncThunk<
   Profile,
-  ProfileInput,
+  ProfileFormInput,
   {
     rejectValue: string;
   }
 >('profile/create', async (input, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await Promise.resolve({ data: PROFILES[0] });
+    const { data, status } = await post<Profile>(endpoint, input, dispatch);
 
     dispatch(
       setAlert({
-        severity: 'success',
+        severity: status,
         title: 'Creación de perfil',
         message: 'Se creó con éxito el perfil'
       })
@@ -49,13 +57,14 @@ export const createProfile = createAsyncThunk<
 
     return data;
   } catch (error) {
-    dispatch(
-      setAlert({
-        severity: 'error',
-        title: 'Creación de perfil',
-        message: 'Hubo un problema al crear el perfil'
-      })
-    );
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          title: 'Creación de perfil',
+          message: 'Hubo un problema al crear el perfil'
+        })
+      );
+    }
 
     return rejectWithValue('error');
   }
@@ -69,11 +78,11 @@ export const updateProfile = createAsyncThunk<
   }
 >('profile/update', async (input, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await Promise.resolve({ data: { ...PROFILES[0], ...input } });
+    const { data, status } = await put<Profile>(`${endpoint}/${input.id}`, input, dispatch);
 
     dispatch(
       setAlert({
-        severity: 'success',
+        severity: status,
         title: 'Actialización de perfil',
         message: 'Se actualizó con éxito el perfil'
       })
@@ -81,67 +90,65 @@ export const updateProfile = createAsyncThunk<
 
     return data;
   } catch (error) {
-    dispatch(
-      setAlert({
-        severity: 'error',
-        title: 'Actialización de perfil',
-        message: 'Hubo un problema al actualizar el perfil'
-      })
-    );
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          title: 'Actialización de perfil',
+          message: 'Hubo un problema al actualizar el perfil'
+        })
+      );
+    }
 
     return rejectWithValue('error');
   }
 });
 
 export const updateImageProfile = createAsyncThunk<
-  Image,
+  Profile,
   FormData,
   {
     rejectValue: string;
   }
->('profile/imageUpdate', async (image, { rejectWithValue, dispatch }) => {
+>('profile/imageUpdate', async (input, { rejectWithValue, dispatch }) => {
   try {
-    if (PROFILES[0].image) {
-      const { data } = await Promise.resolve({ data: { ...PROFILES[0].image } });
+    const { data, status } = await post<Profile>(`${endpoint}/image`, input, dispatch);
 
-      dispatch(
-        setAlert({
-          severity: 'success',
-          title: 'Actialización de imagen de perfil',
-          message: 'Se actualizó con éxito el imagen de perfil'
-        })
-      );
-
-      return data;
-    } else {
-      throw new Error();
-    }
-  } catch (error) {
     dispatch(
       setAlert({
-        severity: 'error',
+        severity: status,
         title: 'Actialización de imagen de perfil',
-        message: 'Hubo un problema al actualizar el imagen de perfil'
+        message: 'Se actualizó con éxito el imagen de perfil'
       })
     );
+
+    return data;
+  } catch (error) {
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          title: 'Actialización de imagen de perfil',
+          message: 'Hubo un problema al actualizar el imagen de perfil'
+        })
+      );
+    }
 
     return rejectWithValue('error');
   }
 });
 
 export const removeImageProfile = createAsyncThunk<
-  string,
+  Profile,
   void,
   {
     rejectValue: string;
   }
->('profile/imageRemove', async (arg, { rejectWithValue, dispatch }) => {
+>('profile/imageRemove', async (_arg, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await Promise.resolve({ data: 'Remove fulfilled' });
+    const { data, status } = await remove<Profile>(`${endpoint}/image`, dispatch);
 
     dispatch(
       setAlert({
-        severity: 'success',
+        severity: status,
         title: 'Eliminado de imagen de perfil',
         message: 'Se eliminó con éxito el imagen de perfil'
       })
@@ -149,13 +156,14 @@ export const removeImageProfile = createAsyncThunk<
 
     return data;
   } catch (error) {
-    dispatch(
-      setAlert({
-        severity: 'error',
-        title: 'Eliminado de imagen de perfil',
-        message: 'Hubo un problema al actualizar el imagen de perfil'
-      })
-    );
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          title: 'Eliminado de imagen de perfil',
+          message: 'Hubo un problema al actualizar el imagen de perfil'
+        })
+      );
+    }
 
     return rejectWithValue('error');
   }
@@ -167,19 +175,12 @@ export const likeProfile = createAsyncThunk<
   {
     rejectValue: string;
   }
->('profile/like', async ({ petId }, { rejectWithValue, dispatch, getState }) => {
+>('profile/like', async ({ petId }, { rejectWithValue, dispatch }) => {
   let title = '';
   let message = '';
 
   try {
-    const like = !(getState() as RootState).profile.profile?.favs.includes(petId);
-
-    const { data } = await Promise.resolve<AxiosResponse<LikeOutput>>({
-      data: {
-        petId,
-        like
-      }
-    } as AxiosResponse);
+    const { data, status } = await get<LikeOutput>(`pet/like/${petId}`, dispatch);
 
     if (data.like) {
       title = 'Agregar a favoritos';
@@ -191,7 +192,7 @@ export const likeProfile = createAsyncThunk<
 
     dispatch(
       setAlert({
-        severity: 'success',
+        severity: status,
         title,
         message
       })
@@ -199,13 +200,14 @@ export const likeProfile = createAsyncThunk<
 
     return data;
   } catch (error) {
-    dispatch(
-      setAlert({
-        severity: 'error',
-        title: 'Favoritos',
-        message: 'Hubo un problema al modificar los favoritos'
-      })
-    );
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          title: 'Favoritos',
+          message: 'Hubo un problema al modificar los favoritos'
+        })
+      );
+    }
 
     return rejectWithValue('error');
   }
@@ -217,71 +219,46 @@ export const rateProfile = createAsyncThunk<
   {
     rejectValue: string;
   }
->(
-  'profile/rateProfile',
-  async ({ profileId, rating, comment }, { rejectWithValue, getState, dispatch }) => {
-    try {
-      const { data } = await Promise.resolve<AxiosResponse<Comment>>({
-        data: {
-          id: 2,
-          from: (getState() as RootState).auth.auth.user,
-          to: profileId,
-          rating,
-          comment,
-          datetime: new Date().toISOString()
-        }
-      } as AxiosResponse);
+>('profile/rateProfile', async (input, { rejectWithValue, dispatch }) => {
+  try {
+    const { data, status } = await post<Comment>('comments', input, dispatch);
 
+    dispatch(
+      setAlert({
+        severity: status,
+        title: 'Creación de comentario',
+        message: 'Se creó con éxito el comentario de perfil'
+      })
+    );
+
+    return data;
+  } catch (error) {
+    if (!(error instanceof RequestError)) {
       dispatch(
         setAlert({
-          severity: 'success',
-          title: 'Creación de comentario',
-          message: 'Se creó con éxito el comentario de perfil'
-        })
-      );
-
-      return data;
-    } catch (error) {
-      dispatch(
-        setAlert({
-          severity: 'error',
           title: 'Creación de comentario',
           message: 'Hubo un problema al crear el comentario de perfil'
         })
       );
-
-      return rejectWithValue('error');
     }
+
+    return rejectWithValue('error');
   }
-);
+});
 
 export const removeRateProfile = createAsyncThunk<
-  RemoveProfileCommentOutput,
+  Comment,
   RemoveProfileCommentInput,
   {
     rejectValue: string;
   }
->('profile/removeRate', async ({ commentId }, { getState, dispatch, rejectWithValue }) => {
+>('profile/removeRate', async ({ commentId }, { dispatch, rejectWithValue }) => {
   try {
-    const profiles = (getState() as RootState).profile.profiles;
-
-    const profile: Profile | undefined = Object.values(profiles).find((profile) =>
-      profile.comments.find((comment) => comment.id === commentId)
-    );
-
-    if (!profile) throw new Error('Not found');
-
-    const { data } = await Promise.resolve<AxiosResponse<RemoveProfileCommentOutput>>({
-      data: {
-        profileId: profile.id,
-        commentId,
-        deleted: true
-      }
-    } as AxiosResponse);
+    const { data, status } = await remove<Comment>(`comments/${commentId}`, dispatch);
 
     dispatch(
       setAlert({
-        severity: 'success',
+        severity: status,
         title: 'Eliminación de comentario',
         message: 'Se eliminó con éxito el comentario de perfil'
       })
@@ -289,13 +266,14 @@ export const removeRateProfile = createAsyncThunk<
 
     return data;
   } catch (error) {
-    dispatch(
-      setAlert({
-        severity: 'error',
-        title: 'Eliminación de comentario',
-        message: 'Hubo un problema al eliminar el comentario de perfil'
-      })
-    );
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          title: 'Eliminación de comentario',
+          message: 'Hubo un problema al eliminar el comentario de perfil'
+        })
+      );
+    }
 
     return rejectWithValue('error');
   }

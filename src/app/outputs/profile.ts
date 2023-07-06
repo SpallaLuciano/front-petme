@@ -1,10 +1,12 @@
+import { TypeId } from '../interfaces';
+
 export interface LikeOutput {
-  petId: number;
+  petId: TypeId;
   like: boolean;
 }
 
 export interface RemoveProfileCommentOutput {
-  commentId: number;
-  profileId: number;
+  commentId: TypeId;
+  profileId: TypeId;
   deleted: boolean;
 }

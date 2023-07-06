@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { Alert as AlertMui, AlertTitle, Snackbar } from '@mui/material';
+import { AlertColor, Alert as AlertMui, AlertTitle, Snackbar } from '@mui/material';
 import { clearAlert, useAppDispatch, useAppSelector } from '../../state';
 import { GeneralStatus } from '../../enums';
 
@@ -10,7 +10,7 @@ export const Alert: FC = () => {
     const status = state.alert.status;
     const showAlert =
       !(status === GeneralStatus.IDLE || status === GeneralStatus.LOADING) &&
-      (alert.severity === 'error' || alert.severity === 'success');
+      (alert.severity === 'ERROR' || alert.severity === 'SUCCESS' || alert.severity === 'WARNING');
 
     return {
       alert,
@@ -34,7 +34,11 @@ export const Alert: FC = () => {
 
   return (
     <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-      <AlertMui onClose={handleClose} severity={severity || undefined} sx={{ width: '100%' }}>
+      <AlertMui
+        onClose={handleClose}
+        severity={(severity?.toLowerCase() as AlertColor) || undefined}
+        sx={{ width: '100%' }}
+      >
         <AlertTitle>{title}</AlertTitle>
         {message}
       </AlertMui>

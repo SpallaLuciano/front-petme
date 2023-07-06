@@ -6,9 +6,10 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ProfileCommentInput } from '../../inputs';
 import { rateValidationSchema } from '../../validation-schema/profile.validation-schema';
+import { TypeId } from '../../interfaces';
 
 interface Props {
-  profileId: number;
+  profileId: TypeId;
 }
 
 export const Rating: FC<Props> = ({ profileId }) => {

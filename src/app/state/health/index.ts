@@ -2,7 +2,7 @@ export {
   addVisitHealth,
   removeVisitHealth,
   updateVisitHealth,
-  fetchVisitsHealth,
+  fetchVaccinesHealth,
   updateWeightHealth,
   removeVaccineHealth,
   updateVaccineHealth

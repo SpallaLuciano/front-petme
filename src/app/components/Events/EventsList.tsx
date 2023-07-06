@@ -6,8 +6,9 @@ import { AddCard } from './AddCard';
 import { VisitForm } from './VisitForm/VisitForm';
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { sortVisitsByDate } from '../../utils';
+import { TypeId } from '../../interfaces';
 
-export const EventsList: FC<{ petId: number }> = ({ petId }) => {
+export const EventsList: FC<{ petId: TypeId }> = ({ petId }) => {
   const [open, setOpen] = useState(false);
   const { visits, isOwner } = useAppSelector((state) => {
     const isOwner = state.pet.pets[petId].owner === state.auth.auth.user;

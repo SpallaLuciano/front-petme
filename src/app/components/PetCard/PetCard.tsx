@@ -17,9 +17,10 @@ import { PetEditButton } from '../PetEditButton';
 import { useNavigate } from 'react-router-dom';
 import { ConfirmationDialog } from '../ConfirmationDialog/ConfirmationDialog';
 import { likeProfile } from '../../state/profile/profile.action-creators';
+import { TypeId } from '../../interfaces';
 
 interface Props {
-  id: number;
+  id: TypeId;
 }
 
 export const PetCard: FC<Props> = ({ id }) => {

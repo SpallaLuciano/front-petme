@@ -13,7 +13,7 @@ export const Home: FC = () => {
 
   const petCards = order.map((key) => (
     <Grid key={key} item xs={12} md={6} xl={4}>
-      <PetCard id={Number(key)} />
+      <PetCard id={key} />
     </Grid>
   ));
 

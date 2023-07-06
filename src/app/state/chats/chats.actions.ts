@@ -1,7 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
-import { Chat } from '../../interfaces';
-import { ChatMessageOutput, FetchChatOutput } from '../../outputs';
+import { Chat, Message } from '../../interfaces';
+import { FetchChatOutput } from '../../outputs';
 import { ChatsState } from './chats.state';
 
 export const actionFetchChatsFulfilled = (
@@ -17,16 +17,27 @@ export const actionFetchChatsFulfilled = (
   state.status = GeneralStatus.SUCCESS;
 };
 
-export const actionSendAndReceiveMessageFulfilled = (
+export const actionSendMessageFulfilled = (
   state: ChatsState,
-  { payload: { currentUser, message } }: PayloadAction<ChatMessageOutput>
+  { payload }: PayloadAction<boolean>
 ) => {
-  state.chats[message.chat] ??= {
-    id: message.chat,
+  if (payload) {
+    state.status = GeneralStatus.SUCCESS;
+  } else {
+    state.status = GeneralStatus.FAILED;
+  }
+};
+
+export const actionReceiveMessageFulfilled = (
+  state: ChatsState,
+  { payload }: PayloadAction<Message>
+) => {
+  state.chats[payload.chat] ??= {
+    id: payload.chat,
     messages: [],
-    users: [currentUser, message.user]
+    users: [payload.sender, payload.receiber]
   };
-  state.chats[message.chat].messages.push(message);
+  state.chats[payload.chat].messages.push(payload);
   state.status = GeneralStatus.SUCCESS;
 };
 

@@ -1,5 +1,7 @@
+import { ResponseStatus } from './response';
+
 export interface Alert {
   message: string | null;
-  severity: 'success' | 'error' | null;
+  severity?: ResponseStatus | null;
   title: string | null;
 }

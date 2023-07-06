@@ -5,8 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import StarIcon from '@mui/icons-material/Star';
 import style from './Chats.module.scss';
 import { Backward } from '../Backward';
+import { TypeId } from '../../interfaces';
 
-export const ChatHeader: FC<{ userId: number }> = ({ userId }) => {
+export const ChatHeader: FC<{ userId: TypeId }> = ({ userId }) => {
   const navigate = useNavigate();
 
   const { id, fullname, image, rating } = useAppSelector((state) => {

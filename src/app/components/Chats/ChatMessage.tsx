@@ -4,9 +4,11 @@ import { Message } from '../../interfaces';
 import { useAppSelector } from '../../state';
 import style from './Chats.module.scss';
 
-export const ChatMessage: FC<{ message: Message }> = ({ message: { content, date, user } }) => {
+export const ChatMessage: FC<{ message: Message }> = ({
+  message: { content, datetime, sender }
+}) => {
   const { profile, currentUser } = useAppSelector((state) => {
-    const userProfile = state.profile.profiles[user];
+    const userProfile = state.profile.profiles[sender];
 
     return {
       profile: {
@@ -16,7 +18,7 @@ export const ChatMessage: FC<{ message: Message }> = ({ message: { content, date
     };
   });
 
-  const isCurrentUser = currentUser === user;
+  const isCurrentUser = currentUser === sender;
 
   return (
     <Paper
@@ -34,7 +36,7 @@ export const ChatMessage: FC<{ message: Message }> = ({ message: { content, date
       </Typography>
       <Typography variant="body1">{content}</Typography>
       <Typography variant="caption" color="textSecondary">
-        {date.toLocaleString()}
+        {datetime.toLocaleString()}
       </Typography>
     </Paper>
   );

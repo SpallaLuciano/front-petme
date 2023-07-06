@@ -1,6 +1,8 @@
+import { TypeId } from '../interfaces';
+
 export interface AddVisitInput {
   visit: VisitInput;
-  petId: number;
+  petId: TypeId;
 }
 
 export interface VisitInput {
@@ -13,16 +15,21 @@ export interface VisitInput {
 
 export interface WeightInput {
   weight: number;
-  petId: number;
+  healthId: TypeId;
 }
 
-export interface ApliedVaccineInput {
-  petId: number;
-  vaccineId: number;
-  date: string | null;
+export interface UpdateVaccineInput {
+  vaccinationId: TypeId;
+  vaccineId?: TypeId;
+  date?: Date | null;
+}
+
+export interface CreateVaccinationInput {
+  vaccineId: TypeId;
+  healthId: TypeId;
+  date?: Date | null;
 }
 
 export interface RemovedVaccineInput {
-  petId: number;
-  vaccineId: number;
+  vaccinationId: TypeId;
 }

@@ -25,7 +25,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import ChatIcon from '@mui/icons-material/Chat';
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddIcon from '@mui/icons-material/Add';
-import { Image } from '../../interfaces';
+import { Image, TypeId } from '../../interfaces';
 import style from './PetDetail.module.scss';
 import { Requirements } from '../../components/Requirement/Requirements';
 
@@ -33,7 +33,7 @@ export const PetDetail: FC = () => {
   const { petId } = useParams();
   const [open, setOpen] = useState(false);
   const [allRequired, setAllRequired] = useState(false);
-  const [id, setId] = useState(0);
+  const [id, setId] = useState('');
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { pet, edit } = useAppSelector((state) => {
@@ -49,12 +49,12 @@ export const PetDetail: FC = () => {
   const dialogTitle = 'Eliminar Imagen';
   const dialogDescription = '¿Está seguro que desea eliminar esta imagen?\n';
 
-  const handleButtonClick = (id: number) => {
+  const handleButtonClick = (id: TypeId) => {
     setId(id);
     setOpen(true);
   };
 
-  const remove = (id: number) => {
+  const remove = (id: TypeId) => {
     dispatch(removePetImage(id));
     setOpen(false);
   };

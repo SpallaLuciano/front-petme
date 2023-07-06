@@ -1,7 +1,9 @@
 import { PetKind } from '../enums';
+import { TypeId } from './id';
+import { Vaccination } from './vaccination';
 
 export interface Visit {
-  id: number;
+  id: TypeId;
   datetime: string;
   description: string;
   type: string;
@@ -11,19 +13,15 @@ export interface Visit {
 }
 
 export interface Health {
-  petId: number;
+  id: TypeId;
+  petId: TypeId;
   weight?: number;
   visits: Visit[];
-  vaccines: ApliedVaccine[];
-}
-
-export interface ApliedVaccine {
-  id: number;
-  date: string;
+  vaccinations: Vaccination[];
 }
 
 export interface Vaccine {
-  id: number;
+  id: TypeId;
   name: string;
   petKind: PetKind;
 }

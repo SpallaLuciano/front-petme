@@ -1,12 +1,11 @@
-import jwt_decode from 'jwt-decode';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Credentials, TokenDecoded, Response } from '../../interfaces';
-import { Confirmation, RecoverPasswordInput } from '../../inputs';
-import axios from 'axios';
-import { setAlert } from '../alert';
-import { SignIn } from '../../outputs';
+import { createAsyncThunk } from '@reduxjs/toolkit'; // no
+import { Credentials, ResponseStatus, User } from '../../interfaces'; // no
+import { RecoverPasswordInput } from '../../inputs'; // no
+import { setAlert } from '../alert'; // no
+import { SignIn } from '../../outputs'; // no
+import { RequestError, get, post } from '../../utils'; // no
 
-const endpoint = `${process.env.BACKEND_HOST}/auth`;
+const endpoint = `/auth`;
 
 export const signInAuth = createAsyncThunk<
   SignIn,
@@ -16,19 +15,13 @@ export const signInAuth = createAsyncThunk<
   }
 >('auth/signIn', async (input, { rejectWithValue, dispatch }) => {
   try {
-    const { data: response } = await axios.post<Response<SignIn>>(`${endpoint}/sign-in`, input);
+    const { status, data } = await post<SignIn>(`${endpoint}/sign-in`, input, dispatch);
 
-    const { data } = response;
-
-    if (!data) {
-      throw new Error();
-    }
-
-    localStorage.setItem('token', data.token);
+    localStorage.setItem('tkn', data.token);
 
     dispatch(
       setAlert({
-        severity: 'success',
+        severity: status,
         title: 'Inicio de sesión exitoso',
         message: 'El usuario ingreso sesión exitosamente'
       })
@@ -36,54 +29,77 @@ export const signInAuth = createAsyncThunk<
 
     return data;
   } catch (error) {
-    dispatch(
-      setAlert({
-        severity: 'error',
-        title: 'Inicio de sesión exitoso',
-        message: 'El usuario ingreso sesión exitosamente'
-      })
-    );
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          severity: ResponseStatus.ERROR,
+          title: 'Error al iniciar sesión',
+          message: 'Hubo un problema al iniciar sesión'
+        })
+      );
+    }
     return rejectWithValue('error');
   }
 });
 
 export const recoverPassword = createAsyncThunk<
-  Confirmation,
+  boolean,
   RecoverPasswordInput,
   {
     rejectValue: string;
   }
->('auth/recoverPassword', async (input, { rejectWithValue }) => {
+>('auth/recoverPassword', async (input, { rejectWithValue, dispatch }) => {
   try {
-    const { data: response } = await axios.post(`${endpoint}/recover-password`, input);
+    const { data, status } = await post<boolean>(`${endpoint}/recover-password`, input, dispatch);
 
-    const { data } = response;
-
-    if (!data) {
-      throw new Error();
-    }
+    dispatch(
+      setAlert({
+        severity: status,
+        title: 'Inicio de sesión exitoso',
+        message: 'El usuario ingreso sesión exitosamente'
+      })
+    );
 
     return data;
   } catch (error) {
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          severity: ResponseStatus.ERROR,
+          title: 'Error al iniciar sesión',
+          message: 'Hubo un problema al iniciar sesión'
+        })
+      );
+    }
     return rejectWithValue('error');
   }
 });
 
 export const loadAuth = createAsyncThunk<
-  TokenDecoded,
+  User,
   void,
   {
     rejectValue: string;
   }
->('auth/loadAuth', async (_, { rejectWithValue }) => {
+>('auth/loadAuth', async (_, { rejectWithValue, dispatch }) => {
   try {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('tkn');
 
-    if (token) {
-      return jwt_decode<TokenDecoded>(token);
+    if (!token) {
+      throw new Error();
     }
-    throw new Error();
+
+    const { data } = await get<User>('users', dispatch);
+
+    return data;
   } catch (error) {
+    dispatch(
+      setAlert({
+        title: 'Error al cargar sesión',
+        message: 'No se pudo cargar la sesión'
+      })
+    );
+
     return rejectWithValue('error');
   }
 });
@@ -98,7 +114,7 @@ export const signOut = createAsyncThunk<
   try {
     dispatch(
       setAlert({
-        severity: 'success',
+        severity: ResponseStatus.SUCCESS,
         title: 'Cierre de sesión exitoso',
         message: 'El usuario cerro sesión exitosamente'
       })
@@ -108,9 +124,9 @@ export const signOut = createAsyncThunk<
   } catch (error) {
     dispatch(
       setAlert({
-        severity: 'error',
-        title: 'Inicio de sesión exitoso',
-        message: 'El usuario ingreso sesión exitosamente'
+        severity: ResponseStatus.ERROR,
+        title: 'Error al cerrar sesión',
+        message: 'Hubo un problema al cerrar la sesión'
       })
     );
 

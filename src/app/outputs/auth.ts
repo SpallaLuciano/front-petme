@@ -1,13 +1,6 @@
-import { Profile } from '../interfaces';
+import { User } from '../interfaces/user';
 
 export interface SignIn {
   token: string;
-  user: {
-    id: string;
-    email: string;
-    admin: boolean;
-    validated: boolean;
-    active: boolean;
-    profile: Profile;
-  };
+  user: User;
 }

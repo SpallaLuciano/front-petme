@@ -5,7 +5,8 @@ import { createChat, fetchChats, receiveMessage, sendMessage } from './chats.act
 import {
   actionCreateChatFulfilled,
   actionFetchChatsFulfilled,
-  actionSendAndReceiveMessageFulfilled
+  actionReceiveMessageFulfilled,
+  actionSendMessageFulfilled
 } from './chats.actions';
 import { ChatsState } from './chats.state';
 
@@ -22,8 +23,8 @@ export const chatsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchChats.fulfilled, actionFetchChatsFulfilled)
-      .addCase(sendMessage.fulfilled, actionSendAndReceiveMessageFulfilled)
-      .addCase(receiveMessage.fulfilled, actionSendAndReceiveMessageFulfilled)
+      .addCase(sendMessage.fulfilled, actionSendMessageFulfilled)
+      .addCase(receiveMessage.fulfilled, actionReceiveMessageFulfilled)
       .addCase(createChat.fulfilled, actionCreateChatFulfilled)
       .addMatcher(
         isAnyOf(

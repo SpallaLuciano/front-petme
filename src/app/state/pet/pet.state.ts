@@ -1,10 +1,10 @@
 import { FiltersInput } from '../../inputs';
-import { Pet, GeneralState } from '../../interfaces';
+import { Pet, GeneralState, TypeId } from '../../interfaces';
 
 export interface PetState extends GeneralState {
-  pets: { [key: string]: Pet };
+  pets: { [key: TypeId]: Pet };
   oldestBirth: string;
   lastestUpdate: string;
   filters: FiltersInput;
-  order: string[];
+  order: TypeId[];
 }

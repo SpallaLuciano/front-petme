@@ -8,7 +8,7 @@ export const Chat: FC = () => {
 
   return (
     <div className={style.ChatContainer}>
-      <ChatComponent userId={Number(userId)} />
+      <ChatComponent userId={String(userId)} />
     </div>
   );
 };

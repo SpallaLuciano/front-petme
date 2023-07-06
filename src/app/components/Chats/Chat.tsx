@@ -4,8 +4,9 @@ import { ChatBox } from './ChatBox';
 import { ChatHeader } from './ChatHeader';
 import { ChatInput } from './ChatInput';
 import style from './Chats.module.scss';
+import { TypeId } from '../../interfaces';
 
-export const Chat: FC<{ userId: number }> = ({ userId }) => {
+export const Chat: FC<{ userId: TypeId }> = ({ userId }) => {
   const chat = useAppSelector((state) => state.chats.chats[userId]);
 
   return (

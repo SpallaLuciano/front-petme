@@ -1,28 +1,32 @@
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
-import { Auth, Comment, Image, Profile, TokenDecoded } from '../../interfaces';
-import { LikeOutput, RemoveProfileCommentOutput } from '../../outputs';
+import { Comment, Profile, User } from '../../interfaces';
+import { LikeOutput, SignIn } from '../../outputs';
 import { ProfileState } from './profile.state';
 
 export const signInAuthProfileFulfilled = (
   state: ProfileState,
-  { payload }: PayloadAction<Auth>
+  { payload }: PayloadAction<SignIn>
 ) => {
-  state.user = payload.user || 0;
-  state.status = GeneralStatus.SUCCESS;
+  if (payload) {
+    state.user = payload.user.id || null;
+    state.profile = payload.user.profile;
+    state.status = GeneralStatus.SUCCESS;
+  } else {
+    state.status = GeneralStatus.FAILED;
+  }
 };
 
 export const signOutAuthProfileFulfilled = (state: ProfileState) => {
-  state.user = 0;
+  state.user = null;
   state.profile = null;
   state.status = GeneralStatus.SUCCESS;
 };
 
-export const loadAuthProfileFulfilled = (
-  state: ProfileState,
-  { payload }: PayloadAction<TokenDecoded>
-) => {
-  state.user = payload.user;
+export const loadAuthProfileFulfilled = (state: ProfileState, { payload }: PayloadAction<User>) => {
+  state.user = payload.id;
+  state.profile = payload.profile;
+
   state.status = GeneralStatus.SUCCESS;
 };
 
@@ -54,32 +58,37 @@ export const actionRemoveProfileCase: CaseReducer<ProfileState> = (state) => {
 
 export const actionImageUpdatedFulfilled = (
   state: ProfileState,
-  { payload }: PayloadAction<Image>
+  { payload }: PayloadAction<Profile>
 ) => {
-  if (state.profiles) {
-    state.profiles[state.user].image = payload;
+  if (state.profiles && state.user) {
+    state.profile = payload;
+    state.profiles[state.user] = payload;
     state.status = GeneralStatus.SUCCESS;
   }
 };
 
-export const actionImageRemoveFulfilled = (state: ProfileState) => {
-  if (state.profiles) {
-    state.profiles[state.user].image = null;
+export const actionImageRemoveFulfilled = (
+  state: ProfileState,
+  { payload }: PayloadAction<Profile>
+) => {
+  if (state.profiles && state.user) {
+    state.profile = payload;
+    state.profiles[state.user] = payload;
     state.status = GeneralStatus.SUCCESS;
   }
 };
 
 export const actionRateProfileFulfilled = (
   state: ProfileState,
-  { payload: { to, rating, ...comment } }: PayloadAction<Comment>
+  { payload: { recipient, rating, ...comment } }: PayloadAction<Comment>
 ) => {
-  const comments = state.profiles[to].comments;
+  const comments = state.profiles[recipient].comments;
 
-  comments.push({ to, rating, ...comment });
+  comments.push({ recipient, rating, ...comment });
 
   const newRating = comments.reduce((acc, comment) => (acc += comment.rating), 0) / comments.length;
 
-  state.profiles[to].rating = newRating;
+  state.profiles[recipient].rating = newRating;
 
   state.status = GeneralStatus.SUCCESS;
 };
@@ -103,18 +112,17 @@ export const actionLikeProfileFulfilled = (
 
 export const actionRemoveRateProfileFulfilled = (
   state: ProfileState,
-  { payload: { commentId, deleted, profileId } }: PayloadAction<RemoveProfileCommentOutput>
+  { payload }: PayloadAction<Comment>
 ) => {
-  if (deleted) {
-    const newComments = state.profiles[profileId].comments.filter(
-      (comment) => comment.id !== commentId
-    );
+  if (payload) {
+    const { author, id } = payload;
+    const newComments = state.profiles[author].comments.filter((comment) => comment.id !== id);
 
     const newRating =
       newComments.reduce((acc, comment) => (acc += comment.rating), 0) / newComments.length;
 
-    state.profiles[profileId].rating = isNaN(newRating) ? 0 : newRating;
-    state.profiles[profileId].comments = newComments;
+    state.profiles[author].rating = isNaN(newRating) ? 0 : newRating;
+    state.profiles[author].comments = newComments;
   }
 
   state.status = GeneralStatus.SUCCESS;

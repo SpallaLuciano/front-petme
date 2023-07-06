@@ -1,7 +1,7 @@
-import { Profile, GeneralState } from '../../interfaces';
+import { Profile, GeneralState, TypeId } from '../../interfaces';
 
 export interface ProfileState extends GeneralState {
-  profiles: { [key: number]: Profile };
-  user: number;
+  profiles: { [key: TypeId]: Profile };
+  user: TypeId | null;
   profile: Profile | null;
 }

@@ -1,7 +1,7 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
 import { actionPending, actionRejected } from '../actions';
-import { signInAuth, loadAuth, signOut } from '../auth';
+import { loadAuth, signOut } from '../auth';
 import {
   createProfile,
   fetchProfiles,
@@ -13,7 +13,6 @@ import {
   updateProfile
 } from './profile.action-creators';
 import {
-  signInAuthProfileFulfilled,
   loadAuthProfileFulfilled,
   fetchProfilesFulfilled,
   createUpdateProfileFulfilled,
@@ -29,7 +28,7 @@ import { ProfileState } from './profile.state';
 const initialState: ProfileState = {
   status: GeneralStatus.IDLE,
   profiles: {},
-  user: 0,
+  user: null,
   profile: null,
   error: null
 };
@@ -40,7 +39,6 @@ export const profileSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(signInAuth.fulfilled, signInAuthProfileFulfilled)
       .addCase(loadAuth.fulfilled, loadAuthProfileFulfilled)
       .addCase(fetchProfiles.fulfilled, fetchProfilesFulfilled)
       .addCase(createProfile.fulfilled, createUpdateProfileFulfilled)

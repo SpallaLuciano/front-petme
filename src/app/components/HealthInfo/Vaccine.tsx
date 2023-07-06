@@ -2,31 +2,27 @@ import { Dialog, DialogContent, DialogTitle, IconButton, Paper, Typography } fro
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { FC, useState } from 'react';
-import { ApliedVaccine } from '../../interfaces/health';
 import { removeVaccineHealth, useAppDispatch, useAppSelector } from '../../state';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { VaccineForm } from './VaccineForm';
+import { TypeId, Vaccination } from '../../interfaces';
 
-export const Vaccine: FC<{ apliedVaccine: ApliedVaccine; petId: number }> = ({
+export const Vaccine: FC<{ apliedVaccine: Vaccination; petId: TypeId }> = ({
   apliedVaccine,
   petId
 }) => {
   const dispatch = useAppDispatch();
   const [edit, setEdit] = useState(false);
-  const { vaccine, isCurrentUser } = useAppSelector((state) => {
-    const vaccine = state.health.vaccines.find((vac) => {
-      return vac.id === apliedVaccine.id;
-    });
+  const { isCurrentUser } = useAppSelector((state) => {
     const isCurrentUser = state.pet.pets[petId].owner === state.auth.auth.user;
 
     return {
-      vaccine,
       isCurrentUser
     };
   });
 
-  const date = format(new Date(apliedVaccine.date), 'PPP', { locale: es });
+  const date = format(new Date(apliedVaccine.applicationDate), 'PPP', { locale: es });
 
   const buttonEdit = (
     <IconButton onClick={() => setEdit(true)}>
@@ -40,7 +36,7 @@ export const Vaccine: FC<{ apliedVaccine: ApliedVaccine; petId: number }> = ({
   );
 
   const handleRemove = () => {
-    dispatch(removeVaccineHealth({ petId, vaccineId: apliedVaccine.id }));
+    dispatch(removeVaccineHealth({ vaccinationId: apliedVaccine.id }));
     setEdit(false);
   };
 
@@ -57,7 +53,7 @@ export const Vaccine: FC<{ apliedVaccine: ApliedVaccine; petId: number }> = ({
       }}
     >
       <Typography variant="h6">
-        {vaccine?.name} {isCurrentUser ? [buttonEdit, buttonRemove] : undefined}
+        {apliedVaccine.vaccine.name} {isCurrentUser ? [buttonEdit, buttonRemove] : undefined}
       </Typography>
       <div style={{ gap: '8px', display: 'flex', flexWrap: 'wrap' }}>
         <Typography variant="body1" style={{ fontWeight: 'bold' }}>
@@ -68,7 +64,7 @@ export const Vaccine: FC<{ apliedVaccine: ApliedVaccine; petId: number }> = ({
       <Dialog sx={{ padding: '8px' }} open={edit} onClose={handleClose}>
         <DialogTitle>Editar vacuna</DialogTitle>
         <DialogContent>
-          <VaccineForm petId={petId} vaccineId={vaccine?.id} onClose={handleClose} />
+          <VaccineForm petId={petId} vaccinationId={apliedVaccine.id} onClose={handleClose} />
         </DialogContent>
       </Dialog>
     </Paper>

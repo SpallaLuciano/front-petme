@@ -4,9 +4,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import { PetDialog } from '../PetDialog';
 import style from './PetEditButton.module.scss';
 import { PetForm } from '../PetForm/PetForm';
+import { TypeId } from '../../interfaces';
 
 interface Props {
-  id: number;
+  id: TypeId;
 }
 
 export const PetEditButton: FC<Props> = ({ id }) => {

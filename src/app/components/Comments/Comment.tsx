@@ -15,13 +15,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { removeRateProfile } from '../../state/profile/profile.action-creators';
 
 export const Comment: FC<{ comment: InternalComment }> = ({
-  comment: { comment, datetime, from, rating, id }
+  comment: { comment, datetime, author, rating, id }
 }) => {
   const dispatch = useAppDispatch();
   const { fullName, img, isCurrentUser } = useAppSelector((state) => {
-    const user = state.profile.profiles[from];
+    const user = state.profile.profiles[author];
     const fullName = getFullName(user.name, user.lastname);
-    const isCurrentUser = state.auth.auth.user === from;
+    const isCurrentUser = state.auth.auth.user === author;
 
     return {
       fullName,

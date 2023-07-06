@@ -12,26 +12,27 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { FC, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { ApliedVaccineInput } from '../../inputs';
+import { CreateVaccinationInput } from '../../inputs';
 import { updateVaccineHealth, useAppDispatch, useAppSelector } from '../../state';
 import { vaccinesValidationSchema } from '../../validation-schema/health';
+import { TypeId } from '../../interfaces';
 
-export const VaccineForm: FC<{ petId: number; onClose: () => void; vaccineId?: number }> = ({
+export const VaccineForm: FC<{ petId: TypeId; onClose: () => void; vaccinationId?: TypeId }> = ({
   petId,
   onClose,
-  vaccineId
+  vaccinationId
 }) => {
   const dispatch = useAppDispatch();
-  const { vaccines, currentPetKind, apliedVaccines } = useAppSelector((state) => {
+  const { vaccines, currentPetKind, health } = useAppSelector((state) => {
     const petKind = state.pet.pets[petId].kind;
     const vaccines = state.health.vaccines;
-    const apliedVaccines = state.health.health[petId].vaccines;
+    const health = state.health.health[petId];
 
-    return { vaccines, currentPetKind: petKind, apliedVaccines };
+    return { vaccines, currentPetKind: petKind, health };
   });
-  const apliedVaccine = apliedVaccines.find((vac) => vac.id === vaccineId);
+  const apliedVaccine = health.vaccinations.find((vac) => vac.id === vaccinationId);
 
-  const [vaccine, setVaccine] = useState<undefined | number>(apliedVaccine?.id);
+  const [vaccine, setVaccine] = useState<undefined | TypeId>(apliedVaccine?.id);
   const [errorVaccine, setErrorVaccine] = useState<boolean>(false);
 
   const onClick = () => {
@@ -50,19 +51,19 @@ export const VaccineForm: FC<{ petId: number; onClose: () => void; vaccineId?: n
     control,
     formState: { errors },
     reset
-  } = useForm<ApliedVaccineInput>({
+  } = useForm<CreateVaccinationInput>({
     resolver: yupResolver(vaccinesValidationSchema),
     defaultValues: {
-      petId: petId,
+      healthId: health.id,
       vaccineId: vaccine,
-      date: apliedVaccine?.date || null
+      date: apliedVaccine?.applicationDate || null
     }
   });
 
   const itemsVaccines = vaccines.map(({ id, name, petKind }) => {
     if (
       petKind !== currentPetKind ||
-      apliedVaccines.find((vac) => vac.id === id && vac.id !== vaccineId)
+      health.vaccinations.find((vac) => vac.vaccine.id === id && vac.id !== vaccinationId)
     ) {
       return undefined;
     }
@@ -74,9 +75,11 @@ export const VaccineForm: FC<{ petId: number; onClose: () => void; vaccineId?: n
     );
   });
 
-  const onSubmit = (input: ApliedVaccineInput) => {
-    if (vaccine) {
-      dispatch(updateVaccineHealth({ ...input, vaccineId: vaccine }));
+  const onSubmit = (input: CreateVaccinationInput) => {
+    if (vaccinationId) {
+      dispatch(
+        updateVaccineHealth({ vaccinationId, date: input.date, vaccineId: input.vaccineId })
+      );
       onClose();
     }
   };
@@ -91,8 +94,8 @@ export const VaccineForm: FC<{ petId: number; onClose: () => void; vaccineId?: n
         <Select
           labelId="vaccine"
           defaultValue={vaccine}
-          disabled={!!vaccineId}
-          onChange={(e) => setVaccine(Number(e.target.value))}
+          disabled={!!apliedVaccine?.vaccine.id}
+          onChange={(e) => setVaccine(e.target.value)}
         >
           {itemsVaccines}
         </Select>

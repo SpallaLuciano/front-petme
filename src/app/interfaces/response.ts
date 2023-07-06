@@ -4,9 +4,14 @@ export enum ResponseStatus {
   ERROR = 'ERROR'
 }
 
-export interface Response<T> {
-  status: ResponseStatus;
-  data?: T;
-  message?: string;
-  error?: Error;
+export type Response<T> = SuccessResponse<T> | FailureResponse;
+
+export interface SuccessResponse<T> {
+  status: ResponseStatus.SUCCESS;
+  data: T;
+}
+
+export interface FailureResponse {
+  status: ResponseStatus.ERROR | ResponseStatus.WARNING;
+  message: string;
 }

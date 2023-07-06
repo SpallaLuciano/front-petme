@@ -1,6 +1,7 @@
+import { TypeId } from './id';
+
 export interface TokenDecoded {
-  email: string;
-  user: string;
+  id: TypeId;
   admin: boolean;
   expirationDate: string;
 }

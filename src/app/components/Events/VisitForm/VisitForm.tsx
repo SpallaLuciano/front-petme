@@ -15,13 +15,13 @@ import { FC, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { visitProps, VisitTypes } from '../../../enums';
 import { AddVisitInput } from '../../../inputs';
-import { Visit } from '../../../interfaces';
+import { TypeId, Visit } from '../../../interfaces';
 import { useAppDispatch, addVisitHealth, updateVisitHealth } from '../../../state';
 import { visitValidationSchema } from '../../../validation-schema';
 import { VisitSchema } from '../../../validation-schema/health';
 import style from './VisitForm.module.scss';
 
-export const VisitForm: FC<{ visit?: Visit; onClose: () => void; petId?: number }> = ({
+export const VisitForm: FC<{ visit?: Visit; onClose: () => void; petId?: TypeId }> = ({
   visit,
   onClose,
   petId

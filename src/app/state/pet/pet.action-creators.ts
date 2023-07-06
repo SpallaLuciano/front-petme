@@ -1,9 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import PETS from '../../mocks/pets.mock';
-import { Image, Pet } from '../../interfaces';
-import { PetInput } from '../../inputs';
-import { AxiosResponse } from 'axios';
+import { Pet, TypeId } from '../../interfaces';
+import { PetInput, UpdatePetImage } from '../../inputs';
 import { setAlert } from '../alert';
+import { RequestError, get, post, put, remove } from '../../utils';
+
+const endpoint = 'pets';
 
 export const fetchPet = createAsyncThunk<
   Pet[],
@@ -11,12 +12,21 @@ export const fetchPet = createAsyncThunk<
   {
     rejectValue: string;
   }
->('pet/fetch', async (input, { rejectWithValue }) => {
+>('pet/fetch', async (input, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await Promise.resolve({ data: PETS });
+    const { data } = await get<Pet[]>(endpoint, dispatch);
 
     return data;
   } catch (error) {
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          title: 'Error al cargar mascotas',
+          message: 'Hubo un problema al cargar las mascotas'
+        })
+      );
+    }
+
     return rejectWithValue('error');
   }
 });
@@ -29,21 +39,11 @@ export const createPet = createAsyncThunk<
   }
 >('pet/create', async (input, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await Promise.resolve({
-      data: {
-        id: PETS.length,
-        owner: 1,
-        ...input,
-        images: [],
-        requirements: [],
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      }
-    });
+    const { data, status } = await post<Pet>(endpoint, input, dispatch);
 
     dispatch(
       setAlert({
-        severity: 'success',
+        severity: status,
         title: 'Creación de mascota',
         message: 'Se creó con éxito la mascota'
       })
@@ -51,13 +51,14 @@ export const createPet = createAsyncThunk<
 
     return data;
   } catch (error) {
-    dispatch(
-      setAlert({
-        severity: 'error',
-        title: 'Creación de mascota',
-        message: 'Hubo un problema al crear la mascota'
-      })
-    );
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          title: 'Error al crear la mascota',
+          message: 'Hubo un problema al crear la mascota'
+        })
+      );
+    }
 
     return rejectWithValue('error');
   }
@@ -65,70 +66,50 @@ export const createPet = createAsyncThunk<
 
 export const updatePet = createAsyncThunk<
   Pet,
-  { pet: Partial<PetInput>; id: number },
+  { pet: Partial<PetInput>; id: TypeId },
   {
     rejectValue: string;
   }
 >('pet/update', async ({ id, pet }, { rejectWithValue, dispatch }) => {
   try {
-    const petFound = PETS.find((pet) => pet.id === id);
+    const { data, status } = await put<Pet>(`${endpoint}/${id}`, pet, dispatch);
 
-    if (petFound) {
-      const { data } = await Promise.resolve<AxiosResponse<Pet>>({
-        data: {
-          id: petFound.id,
-          birthdate: petFound.birthdate,
-          gender: petFound.gender,
-          images: petFound.images,
-          kind: petFound.kind,
-          name: petFound.name,
-          size: petFound.size,
-          description: petFound.description,
-          ...pet,
-          owner: petFound.owner,
-          createdAt: petFound.createdAt,
-          updatedAt: new Date().toISOString()
-        }
-      } as AxiosResponse);
-
-      dispatch(
-        setAlert({
-          severity: 'success',
-          title: 'Actualización de mascota',
-          message: 'Se actualizó con éxito la mascota'
-        })
-      );
-
-      return data;
-    } else {
-      throw new Error('Pet not found');
-    }
-  } catch (error) {
     dispatch(
       setAlert({
-        severity: 'error',
+        severity: status,
         title: 'Actualización de mascota',
-        message: 'Hubo un problema al actualizar la mascota'
+        message: 'Se actualizó con éxito la mascota'
       })
     );
+
+    return data;
+  } catch (error) {
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          title: 'Actualización de mascota',
+          message: 'Hubo un problema al actualizar la mascota'
+        })
+      );
+    }
 
     return rejectWithValue('error');
   }
 });
 
 export const removePet = createAsyncThunk<
-  { id: number; removed: boolean },
-  number,
+  Pet,
+  TypeId,
   {
     rejectValue: string;
   }
->('pet/remove', async (input, { rejectWithValue, dispatch }) => {
+>('pet/remove', async (id, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await Promise.resolve({ data: { id: input, removed: true } });
+    const { data, status } = await remove<Pet>(`${endpoint}/${id}`, dispatch);
 
     dispatch(
       setAlert({
-        severity: 'success',
+        severity: status,
         title: 'Eliminado de mascota',
         message: 'Se eliminó con éxito la mascota'
       })
@@ -136,94 +117,80 @@ export const removePet = createAsyncThunk<
 
     return data;
   } catch (error) {
-    dispatch(
-      setAlert({
-        severity: 'error',
-        title: 'Eliminado de mascota',
-        message: 'Hubo un problema al eliminar la mascota'
-      })
-    );
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          title: 'Eliminado de mascota',
+          message: 'Hubo un problema al eliminar la mascota'
+        })
+      );
+    }
 
     return rejectWithValue('error');
   }
 });
 
 export const removePetImage = createAsyncThunk<
-  {
-    image: number;
-    pet: number;
-    removed: boolean;
-  },
-  number,
+  Pet,
+  TypeId,
   {
     rejectValue: string;
   }
->('pet/removeImage', async (input, { rejectWithValue, dispatch }) => {
+>('pet/removeImage', async (id, { rejectWithValue, dispatch }) => {
   try {
-    const pet = PETS.find((pet) => pet.images.find((image) => image.id === input));
+    const { data, status } = await remove<Pet>(`${endpoint}/image/${id}`, dispatch);
 
-    if (pet) {
-      dispatch(
-        setAlert({
-          severity: 'success',
-          title: 'Eliminado de imagen de mascota',
-          message: 'Se eliminó con éxito la imagen de mascota'
-        })
-      );
-
-      return { pet: pet.id, image: input, removed: true };
-    } else {
-      throw new Error('Not Found');
-    }
-  } catch (error) {
     dispatch(
       setAlert({
-        severity: 'error',
+        severity: status,
         title: 'Eliminado de imagen de mascota',
-        message: 'Hubo un problema al eliminar la imagen de mascota'
+        message: 'Se eliminó con éxito la imagen de mascota'
       })
     );
+
+    return data;
+  } catch (error) {
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          title: 'Eliminado de imagen de mascota',
+          message: 'Hubo un problema al eliminar la imagen de mascota'
+        })
+      );
+    }
 
     return rejectWithValue('error');
   }
 });
 
 export const updateImagePet = createAsyncThunk<
-  { image: Image; petId: number },
-  { image: FormData; petId: number },
+  Pet,
+  UpdatePetImage,
   {
     rejectValue: string;
   }
->('pet/updateImage', async (payload, { rejectWithValue, dispatch }) => {
+>('pet/updateImage', async ({ image, petId }, { rejectWithValue, dispatch }) => {
   try {
-    if (PETS[0].images[0]) {
-      const { data } = await Promise.resolve({
-        data: {
-          image: { ...PETS[0].images[0] },
-          petId: payload.petId
-        }
-      });
+    const { data, status } = await post<Pet>(`${endpoint}/image/${petId}`, image, dispatch);
 
-      dispatch(
-        setAlert({
-          severity: 'success',
-          title: 'Actualización de imagen de mascota',
-          message: 'Se actualizó con éxito la imagen de mascota'
-        })
-      );
-
-      return data;
-    } else {
-      throw new Error();
-    }
-  } catch (error) {
     dispatch(
       setAlert({
-        severity: 'error',
+        severity: status,
         title: 'Actualización de imagen de mascota',
-        message: 'Hubo un problema al actualizar la imagen de mascota'
+        message: 'Se actualizó con éxito la imagen de mascota'
       })
     );
+
+    return data;
+  } catch (error) {
+    if (!(error instanceof RequestError)) {
+      dispatch(
+        setAlert({
+          title: 'Actualización de imagen de mascota',
+          message: 'Hubo un problema al actualizar la imagen de mascota'
+        })
+      );
+    }
 
     return rejectWithValue('error');
   }

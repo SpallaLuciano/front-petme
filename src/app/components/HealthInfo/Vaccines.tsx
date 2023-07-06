@@ -4,8 +4,9 @@ import AddIcon from '@mui/icons-material/Add';
 import { useAppSelector } from '../../state';
 import { VaccineForm } from './VaccineForm';
 import { Vaccine } from './Vaccine';
+import { TypeId } from '../../interfaces';
 
-export const Vaccines: FC<{ petId: number }> = ({ petId }) => {
+export const Vaccines: FC<{ petId: TypeId }> = ({ petId }) => {
   const [open, setOpen] = useState(false);
 
   const { isCurrentUser, health } = useAppSelector((state) => {
@@ -26,7 +27,7 @@ export const Vaccines: FC<{ petId: number }> = ({ petId }) => {
     </IconButton>
   );
 
-  const apliedVaccines = health.vaccines.map((apliedVaccine) => {
+  const apliedVaccines = health.vaccinations.map((apliedVaccine) => {
     return <Vaccine apliedVaccine={apliedVaccine} petId={petId} />;
   });
 

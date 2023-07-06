@@ -3,7 +3,6 @@ export {
   WeightOutput,
   DeleteVisitOutput,
   AddUpdateVisitOutput,
-  FetchHealthOutput,
   RemovedVaccineOutput
 } from './health';
 export { ChatMessageOutput, FetchChatOutput } from './chats';

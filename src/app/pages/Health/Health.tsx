@@ -84,7 +84,7 @@ export const Health: FC = () => {
         <h1>Salud de {name}</h1>
       </div>
       <div className={style.Dashboard}>
-        <HealthInfo petId={Number(petId)} />
+        <HealthInfo petId={String(petId)} />
         <div>
           <Typography variant="h5" style={{ marginBottom: '8px' }}>
             Última visita a veterinaria{' '}

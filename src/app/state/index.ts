@@ -1,6 +1,6 @@
 export { useAppDispatch, useAppSelector } from './hooks';
 export { store } from './store';
-export { signInAuth, signOut, isValidToken, loadAuth } from './auth';
+export { signInAuth, signOut, loadAuth, isValidToken } from './auth';
 export { fetchCoordinates, removeCoordinates } from './coordinates';
 export { confirmEmailSignUp, signUpSignUp } from './sign-up';
 export {
@@ -33,7 +33,7 @@ export { fetchChats, receiveMessage, sendMessage } from './chats';
 export {
   updateWeightHealth,
   addVisitHealth,
-  fetchVisitsHealth,
+  fetchVaccinesHealth,
   removeVisitHealth,
   updateVisitHealth,
   removeVaccineHealth,

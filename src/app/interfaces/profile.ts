@@ -1,20 +1,21 @@
+import { TypeId } from './id';
 import { Image } from './image';
 
 export interface Profile {
-  id: number;
+  id: TypeId;
   name: string;
   lastname: string;
   rating: number;
   comments: Comment[];
-  favs: number[];
+  favs: TypeId[];
   image: Image | null;
   birthdate?: string;
 }
 
 export interface Comment {
-  id: number;
-  from: number;
-  to: number;
+  id: TypeId;
+  author: TypeId;
+  recipient: TypeId;
   comment: string;
   datetime: string;
   rating: number;

@@ -8,7 +8,7 @@ import style from './Profile.module.scss';
 export const Profile: FC = () => {
   const { profileId } = useParams();
   const { profile, pets } = useAppSelector((state) => {
-    const profile = state.profile.profiles[Number(profileId) || 0];
+    const profile = state.profile.profiles[profileId || ''];
     const pets = Object.values(state.pet.pets).filter((pet) => pet.owner === profile.id);
 
     return {
@@ -35,10 +35,10 @@ export const Profile: FC = () => {
         <h1>{profile.fullname}</h1>
         <div>
           <h2>Calificación</h2>
-          <Rating profileId={Number(profileId)} />
+          <Rating profileId={String(profileId)} />
         </div>
         <div>
-          <Comments profileId={Number(profileId)} />
+          <Comments profileId={String(profileId)} />
         </div>
       </div>
       <div>

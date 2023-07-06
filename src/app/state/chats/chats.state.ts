@@ -1,5 +1,5 @@
-import { Chat, GeneralState } from '../../interfaces';
+import { Chat, GeneralState, TypeId } from '../../interfaces';
 
 export interface ChatsState extends GeneralState {
-  chats: { [key: string]: Chat };
+  chats: { [key: TypeId]: Chat };
 }
