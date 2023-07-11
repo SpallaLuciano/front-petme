@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { PetKind } from '../../enums';
-import { removeFilterKind, updateKindFilter, useAppDispatch, useAppSelector } from '../../state';
+import { useAppDispatch, useAppSelector } from '../../state';
 import { CheckBox } from './CheckBox';
+import { removeFilterKind, updateKindFilter } from '../../state/pet/pet.slice';
 
 export const KindFilter: FC = () => {
   const dispatch = useAppDispatch();

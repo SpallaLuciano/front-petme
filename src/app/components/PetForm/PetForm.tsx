@@ -15,10 +15,11 @@ import { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { PetGender, PetKind, PetSize } from '../../enums';
 import { PetInput } from '../../inputs';
-import { createPet, updatePet, useAppDispatch, useAppSelector } from '../../state';
+import { useAppDispatch, useAppSelector } from '../../state';
 import { petUpdateValidationSchema } from '../../validation-schema';
 import style from './PetForm.module.scss';
 import { TypeId } from '../../interfaces';
+import { createPet, updatePet } from '../../state/pet/pet.action-creators';
 
 interface Props {
   id?: TypeId;

@@ -2,9 +2,10 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { Chat, Message } from '../../interfaces';
 import { FetchChatOutput } from '../../outputs';
-import { get, socket } from '../../utils';
+// import { socket } from '../../utils';
 import { RootState } from '../store';
 import { SendMessageInput } from '../../inputs';
+import { get } from '../../utils';
 
 const endpoint = 'chats';
 
@@ -57,7 +58,7 @@ export const sendMessage = createAsyncThunk<
   }
 >('chats/sendMessage', async (message, { rejectWithValue }) => {
   try {
-    socket.emit('new-message', message);
+    // socket.emit('new-message', message);
 
     return true;
   } catch (error) {
@@ -78,9 +79,10 @@ export const receiveMessage = createAsyncThunk<
     if (!currentUser) throw new Error('error');
 
     return new Promise<Message>((resolve) => {
-      socket.on('message', (message: Message) => {
-        resolve(message);
-      });
+      // socket.on('message', (message: Message) => {
+      //   resolve(message);
+      // });
+      resolve(true as unknown as Message);
     });
   } catch (error) {
     return rejectWithValue('error');

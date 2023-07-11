@@ -13,9 +13,10 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { FC, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { CreateVaccinationInput } from '../../inputs';
-import { updateVaccineHealth, useAppDispatch, useAppSelector } from '../../state';
+import { useAppDispatch, useAppSelector } from '../../state';
 import { vaccinesValidationSchema } from '../../validation-schema/health';
 import { TypeId } from '../../interfaces';
+import { addVaccineHealth, updateVaccineHealth } from '../../state/health/health.action-creators';
 
 export const VaccineForm: FC<{ petId: TypeId; onClose: () => void; vaccinationId?: TypeId }> = ({
   petId,
@@ -32,7 +33,7 @@ export const VaccineForm: FC<{ petId: TypeId; onClose: () => void; vaccinationId
   });
   const apliedVaccine = health.vaccinations.find((vac) => vac.id === vaccinationId);
 
-  const [vaccine, setVaccine] = useState<undefined | TypeId>(apliedVaccine?.id);
+  const [vaccine, setVaccine] = useState<undefined | TypeId>(apliedVaccine?.vaccine.id);
   const [errorVaccine, setErrorVaccine] = useState<boolean>(false);
 
   const onClick = () => {
@@ -56,20 +57,21 @@ export const VaccineForm: FC<{ petId: TypeId; onClose: () => void; vaccinationId
     defaultValues: {
       healthId: health.id,
       vaccineId: vaccine,
-      date: apliedVaccine?.applicationDate || null
+      applicationDate: apliedVaccine?.applicationDate || null
     }
   });
 
   const itemsVaccines = vaccines.map(({ id, name, petKind }) => {
-    if (
-      petKind !== currentPetKind ||
-      health.vaccinations.find((vac) => vac.vaccine.id === id && vac.id !== vaccinationId)
-    ) {
+    if (petKind !== currentPetKind) {
       return undefined;
     }
 
+    const applied = !!health.vaccinations.find((vac) => {
+      return vac.vaccine.id === id && vac.id !== vaccinationId;
+    });
+
     return (
-      <MenuItem key={id} value={id}>
+      <MenuItem key={id} value={id} disabled={applied}>
         {name}
       </MenuItem>
     );
@@ -78,7 +80,20 @@ export const VaccineForm: FC<{ petId: TypeId; onClose: () => void; vaccinationId
   const onSubmit = (input: CreateVaccinationInput) => {
     if (vaccinationId) {
       dispatch(
-        updateVaccineHealth({ vaccinationId, date: input.date, vaccineId: input.vaccineId })
+        updateVaccineHealth({
+          vaccinationId,
+          applicationDate: input.applicationDate,
+          vaccineId: vaccine
+        })
+      );
+      onClose();
+    } else if (vaccine) {
+      dispatch(
+        addVaccineHealth({
+          healthId: health.id,
+          vaccineId: vaccine,
+          applicationDate: input.applicationDate
+        })
       );
       onClose();
     }
@@ -94,8 +109,10 @@ export const VaccineForm: FC<{ petId: TypeId; onClose: () => void; vaccinationId
         <Select
           labelId="vaccine"
           defaultValue={vaccine}
-          disabled={!!apliedVaccine?.vaccine.id}
-          onChange={(e) => setVaccine(e.target.value)}
+          value={vaccine}
+          onChange={(e) => {
+            setVaccine(e.target.value);
+          }}
         >
           {itemsVaccines}
         </Select>
@@ -104,7 +121,7 @@ export const VaccineForm: FC<{ petId: TypeId; onClose: () => void; vaccinationId
         <FormHelperText sx={{ color: '#d32f2f' }}>Seleccione una vacuna</FormHelperText>
       ) : undefined}
       <Controller
-        name="date"
+        name="applicationDate"
         control={control}
         render={({ field: { onChange, value } }) => {
           return (
@@ -119,8 +136,8 @@ export const VaccineForm: FC<{ petId: TypeId; onClose: () => void; vaccinationId
                   <TextField
                     {...params}
                     fullWidth
-                    error={Boolean(errors.date)}
-                    helperText={errors.date && errors.date.message}
+                    error={Boolean(errors.applicationDate)}
+                    helperText={errors.applicationDate && errors.applicationDate.message}
                   />
                 )}
               />

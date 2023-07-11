@@ -3,17 +3,15 @@ import { useForm } from 'react-hook-form';
 import { Button, TextField } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Credentials } from '../../interfaces';
-import {
-  useAppDispatch,
-  signInAuth,
-  fetchPet,
-  fetchProfiles,
-  fetchChats,
-  receiveMessage
-} from '../../state';
+import { useAppDispatch } from '../../state';
 import style from './SignInForm.module.scss';
 import { signInValidationSchema } from '../../validation-schema';
 import { useNavigate } from 'react-router-dom';
+import { signInAuth } from '../../state/auth/auth.action-creators';
+import { fetchProfiles } from '../../state/profile/profile.action-creators';
+import { fetchPet } from '../../state/pet/pet.action-creators';
+import { fetchChats, receiveMessage } from '../../state/chats/chats.action-creators';
+import { fetchVaccinesHealth } from '../../state/health/health.action-creators';
 
 export const SignInForm: FC = () => {
   const dispatch = useAppDispatch();
@@ -32,8 +30,10 @@ export const SignInForm: FC = () => {
       if (typeof payload === 'object' && payload.user) {
         dispatch(fetchProfiles());
         dispatch(fetchPet());
+        dispatch(fetchVaccinesHealth());
         dispatch(fetchChats());
         dispatch(receiveMessage());
+        navigate('/home');
       }
     });
   };

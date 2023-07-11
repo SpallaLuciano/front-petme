@@ -18,7 +18,7 @@ export const DetailHeader: FC<Props> = ({ petId }) => {
   const dispatch = useAppDispatch();
   const { petName, profile, isCurrentUser } = useAppSelector((state) => {
     const pet = state.pet.pets[petId];
-    const profile = state.profile.profiles[pet.owner];
+    const profile = state.profile.profiles[pet.owner.id];
 
     return {
       petName: pet.name || '',

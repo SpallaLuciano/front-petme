@@ -13,13 +13,13 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { FC, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { visitProps, VisitTypes } from '../../../enums';
 import { AddVisitInput } from '../../../inputs';
 import { TypeId, Visit } from '../../../interfaces';
-import { useAppDispatch, addVisitHealth, updateVisitHealth } from '../../../state';
+import { useAppDispatch, useAppSelector } from '../../../state';
 import { visitValidationSchema } from '../../../validation-schema';
 import { VisitSchema } from '../../../validation-schema/health';
 import style from './VisitForm.module.scss';
+import { addVisitHealth, updateVisitHealth } from '../../../state/health/health.action-creators';
 
 export const VisitForm: FC<{ visit?: Visit; onClose: () => void; petId?: TypeId }> = ({
   visit,
@@ -28,8 +28,9 @@ export const VisitForm: FC<{ visit?: Visit; onClose: () => void; petId?: TypeId 
 }) => {
   const dispatch = useAppDispatch();
 
-  const [type, setType] = useState<string | null>(visit?.type || null);
+  const [type, setType] = useState<string | null>(visit?.type.name || null);
   const [errorType, setErrorType] = useState<boolean>(false);
+  const visitTypes = useAppSelector((state) => state.health.visitTypes);
 
   const {
     register,
@@ -39,7 +40,7 @@ export const VisitForm: FC<{ visit?: Visit; onClose: () => void; petId?: TypeId 
   } = useForm<VisitSchema>({
     resolver: yupResolver(visitValidationSchema),
     defaultValues: {
-      datetime: visit?.datetime || null,
+      date: visit?.date.toISOString() || null,
       address: visit?.address,
       description: visit?.description,
       place: visit?.place
@@ -52,15 +53,15 @@ export const VisitForm: FC<{ visit?: Visit; onClose: () => void; petId?: TypeId 
     }
   };
 
-  const submitVisit = ({ datetime, ...input }: VisitSchema) => {
-    if (datetime && type) {
+  const submitVisit = ({ date, ...input }: VisitSchema) => {
+    if (date && type) {
       if (petId) {
         const addVisit: AddVisitInput = {
           petId,
           visit: {
             ...input,
-            datetime,
-            type
+            date,
+            visitType: type
           }
         };
 
@@ -70,8 +71,8 @@ export const VisitForm: FC<{ visit?: Visit; onClose: () => void; petId?: TypeId 
           updateVisitHealth({
             visitId: visit.id,
             visitInput: {
-              datetime,
-              type,
+              date,
+              visitType: type,
               ...input
             }
           })
@@ -82,11 +83,13 @@ export const VisitForm: FC<{ visit?: Visit; onClose: () => void; petId?: TypeId 
     onClose();
   };
 
-  const items = Object.values(VisitTypes).map((value) => (
-    <MenuItem key={value} value={value}>
-      {visitProps[value].label}
+  const items = Object.values(visitTypes).map((value) => (
+    <MenuItem key={value.name} value={value.name}>
+      {value.label}
     </MenuItem>
   ));
+
+  console.log(items);
 
   return (
     <form className={style.Form} onSubmit={handleSubmit(submitVisit)}>
@@ -139,7 +142,7 @@ export const VisitForm: FC<{ visit?: Visit; onClose: () => void; petId?: TypeId 
         helperText={errors.address && errors.address.message}
       />
       <Controller
-        name="datetime"
+        name="date"
         control={control}
         render={({ field: { onChange, value } }) => {
           return (
@@ -153,8 +156,8 @@ export const VisitForm: FC<{ visit?: Visit; onClose: () => void; petId?: TypeId 
                   <TextField
                     {...params}
                     fullWidth
-                    error={Boolean(errors.datetime)}
-                    helperText={errors.datetime && errors.datetime.message}
+                    error={Boolean(errors.date)}
+                    helperText={errors.date && errors.date.message}
                   />
                 )}
               />

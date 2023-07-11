@@ -11,7 +11,7 @@ export const Vaccines: FC<{ petId: TypeId }> = ({ petId }) => {
 
   const { isCurrentUser, health } = useAppSelector((state) => {
     const pet = state.pet.pets[petId];
-    const isCurrentUser = pet.owner === state.auth.auth.user;
+    const isCurrentUser = pet.owner.id === state.profile.profile?.id;
     const health = state.health.health[petId];
 
     return { isCurrentUser, health };

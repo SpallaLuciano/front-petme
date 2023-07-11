@@ -1,8 +1,9 @@
 import { Slider } from '@mui/material';
 import { differenceInYears } from 'date-fns';
 import { FC } from 'react';
-import { useAppDispatch, useAppSelector, updateAgeBetweenFilter } from '../../state';
+import { useAppDispatch, useAppSelector } from '../../state';
 import style from './Filters.module.scss';
+import { updateAgeBetweenFilter } from '../../state/pet/pet.slice';
 
 const ageValueText = (value: number) => {
   if (value === 1) {

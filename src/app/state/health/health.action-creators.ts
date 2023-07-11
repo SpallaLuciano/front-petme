@@ -8,18 +8,20 @@ import {
   WeightInput
 } from '../../inputs';
 import { setAlert } from '../alert';
-import { RequestError, get, post, put, remove } from '../../utils';
-import { Health, TypeId, Vaccination, Vaccine, ResponseStatus } from '../../interfaces';
+import { Health, TypeId } from '../../interfaces';
+import { get, post, put, remove, RequestError } from '../../utils';
+import { ResponseStatus } from '../../utils/response';
+import { FetchVisitTypesAndVaccines } from '../../outputs';
 
 export const fetchVaccinesHealth = createAsyncThunk<
-  Vaccine[],
+  FetchVisitTypesAndVaccines,
   void,
   {
     rejectValue: string;
   }
 >('health/fetchVaccines', async (_, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await get<Vaccine[]>('vaccines', dispatch);
+    const { data } = await get<FetchVisitTypesAndVaccines>('vaccines', dispatch);
 
     return data;
   } catch (error) {
@@ -77,7 +79,7 @@ export const removeVisitHealth = createAsyncThunk<
   }
 >('health/removeVisit', async (visitId, { rejectWithValue, dispatch }) => {
   try {
-    const { data, status } = await remove<Health>(`visit/${visitId}`, dispatch);
+    const { data, status } = await remove<Health>(`visits/${visitId}`, dispatch);
 
     dispatch(
       setAlert({
@@ -110,7 +112,8 @@ export const addVisitHealth = createAsyncThunk<
   }
 >('health/addVisit', async ({ visit, petId }, { rejectWithValue, dispatch }) => {
   try {
-    const { data, status } = await post<Health>(`visit/${petId}`, visit, dispatch);
+    visit.date = new Date(visit.date).toISOString();
+    const { data, status } = await post<Health>(`visits/${petId}`, visit, dispatch);
 
     dispatch(
       setAlert({
@@ -169,14 +172,32 @@ export const updateWeightHealth = createAsyncThunk<
 });
 
 export const addVaccineHealth = createAsyncThunk<
-  Vaccination,
+  Health,
   CreateVaccinationInput,
   {
     rejectValue: string;
   }
 >('health/addVaccine', async (input, { rejectWithValue, dispatch }) => {
   try {
-    const { data, status } = await post<Vaccination>('vaccination', input, dispatch);
+    if (!input.applicationDate) {
+      dispatch(
+        setAlert({
+          severity: ResponseStatus.WARNING,
+          title: 'Registrar vacunación',
+          message: 'Ingrese una fecha'
+        })
+      );
+      return rejectWithValue('error');
+    }
+
+    const { data, status } = await post<Health>(
+      'vaccination',
+      {
+        ...input,
+        applicationDate: new Date(input.applicationDate).toISOString()
+      },
+      dispatch
+    );
 
     dispatch(
       setAlert({
@@ -202,16 +223,16 @@ export const addVaccineHealth = createAsyncThunk<
 });
 
 export const updateVaccineHealth = createAsyncThunk<
-  Vaccination,
+  Health,
   UpdateVaccineInput,
   {
     rejectValue: string;
   }
 >('health/updateVaccine', async (input, { rejectWithValue, dispatch }) => {
   try {
-    const { data, status } = await put<Vaccination>(
+    const { data, status } = await put<Health>(
       `vaccination/${input.vaccinationId}`,
-      { vaccineId: input.vaccineId, datetime: input.date },
+      { vaccineId: input.vaccineId, applicationDate: input.applicationDate },
       dispatch
     );
 
@@ -239,14 +260,14 @@ export const updateVaccineHealth = createAsyncThunk<
 });
 
 export const removeVaccineHealth = createAsyncThunk<
-  Vaccination,
+  Health,
   RemovedVaccineInput,
   {
     rejectValue: string;
   }
 >('health/removeVaccine', async ({ vaccinationId }, { rejectWithValue, dispatch }) => {
   try {
-    const { data, status } = await remove<Vaccination>(`vaccines/${vaccinationId}`, dispatch);
+    const { data, status } = await remove<Health>(`vaccination/${vaccinationId}`, dispatch);
 
     dispatch(
       setAlert({

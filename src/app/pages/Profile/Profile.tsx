@@ -9,7 +9,7 @@ export const Profile: FC = () => {
   const { profileId } = useParams();
   const { profile, pets } = useAppSelector((state) => {
     const profile = state.profile.profiles[profileId || ''];
-    const pets = Object.values(state.pet.pets).filter((pet) => pet.owner === profile.id);
+    const pets = Object.values(state.pet.pets).filter((pet) => pet.owner.id === profile.id);
 
     return {
       profile: {

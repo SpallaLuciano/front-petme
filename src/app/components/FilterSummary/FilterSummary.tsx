@@ -1,15 +1,14 @@
 import { Chip } from '@mui/material';
 import { FC } from 'react';
 import { PetGender, PetKind, PetSize } from '../../enums';
+import { useAppDispatch, useAppSelector } from '../../state';
+import style from './FilterSummary.module.scss';
 import {
   removeFilterGender,
   removeFilterKind,
   removeFilterSize,
-  resetFilterAgeBetween,
-  useAppDispatch,
-  useAppSelector
-} from '../../state';
-import style from './FilterSummary.module.scss';
+  resetFilterAgeBetween
+} from '../../state/pet/pet.slice';
 
 export const FilterSummary: FC = () => {
   const filters = useAppSelector((state) => state.pet.filters);

@@ -18,7 +18,7 @@ export const visitValidationSchema = yup.object({
     .string()
     .required('Descripción es requerida')
     .min(2, 'Debe contenter al menos dos letras'),
-  datetime: yup
+  date: yup
     .string()
     .nullable()
     .required('La fecha de visita es requerida')
@@ -32,7 +32,7 @@ export const visitValidationSchema = yup.object({
 
 export interface VisitSchema {
   description: string;
-  datetime: string | null;
+  date: string | null;
   place: string;
   address: string;
 }
@@ -42,7 +42,7 @@ export const generalHealthValidationSchema = yup.object({
 });
 
 export const vaccinesValidationSchema = yup.object({
-  date: yup
+  applicationDate: yup
     .string()
     .nullable()
     .required('La fecha de visita es requerida')

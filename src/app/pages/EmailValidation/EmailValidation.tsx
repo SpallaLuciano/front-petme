@@ -2,8 +2,8 @@ import { Button } from '@mui/material';
 import { FC } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from '../../state';
-import { confirmEmailSignUp } from '../../state/sign-up';
 import style from './EmailValidation.module.scss';
+import { confirmEmailSignUp } from '../../state/sign-up/sign-up.action-creators';
 
 export const EmailValidation: FC = () => {
   const dispatch = useAppDispatch();

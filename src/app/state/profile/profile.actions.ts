@@ -37,9 +37,7 @@ export const fetchProfilesFulfilled = (
   payload.forEach((profile) => {
     state.profiles[profile.id] = profile;
   });
-  if (state.user) {
-    state.profile = state.profiles[state.user];
-  }
+
   state.status = GeneralStatus.SUCCESS;
 };
 

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
 import { Alert } from '../../interfaces';
 import { AlertState } from './alert.state';
-import { ResponseStatus } from '../../interfaces/response';
+import { ResponseStatus } from '../../utils/response';
 
 const initialState: AlertState = {
   alert: {

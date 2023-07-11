@@ -3,7 +3,8 @@ export {
   WeightOutput,
   DeleteVisitOutput,
   AddUpdateVisitOutput,
-  RemovedVaccineOutput
+  RemovedVaccineOutput,
+  FetchVisitTypesAndVaccines
 } from './health';
 export { ChatMessageOutput, FetchChatOutput } from './chats';
 export { LikeOutput, RemoveProfileCommentOutput } from './profile';

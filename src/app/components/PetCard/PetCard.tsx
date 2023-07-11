@@ -12,12 +12,13 @@ import {
 import {} from '../../utils/pet.utils';
 import CancelIcon from '@mui/icons-material/Cancel';
 import InfoIcon from '@mui/icons-material/Info';
-import { removePet, useAppDispatch, useAppSelector } from '../../state';
+import { useAppDispatch, useAppSelector } from '../../state';
 import { PetEditButton } from '../PetEditButton';
 import { useNavigate } from 'react-router-dom';
 import { ConfirmationDialog } from '../ConfirmationDialog/ConfirmationDialog';
 import { likeProfile } from '../../state/profile/profile.action-creators';
 import { TypeId } from '../../interfaces';
+import { removePet } from '../../state/pet/pet.action-creators';
 
 interface Props {
   id: TypeId;
@@ -26,7 +27,7 @@ interface Props {
 export const PetCard: FC<Props> = ({ id }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { pet, age, distance, favorite, gender, sizeKind, user } = useAppSelector((state) => {
+  const { pet, age, distance, favorite, gender, sizeKind, profile } = useAppSelector((state) => {
     let distance: number | null = null;
     const pet = state.pet.pets[id];
 
@@ -42,14 +43,14 @@ export const PetCard: FC<Props> = ({ id }) => {
       age: getAge(pet.birthdate),
       sizeKind: getSizeKind(pet.kind, pet.size),
       distance: distance,
-      user: state.auth.auth.user
+      profile: state.profile.profile?.id
     };
   });
   const [open, setOpen] = useState(false);
   const dialogTitle = 'Eliminar Mascota';
   const dialogDescription = '¿Está seguro que desea eliminar esta mascota?\n' + pet.name;
 
-  const edit = user === pet.owner;
+  const edit = profile === pet.owner.id;
 
   const navigateDetail = () => navigate(`/pets/${id}`);
 
@@ -87,12 +88,11 @@ export const PetCard: FC<Props> = ({ id }) => {
     </IconButton>
   );
 
-  const cardMedia =
-    pet.images[0] && pet.images[0].url ? (
-      <CardMedia component="img" height="300" image={pet.images[0].url} alt={pet.name} />
-    ) : (
-      <div className={style.NoImage}>Sin imagen</div>
-    );
+  const cardMedia = pet.images[0]?.url ? (
+    <CardMedia component="img" height="300" image={pet.images[0].url} alt={pet.name} />
+  ) : (
+    <div className={style.NoImage}>Sin imagen</div>
+  );
 
   return (
     <Card className={style.PetCard}>

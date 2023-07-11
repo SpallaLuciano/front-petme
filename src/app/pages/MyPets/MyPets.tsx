@@ -5,16 +5,16 @@ import { useAppSelector } from '../../state';
 import style from './MyPets.module.scss';
 
 export const MyPets: FC = () => {
-  const { pets, user } = useAppSelector((state) => {
+  const { pets, owner } = useAppSelector((state) => {
     return {
       pets: state.pet.pets,
       petsStatus: state.pet.status,
-      user: state.profile.user
+      owner: state.profile.profile?.id
     };
   });
 
   const profilePets = Object.values(pets)
-    .filter((pet) => pet.owner === user)
+    .filter((pet) => pet.owner.id === owner)
     .map((pet) => {
       if (pet) {
         return (

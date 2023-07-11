@@ -1,42 +1,82 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Registration, Confirmation, SignUpInput } from '../../inputs';
-import { AxiosResponse } from 'axios';
+import { SignUpInput } from '../../inputs';
+import { get, post } from '../../utils';
+import { setAlert } from '../alert';
 
 export const signUpSignUp = createAsyncThunk<
-  Registration,
+  boolean,
   SignUpInput,
   {
     rejectValue: string;
   }
->('signUp/signUp', async (_, { rejectWithValue }) => {
-  try {
-    const { data } = await Promise.resolve<AxiosResponse<Registration>>({
-      data: {
-        isSignedUp: true,
-        error: null
-      }
-    } as AxiosResponse<Registration>);
+>(
+  'signUp/signUp',
+  async ({ birthdate, email, lastname, name, password }, { rejectWithValue, dispatch }) => {
+    try {
+      if (!birthdate) {
+        dispatch(
+          setAlert({
+            title: 'Registro fallido',
+            message: 'Fecha de nacimiento es requerida'
+          })
+        );
 
-    return data;
-  } catch (error) {
-    return rejectWithValue('error');
+        return rejectWithValue('error');
+      }
+      const { data, status } = await post<boolean>(
+        'users',
+        {
+          email,
+          password,
+          profile: {
+            name,
+            lastname,
+            birthdate: new Date(birthdate).toISOString()
+          }
+        },
+        dispatch
+      );
+
+      dispatch(
+        setAlert({
+          title: 'Registro exitoso',
+          message: 'El usuario se registro con exito',
+          severity: status
+        })
+      );
+
+      return data;
+    } catch (error) {
+      console.log(error);
+      dispatch(
+        setAlert({
+          title: 'Registro fallido',
+          message: 'Hubo un problema al registrar al usuario'
+        })
+      );
+
+      return rejectWithValue('error');
+    }
   }
-});
+);
 
 export const confirmEmailSignUp = createAsyncThunk<
-  Confirmation,
+  boolean,
   string,
   {
     rejectValue: string;
   }
->('signUp/confirmEmail', async (_, { rejectWithValue }) => {
+>('signUp/confirmEmail', async (token, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await Promise.resolve<AxiosResponse<Confirmation>>({
-      data: {
-        isConfirmed: true,
-        error: null
-      }
-    } as AxiosResponse<Confirmation>);
+    const { data, status } = await get<boolean>(`auth/verify-email/${token}`, dispatch);
+
+    dispatch(
+      setAlert({
+        title: 'Confirmacion exitosa',
+        message: 'El email se confirmo con exito',
+        severity: status
+      })
+    );
 
     return data;
   } catch (error) {

@@ -8,7 +8,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { sub } from 'date-fns/esm';
 import { useAppDispatch, useAppSelector } from '../../state';
-import { signUpSignUp } from '../../state/sign-up';
+import { signUpSignUp } from '../../state/sign-up/sign-up.action-creators';
 import style from './SignUpForm.module.scss';
 import { SignUpInput } from '../../inputs';
 

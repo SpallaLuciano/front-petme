@@ -1,22 +1,24 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
 import { HealthState } from './health.state';
-import { Health, Pet, TypeId, Vaccination, Vaccine } from '../../interfaces';
+import { Health, Pet, TypeId, Vaccination } from '../../interfaces';
+import { FetchVisitTypesAndVaccines } from '../../outputs';
 
 export const actionAddHealthFulfilled = (
   state: HealthState,
   { payload }: PayloadAction<Health>
 ) => {
-  state.health[payload.petId] = payload;
+  state.health[payload.pet] = payload;
 
   state.status = GeneralStatus.SUCCESS;
 };
 
 export const actionFetchVisitsVaccinesFulfilled = (
   state: HealthState,
-  { payload }: PayloadAction<Vaccine[]>
+  { payload: { vaccines, visitTypes } }: PayloadAction<FetchVisitTypesAndVaccines>
 ) => {
-  state.vaccines = payload;
+  state.vaccines = vaccines;
+  state.visitTypes = visitTypes;
 
   state.status = GeneralStatus.SUCCESS;
 };

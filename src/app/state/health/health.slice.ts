@@ -14,18 +14,16 @@ import {
 import {
   actionAddHealthFulfilled,
   actionFetchPetsFulfilled,
-  actionFetchVisitsVaccinesFulfilled,
-  actionAddVaccinationFulfilled,
-  actionRemoveVaccinationFulfilled,
-  actionUpdateVaccinationFulfilled
+  actionFetchVisitsVaccinesFulfilled
 } from './health.actions';
 import { HealthState } from './health.state';
-import { fetchPet } from '../pet';
+import { fetchPet } from '../pet/pet.action-creators';
 
 const initialState: HealthState = {
   status: GeneralStatus.IDLE,
   health: {},
   vaccines: [],
+  visitTypes: [],
   error: null
 };
 
@@ -41,9 +39,9 @@ export const signUpSlice = createSlice({
       .addCase(addVisitHealth.fulfilled, actionAddHealthFulfilled)
       .addCase(removeVisitHealth.fulfilled, actionAddHealthFulfilled)
       .addCase(updateWeightHealth.fulfilled, actionAddHealthFulfilled)
-      .addCase(addVaccineHealth.fulfilled, actionAddVaccinationFulfilled)
-      .addCase(updateVaccineHealth.fulfilled, actionUpdateVaccinationFulfilled)
-      .addCase(removeVaccineHealth.fulfilled, actionRemoveVaccinationFulfilled)
+      .addCase(addVaccineHealth.fulfilled, actionAddHealthFulfilled)
+      .addCase(updateVaccineHealth.fulfilled, actionAddHealthFulfilled)
+      .addCase(removeVaccineHealth.fulfilled, actionAddHealthFulfilled)
       .addMatcher(
         isAnyOf(
           updateVisitHealth.pending,

@@ -1,6 +1,10 @@
 import { Menu, MenuItem } from '@mui/material';
 import { ChangeEvent, FC } from 'react';
-import { updateImageProfile, useAppDispatch, removeImageProfile } from '../../state';
+import { useAppDispatch } from '../../state';
+import {
+  removeImageProfile,
+  updateImageProfile
+} from '../../state/profile/profile.action-creators';
 
 interface Props {
   anchorEl: null | HTMLElement;

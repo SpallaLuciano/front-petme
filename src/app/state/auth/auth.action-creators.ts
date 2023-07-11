@@ -1,11 +1,12 @@
-import { createAsyncThunk } from '@reduxjs/toolkit'; // no
-import { Credentials, ResponseStatus, User } from '../../interfaces'; // no
-import { RecoverPasswordInput } from '../../inputs'; // no
-import { setAlert } from '../alert'; // no
-import { SignIn } from '../../outputs'; // no
-import { RequestError, get, post } from '../../utils'; // no
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { Credentials, User } from '../../interfaces';
+import { RecoverPasswordInput } from '../../inputs';
+import { setAlert } from '../alert';
+import { SignIn } from '../../outputs';
+import { get, handleError, post, RequestError } from '../../utils';
+import { ResponseStatus } from '../../utils/response';
 
-const endpoint = `/auth`;
+const endpoint = `auth`;
 
 export const signInAuth = createAsyncThunk<
   SignIn,
@@ -29,10 +30,10 @@ export const signInAuth = createAsyncThunk<
 
     return data;
   } catch (error) {
+    handleError(error);
     if (!(error instanceof RequestError)) {
       dispatch(
         setAlert({
-          severity: ResponseStatus.ERROR,
           title: 'Error al iniciar sesión',
           message: 'Hubo un problema al iniciar sesión'
         })
@@ -65,7 +66,6 @@ export const recoverPassword = createAsyncThunk<
     if (!(error instanceof RequestError)) {
       dispatch(
         setAlert({
-          severity: ResponseStatus.ERROR,
           title: 'Error al iniciar sesión',
           message: 'Hubo un problema al iniciar sesión'
         })
@@ -124,7 +124,6 @@ export const signOut = createAsyncThunk<
   } catch (error) {
     dispatch(
       setAlert({
-        severity: ResponseStatus.ERROR,
         title: 'Error al cerrar sesión',
         message: 'Hubo un problema al cerrar la sesión'
       })

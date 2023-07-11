@@ -5,5 +5,5 @@ export interface Vaccination {
   id: TypeId;
   vaccine: Vaccine;
   healthId: TypeId;
-  applicationDate: Date;
+  applicationDate: string;
 }

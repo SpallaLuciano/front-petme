@@ -16,7 +16,7 @@ import { es } from 'date-fns/locale';
 import { FC, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Carousel, ConfirmationDialog, DetailHeader, ImagePetForm } from '../../components';
-import { removePetImage, useAppDispatch, useAppSelector, updateImagePet } from '../../state';
+import { useAppDispatch, useAppSelector } from '../../state';
 import { getAge, getGenderIcon } from '../../utils';
 import CakeIcon from '@mui/icons-material/Cake';
 import PetsIcon from '@mui/icons-material/Pets';
@@ -28,6 +28,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { Image, TypeId } from '../../interfaces';
 import style from './PetDetail.module.scss';
 import { Requirements } from '../../components/Requirement/Requirements';
+import { removePetImage, updateImagePet } from '../../state/pet/pet.action-creators';
 
 export const PetDetail: FC = () => {
   const { petId } = useParams();
@@ -40,7 +41,7 @@ export const PetDetail: FC = () => {
     if (petId) {
       const pet = state.pet.pets[petId];
       if (pet) {
-        return { pet, edit: state.profile.user === pet.owner };
+        return { pet, edit: state.profile.profile?.id === pet.owner.id };
       }
     }
     return {};

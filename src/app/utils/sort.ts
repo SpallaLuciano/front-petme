@@ -22,8 +22,5 @@ export const sortByOldest = (a: string, b: string) => {
 };
 
 export const sortVisitsByDate = (a: Visit, b: Visit) => {
-  const aDate = new Date(a.datetime);
-  const bDate = new Date(b.datetime);
-
-  return compareDesc(aDate, bDate);
+  return compareDesc(a.date, b.date);
 };

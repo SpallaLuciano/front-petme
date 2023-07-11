@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { PetSize } from '../../enums';
-import { removeFilterSize, updateSizeFilter, useAppDispatch, useAppSelector } from '../../state';
+import { useAppDispatch, useAppSelector } from '../../state';
 import { CheckBox } from './CheckBox';
+import { removeFilterSize, updateSizeFilter } from '../../state/pet/pet.slice';
 
 export const SizeFilter: FC = () => {
   const dispatch = useAppDispatch();

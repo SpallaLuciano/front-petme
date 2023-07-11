@@ -8,7 +8,7 @@ import {
   RemoveProfileCommentInput
 } from '../../inputs';
 import { LikeOutput } from '../../outputs';
-import { RequestError, get, post, put, remove } from '../../utils';
+import { get, post, put, remove, RequestError } from '../../utils';
 
 const endpoint = 'profiles';
 
@@ -78,7 +78,10 @@ export const updateProfile = createAsyncThunk<
   }
 >('profile/update', async (input, { rejectWithValue, dispatch }) => {
   try {
-    const { data, status } = await put<Profile>(`${endpoint}/${input.id}`, input, dispatch);
+    if (input.birthdate) {
+      input.birthdate = new Date(input.birthdate).toISOString();
+    }
+    const { data, status } = await put<Profile>(endpoint, input, dispatch);
 
     dispatch(
       setAlert({

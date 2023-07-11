@@ -1,8 +1,9 @@
 import { IconButton, OutlinedInput } from '@mui/material';
 import { FC, useState } from 'react';
 import SendIcon from '@mui/icons-material/Send';
-import { sendMessage, useAppDispatch } from '../../state';
+import { useAppDispatch } from '../../state';
 import { TypeId } from '../../interfaces';
+import { sendMessage } from '../../state/chats/chats.action-creators';
 
 export const ChatInput: FC<{ userId: TypeId }> = ({ userId }) => {
   const dispatch = useAppDispatch();

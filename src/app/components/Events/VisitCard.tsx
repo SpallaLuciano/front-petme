@@ -10,13 +10,13 @@ import {
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Visit } from '../../interfaces';
-import { visitProps } from '../../enums';
-import { removeVisitHealth, useAppDispatch } from '../../state';
+import { useAppDispatch } from '../../state';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import style from './Events.module.scss';
 import { VisitForm } from './VisitForm/VisitForm';
 import { useState } from 'react';
+import { removeVisitHealth } from '../../state/health/health.action-creators';
 
 export const VisitCard: React.FC<{ visit: Visit; isOwner: boolean }> = ({ visit, isOwner }) => {
   const dispatch = useAppDispatch();
@@ -26,8 +26,8 @@ export const VisitCard: React.FC<{ visit: Visit; isOwner: boolean }> = ({ visit,
     setOpen(false);
   };
 
-  const { datetime, description, type, place, address } = visit;
-  const date = format(new Date(datetime), 'PPP', { locale: es });
+  const { date: visitDate, description, type, place, address } = visit;
+  const date = format(new Date(visitDate), 'PPP', { locale: es });
 
   const removeVisit = () => {
     dispatch(removeVisitHealth(visit.id));
@@ -35,10 +35,10 @@ export const VisitCard: React.FC<{ visit: Visit; isOwner: boolean }> = ({ visit,
 
   return (
     <div className={style.CardContainer}>
-      <Card sx={{ backgroundColor: visitProps[type].color }}>
+      <Card sx={{ backgroundColor: type.color }}>
         <CardContent>
           <div className={style.Right}>
-            <Typography variant="subtitle1">{visitProps[type].label}</Typography>
+            <Typography variant="subtitle1">{type.label}</Typography>
             <Typography variant="body1">{date}</Typography>
           </div>
           <Typography variant="subtitle2">

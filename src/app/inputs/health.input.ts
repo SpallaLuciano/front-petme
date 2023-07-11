@@ -6,9 +6,9 @@ export interface AddVisitInput {
 }
 
 export interface VisitInput {
-  datetime: string;
+  date: string;
   description: string;
-  type: string;
+  visitType: string;
   place: string;
   address: string;
 }
@@ -21,13 +21,13 @@ export interface WeightInput {
 export interface UpdateVaccineInput {
   vaccinationId: TypeId;
   vaccineId?: TypeId;
-  date?: Date | null;
+  applicationDate?: string | null;
 }
 
 export interface CreateVaccinationInput {
   vaccineId: TypeId;
   healthId: TypeId;
-  date?: Date | null;
+  applicationDate?: string | null;
 }
 
 export interface RemovedVaccineInput {

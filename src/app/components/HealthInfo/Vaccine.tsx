@@ -2,11 +2,12 @@ import { Dialog, DialogContent, DialogTitle, IconButton, Paper, Typography } fro
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { FC, useState } from 'react';
-import { removeVaccineHealth, useAppDispatch, useAppSelector } from '../../state';
+import { useAppDispatch, useAppSelector } from '../../state';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { VaccineForm } from './VaccineForm';
 import { TypeId, Vaccination } from '../../interfaces';
+import { removeVaccineHealth } from '../../state/health/health.action-creators';
 
 export const Vaccine: FC<{ apliedVaccine: Vaccination; petId: TypeId }> = ({
   apliedVaccine,
@@ -14,12 +15,8 @@ export const Vaccine: FC<{ apliedVaccine: Vaccination; petId: TypeId }> = ({
 }) => {
   const dispatch = useAppDispatch();
   const [edit, setEdit] = useState(false);
-  const { isCurrentUser } = useAppSelector((state) => {
-    const isCurrentUser = state.pet.pets[petId].owner === state.auth.auth.user;
-
-    return {
-      isCurrentUser
-    };
+  const isCurrentUser = useAppSelector((state) => {
+    return state.pet.pets[petId].owner.id === state.profile.profile?.id;
   });
 
   const date = format(new Date(apliedVaccine.applicationDate), 'PPP', { locale: es });

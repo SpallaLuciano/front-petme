@@ -1,12 +1,13 @@
 import { FC, useState } from 'react';
 import { Button, Chip, Rating as RatingMUI, TextField } from '@mui/material';
-import { rateProfile, useAppDispatch, useAppSelector } from '../../state';
+import { useAppDispatch, useAppSelector } from '../../state';
 import style from './Rating.module.scss';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ProfileCommentInput } from '../../inputs';
 import { rateValidationSchema } from '../../validation-schema/profile.validation-schema';
 import { TypeId } from '../../interfaces';
+import { rateProfile } from '../../state/profile/profile.action-creators';
 
 interface Props {
   profileId: TypeId;

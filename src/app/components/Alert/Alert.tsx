@@ -1,7 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 import { AlertColor, Alert as AlertMui, AlertTitle, Snackbar } from '@mui/material';
-import { clearAlert, useAppDispatch, useAppSelector } from '../../state';
+import { useAppDispatch, useAppSelector } from '../../state';
 import { GeneralStatus } from '../../enums';
+import { clearAlert } from '../../state/alert';
 
 export const Alert: FC = () => {
   const dispatch = useAppDispatch();

@@ -4,10 +4,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, FormHelperText, Grid, TextField } from '@mui/material';
 import { profileUpdateSchema } from '../../validation-schema';
 import style from './ProfileForm.module.scss';
-import { updateProfile, useAppDispatch, useAppSelector } from '../../state';
+import { useAppDispatch, useAppSelector } from '../../state';
 import { ProfileFormInput } from '../../inputs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { updateProfile } from '../../state/profile/profile.action-creators';
 
 interface Props {
   edit: boolean;

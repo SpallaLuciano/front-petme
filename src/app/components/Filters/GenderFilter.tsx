@@ -1,13 +1,9 @@
 import { FC } from 'react';
 import { PetGender } from '../../enums';
-import {
-  removeFilterGender,
-  updateGenderFilter,
-  useAppDispatch,
-  useAppSelector
-} from '../../state';
+import { useAppDispatch, useAppSelector } from '../../state';
 import { CheckBox } from './CheckBox';
 import style from './Filters.module.scss';
+import { removeFilterGender, updateGenderFilter } from '../../state/pet/pet.slice';
 
 export const GenderFilter: FC = () => {
   const dispatch = useAppDispatch();

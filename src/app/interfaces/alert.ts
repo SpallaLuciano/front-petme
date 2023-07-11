@@ -1,4 +1,4 @@
-import { ResponseStatus } from './response';
+import { ResponseStatus } from '../utils/response';
 
 export interface Alert {
   message: string | null;

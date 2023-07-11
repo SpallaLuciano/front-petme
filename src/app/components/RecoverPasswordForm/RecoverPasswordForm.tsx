@@ -4,9 +4,10 @@ import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { RecoverPasswordInput } from '../../inputs';
-import { useAppDispatch, useAppSelector, recoverPasswordRecoverPassword } from '../../state';
+import { useAppDispatch, useAppSelector } from '../../state';
 import { recoverPasswordValidationSchema } from '../../validation-schema';
 import style from './RecoverPasswordForm.module.scss';
+import { recoverPasswordRecoverPassword } from '../../state/recover-password/recover-password.action-creators';
 
 export const RecoverPasswordForm: FC = () => {
   const { emailSend } = useAppSelector((state) => state.recoverPassword.recoverPassword);

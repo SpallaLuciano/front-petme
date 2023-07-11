@@ -2,7 +2,7 @@ import { IconButton, InputAdornment, OutlinedInput, Typography } from '@mui/mate
 import { FC, useState } from 'react';
 import { getAge } from '../../utils';
 import EditIcon from '@mui/icons-material/Edit';
-import { updateWeightHealth, useAppDispatch, useAppSelector } from '../../state';
+import { useAppDispatch, useAppSelector } from '../../state';
 import { useForm } from 'react-hook-form';
 import { WeightInput } from '../../inputs';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -10,13 +10,14 @@ import { generalHealthValidationSchema } from '../../validation-schema';
 import DoneIcon from '@mui/icons-material/Done';
 import ClearIcon from '@mui/icons-material/Clear';
 import { TypeId } from '../../interfaces';
+import { updateWeightHealth } from '../../state/health/health.action-creators';
 
 export const GeneralInfo: FC<{ petId: TypeId }> = ({ petId }) => {
   const dispatch = useAppDispatch();
   const [edit, setEdit] = useState(false);
   const { isCurrentUser, pet, health } = useAppSelector((state) => {
     const pet = state.pet.pets[petId];
-    const isCurrentUser = pet.owner === state.auth.auth.user;
+    const isCurrentUser = pet.owner.id === state.profile.profile?.id;
     const health = state.health.health[petId];
 
     return { pet, isCurrentUser, health };

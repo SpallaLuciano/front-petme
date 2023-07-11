@@ -1,7 +1,7 @@
 import { Menu, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../state/hooks';
-import { signOut } from '../../state/auth';
+import { signOut } from '../../state/auth/auth.action-creators';
 import { SignInForm } from '../SignInForm';
 import { FC, useEffect } from 'react';
 

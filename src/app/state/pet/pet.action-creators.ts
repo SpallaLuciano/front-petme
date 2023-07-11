@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Pet, TypeId } from '../../interfaces';
 import { PetInput, UpdatePetImage } from '../../inputs';
 import { setAlert } from '../alert';
-import { RequestError, get, post, put, remove } from '../../utils';
+import { get, handleError, post, put, remove, RequestError } from '../../utils';
 
 const endpoint = 'pets';
 
@@ -18,6 +18,8 @@ export const fetchPet = createAsyncThunk<
 
     return data;
   } catch (error) {
+    handleError(error);
+
     if (!(error instanceof RequestError)) {
       dispatch(
         setAlert({
@@ -39,6 +41,8 @@ export const createPet = createAsyncThunk<
   }
 >('pet/create', async (input, { rejectWithValue, dispatch }) => {
   try {
+    input = { ...input, birthdate: new Date(input.birthdate).toISOString() };
+
     const { data, status } = await post<Pet>(endpoint, input, dispatch);
 
     dispatch(
@@ -115,6 +119,8 @@ export const removePet = createAsyncThunk<
       })
     );
 
+    data.id = id;
+
     return data;
   } catch (error) {
     if (!(error instanceof RequestError)) {
@@ -150,6 +156,8 @@ export const removePetImage = createAsyncThunk<
 
     return data;
   } catch (error) {
+    handleError(error);
+
     if (!(error instanceof RequestError)) {
       dispatch(
         setAlert({

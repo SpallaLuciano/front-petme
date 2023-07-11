@@ -3,7 +3,6 @@ import { FC } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Cell, Tooltip, Pie, PieChart, ResponsiveContainer } from 'recharts';
 import { Backward, HealthInfo, VisitCard } from '../../components';
-import { visitProps } from '../../enums';
 import { useAppSelector } from '../../state';
 import { sortVisitsByDate } from '../../utils';
 import style from './Health.module.scss';
@@ -13,34 +12,33 @@ export const Health: FC = () => {
   const { petId } = useParams();
   const {
     pet: { name },
-    health: { visits }
+    health: { visits },
+    visitTypes
   } = useAppSelector((state) => {
     const pet = state.pet.pets[String(petId)];
     const health = state.health.health[String(petId)];
+    const visitTypes = state.health.visitTypes;
 
     return {
       pet,
-      health
+      health,
+      visitTypes
     };
   });
   const acc: {
-    [key: string]: {
-      name: string;
-      value: number;
-      color: string;
-    };
+    [key: string]: { value: number; color: string; label: string; name: string };
   } = {};
 
   const orderedVisits = visits.slice().sort(sortVisitsByDate);
 
   const amount = visits.reduce((acc, { type }) => {
-    const { color, label } = visitProps[type];
-    acc[type] ??= {
-      name: label,
-      value: 0,
-      color: color
+    acc[type.name] ??= {
+      color: type.color,
+      label: type.label,
+      name: type.label,
+      value: 0
     };
-    acc[type].value += 1;
+    acc[type.name].value += 1;
 
     return acc;
   }, acc);
@@ -52,9 +50,9 @@ export const Health: FC = () => {
   const pieChart = (
     <>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-        {Object.entries(visitProps).map(([type, visit]) => (
-          <div style={{ backgroundColor: visit.color, padding: '8px' }}>
-            {visit.label}: {amount[type]?.value}
+        {visitTypes.map(({ label, color, name }) => (
+          <div style={{ backgroundColor: color, padding: '8px' }}>
+            {label}: {amount[name]?.value || 0}
           </div>
         ))}
       </div>
