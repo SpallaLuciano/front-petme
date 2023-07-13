@@ -1,24 +1,33 @@
-import { FC } from 'react';
-import { useAppSelector } from '../../state';
+import { FC, useRef } from 'react';
 import { ChatBox } from './ChatBox';
 import { ChatHeader } from './ChatHeader';
 import { ChatInput } from './ChatInput';
 import style from './Chats.module.scss';
 import { TypeId } from '../../interfaces';
 
-export const Chat: FC<{ userId: TypeId }> = ({ userId }) => {
-  const chat = useAppSelector((state) => state.chats.chats[userId]);
+export const Chat: FC<{ profileId: TypeId }> = ({ profileId }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    const container = containerRef.current;
+
+    if (container) {
+      console.log(container.scrollHeight, container.offsetHeight);
+
+      container.scrollTop = container.scrollHeight - container.offsetHeight;
+    }
+  };
 
   return (
-    <div className={style.ChatContainer}>
+    <div className={style.ChatContainer} ref={containerRef}>
       <div className={style.HeaderTop}>
-        <ChatHeader userId={userId} />
+        <ChatHeader profileId={profileId} />
       </div>
       <div className={style.Content}>
-        <ChatBox messages={chat?.messages || []} />
+        <ChatBox profileId={profileId} onMessage={scrollToBottom} />
       </div>
       <div className={style.InputBottom}>
-        <ChatInput userId={userId} />
+        <ChatInput profileId={profileId} />
       </div>
     </div>
   );

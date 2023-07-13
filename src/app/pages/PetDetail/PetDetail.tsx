@@ -189,7 +189,7 @@ export const PetDetail: FC = () => {
               }}
               variant="extended"
               disabled={!allRequired && !!pet?.requirements.length}
-              onClick={() => navigate(`/chats/${pet?.owner}`)}
+              onClick={() => navigate(`/chats/${pet?.owner.id}`)}
             >
               <ChatIcon />
               Chatear

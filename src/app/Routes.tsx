@@ -39,7 +39,7 @@ export const AppRoutes: FC = () => (
       <Route path="/pets/:petId" element={<PetDetail />} />
       <Route path="/profiles/:profileId" element={<Profile />} />
       <Route path="/chats" element={<Chats />} />
-      <Route path="/chats/:userId" element={<Chat />} />
+      <Route path="/chats/:profileId" element={<Chat />} />
       <Route path="/pets/:petId/health/visits" element={<Events />} />
       <Route path="/pets/:petId/health" element={<Health />} />
     </Route>

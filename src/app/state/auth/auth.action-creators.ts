@@ -5,6 +5,7 @@ import { setAlert } from '../alert';
 import { SignIn } from '../../outputs';
 import { get, handleError, post, RequestError } from '../../utils';
 import { ResponseStatus } from '../../utils/response';
+import socketClient from '../../utils/socket';
 
 const endpoint = `auth`;
 
@@ -19,6 +20,8 @@ export const signInAuth = createAsyncThunk<
     const { status, data } = await post<SignIn>(`${endpoint}/sign-in`, input, dispatch);
 
     localStorage.setItem('tkn', data.token);
+
+    socketClient.connect(data.token);
 
     dispatch(
       setAlert({
@@ -90,6 +93,8 @@ export const loadAuth = createAsyncThunk<
     }
 
     const { data } = await get<User>('users', dispatch);
+
+    socketClient.connect(token);
 
     return data;
   } catch (error) {

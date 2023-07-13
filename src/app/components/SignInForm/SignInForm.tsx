@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { signInAuth } from '../../state/auth/auth.action-creators';
 import { fetchProfiles } from '../../state/profile/profile.action-creators';
 import { fetchPet } from '../../state/pet/pet.action-creators';
-import { fetchChats, receiveMessage } from '../../state/chats/chats.action-creators';
+import { fetchChats } from '../../state/chats/chats.action-creators';
 import { fetchVaccinesHealth } from '../../state/health/health.action-creators';
 
 export const SignInForm: FC = () => {
@@ -32,7 +32,6 @@ export const SignInForm: FC = () => {
         dispatch(fetchPet());
         dispatch(fetchVaccinesHealth());
         dispatch(fetchChats());
-        dispatch(receiveMessage());
         navigate('/home');
       }
     });

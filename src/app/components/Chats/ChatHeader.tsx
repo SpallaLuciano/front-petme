@@ -7,12 +7,12 @@ import style from './Chats.module.scss';
 import { Backward } from '../Backward';
 import { TypeId } from '../../interfaces';
 
-export const ChatHeader: FC<{ userId: TypeId }> = ({ userId }) => {
+export const ChatHeader: FC<{ profileId: TypeId }> = ({ profileId }) => {
   const navigate = useNavigate();
 
   const { id, fullname, image, rating } = useAppSelector((state) => {
-    if (userId) {
-      const { image, lastname, name, rating, id } = state.profile.profiles[userId];
+    if (profileId) {
+      const { image, lastname, name, rating, id } = state.profile.profiles[profileId];
 
       return {
         id,

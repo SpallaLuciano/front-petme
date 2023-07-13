@@ -5,6 +5,7 @@ import { GeneralStatus } from '../../enums';
 import { TokenDecoded, User } from '../../interfaces';
 import { AuthState } from './auth.state';
 import { diffFromNow } from '../../utils';
+import socketClient from '../../utils/socket';
 import { SignIn } from '../../outputs';
 
 export const signInAuthFulfilled = (state: AuthState, { payload }: PayloadAction<SignIn>) => {
@@ -35,6 +36,7 @@ export const signOutAuthFulfilled = (state: AuthState) => {
     validToken: false
   };
   state.status = GeneralStatus.SUCCESS;
+  socketClient.disconnect();
 };
 
 export const loadAuthFulfilled = (state: AuthState, { payload }: PayloadAction<User>) => {

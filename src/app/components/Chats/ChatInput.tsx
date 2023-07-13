@@ -5,7 +5,7 @@ import { useAppDispatch } from '../../state';
 import { TypeId } from '../../interfaces';
 import { sendMessage } from '../../state/chats/chats.action-creators';
 
-export const ChatInput: FC<{ userId: TypeId }> = ({ userId }) => {
+export const ChatInput: FC<{ profileId: TypeId }> = ({ profileId }) => {
   const dispatch = useAppDispatch();
   const [content, setContent] = useState('');
 
@@ -16,7 +16,7 @@ export const ChatInput: FC<{ userId: TypeId }> = ({ userId }) => {
   const handleSend = () => {
     dispatch(
       sendMessage({
-        receiverId: userId,
+        receiverId: profileId,
         content,
         datetime: new Date()
       })

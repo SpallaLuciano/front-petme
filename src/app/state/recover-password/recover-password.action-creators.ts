@@ -1,21 +1,18 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AxiosResponse } from 'axios';
 import { RecoverPasswordInput, ResetPasswordInput } from '../../inputs';
-import { RecoverPasswordOutput, ResetPasswordOutput } from '../../outputs';
+import { post } from '../../utils';
+
+const endpoint = 'auth';
 
 export const recoverPasswordRecoverPassword = createAsyncThunk<
-  RecoverPasswordOutput,
+  boolean,
   RecoverPasswordInput,
   {
     rejectValue: string;
   }
->('recoverPassword/recoverPassword', async (recoverPasswordInput, { rejectWithValue }) => {
+>('recoverPassword/recoverPassword', async (input, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await Promise.resolve<AxiosResponse<RecoverPasswordOutput>>({
-      data: {
-        emailSend: true
-      }
-    } as AxiosResponse<RecoverPasswordOutput>);
+    const { data } = await post<boolean>(`${endpoint}/recover-password`, input, dispatch);
 
     return data;
   } catch (error) {
@@ -24,18 +21,18 @@ export const recoverPasswordRecoverPassword = createAsyncThunk<
 });
 
 export const resetPasswordRecoverPassword = createAsyncThunk<
-  ResetPasswordOutput,
+  boolean,
   ResetPasswordInput,
   {
     rejectValue: string;
   }
->('resetPassword/recoverPassword', async (resetPasswordInput, { rejectWithValue }) => {
+>('resetPassword/recoverPassword', async ({ token, password }, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await Promise.resolve<AxiosResponse<ResetPasswordOutput>>({
-      data: {
-        resetPassword: true
-      }
-    } as AxiosResponse<ResetPasswordOutput>);
+    const { data } = await post<boolean>(
+      `${endpoint}/recover-password/${token}`,
+      { password },
+      dispatch
+    );
 
     return data;
   } catch (error) {

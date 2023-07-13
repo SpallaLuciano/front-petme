@@ -13,14 +13,15 @@ export const ChatList: FC = () => {
     const chats = Object.values(state.chats.chats);
 
     return chats.map((chat) => {
-      const user = chat.users.filter((user) => user !== state.auth.auth.user)[0];
+      const user = chat.users.filter((user) => user !== state.profile.profile?.id)[0];
       const profile = state.profile.profiles[user];
 
       return {
         ...chat,
-        user: {
-          image: profile.image,
-          fullname: `${profile.name} ${profile.lastname}`
+        profile: {
+          id: user,
+          image: profile?.image,
+          fullname: `${profile?.name} ${profile?.lastname}`
         }
       };
     });
@@ -30,16 +31,16 @@ export const ChatList: FC = () => {
     navigate(`/chats/${id}`);
   };
 
-  const chatComponent = chats.map(({ id, messages, user }, key) => {
+  const chatComponent = chats.map(({ messages, profile }, key) => {
     const lastmessage = messages[messages.length - 1];
 
     return (
-      <ListItemButton key={key} onClick={() => handleClick(id)}>
+      <ListItemButton key={key} onClick={() => handleClick(profile.id)}>
         <ListItemAvatar>
-          <Avatar alt={user.image?.description} src={user.image?.url} />
+          <Avatar alt={profile.image?.description} src={profile.image?.url} />
         </ListItemAvatar>
         <ListItemText
-          primary={user.fullname}
+          primary={profile.fullname}
           secondary={
             <div className={style.ChatPreview}>
               <span>{lastmessage.content}</span>

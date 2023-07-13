@@ -5,7 +5,11 @@ export const diffFromNow = (date: Date) => {
   return differenceInSeconds(date, new Date());
 };
 
-export const dateOrHour = (date: Date): string => {
+export const dateOrHour = (date: Date | string): string => {
+  if (typeof date === 'string') {
+    date = new Date(date);
+  }
+
   if (isToday(date)) {
     return format(date, 'HH:mm');
   } else {

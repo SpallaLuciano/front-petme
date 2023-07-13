@@ -12,13 +12,20 @@ export const ChatMessage: FC<{ message: Message }> = ({
 
     return {
       profile: {
-        fullname: `${userProfile.name} ${userProfile.lastname}`
+        fullname: `${userProfile.name}, ${userProfile.lastname}`
       },
-      currentUser: state.auth.auth.user
+      currentUser: state.profile.profile?.id
     };
   });
 
   const isCurrentUser = currentUser === sender;
+  const datetimeLabel = new Date(datetime).toLocaleString(undefined, {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
 
   return (
     <Paper
@@ -36,7 +43,7 @@ export const ChatMessage: FC<{ message: Message }> = ({
       </Typography>
       <Typography variant="body1">{content}</Typography>
       <Typography variant="caption" color="textSecondary">
-        {datetime.toLocaleString()}
+        {datetimeLabel}
       </Typography>
     </Paper>
   );

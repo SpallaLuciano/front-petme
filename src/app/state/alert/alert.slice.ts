@@ -18,10 +18,10 @@ const alertSlice = createSlice({
   name: 'alert',
   initialState,
   reducers: {
-    setAlert: (state, action: PayloadAction<Alert>) => {
-      state.alert.severity = action.payload.severity || ResponseStatus.ERROR;
-      state.alert.message = action.payload.message;
-      state.alert.title = action.payload.title;
+    setAlert: (state, { payload }: PayloadAction<Alert>) => {
+      state.alert.severity = payload.severity || ResponseStatus.ERROR;
+      state.alert.message = payload.message;
+      state.alert.title = payload.title;
 
       state.status = GeneralStatus.SUCCESS;
     },
