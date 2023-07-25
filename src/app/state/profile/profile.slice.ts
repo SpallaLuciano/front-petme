@@ -21,7 +21,6 @@ import {
   actionRateProfileFulfilled,
   signOutAuthProfileFulfilled,
   actionLikeProfileFulfilled,
-  actionRemoveRateProfileFulfilled,
   signInAuthProfileFulfilled
 } from './profile.actions';
 import { ProfileState } from './profile.state';
@@ -50,7 +49,7 @@ export const profileSlice = createSlice({
       .addCase(signOut.fulfilled, signOutAuthProfileFulfilled)
       .addCase(signInAuth.fulfilled, signInAuthProfileFulfilled)
       .addCase(likeProfile.fulfilled, actionLikeProfileFulfilled)
-      .addCase(removeRateProfile.fulfilled, actionRemoveRateProfileFulfilled)
+      .addCase(removeRateProfile.fulfilled, actionRateProfileFulfilled)
       .addMatcher(
         isAnyOf(
           fetchProfiles.pending,

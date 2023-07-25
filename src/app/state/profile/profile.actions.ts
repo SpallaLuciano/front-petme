@@ -1,8 +1,9 @@
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
-import { Comment, Profile, User } from '../../interfaces';
-import { LikeOutput, SignIn } from '../../outputs';
+import { Profile, User } from '../../interfaces';
+import { SignIn } from '../../outputs';
 import { ProfileState } from './profile.state';
+import { CommentOutput } from '../../outputs/profile';
 
 export const signInAuthProfileFulfilled = (
   state: ProfileState,
@@ -36,6 +37,10 @@ export const fetchProfilesFulfilled = (
 ) => {
   payload.forEach((profile) => {
     state.profiles[profile.id] = profile;
+
+    if (state.profile?.id === profile.id) {
+      state.profile = profile;
+    }
   });
 
   state.status = GeneralStatus.SUCCESS;
@@ -78,50 +83,25 @@ export const actionImageRemoveFulfilled = (
 
 export const actionRateProfileFulfilled = (
   state: ProfileState,
-  { payload: { recipient, rating, ...comment } }: PayloadAction<Comment>
+  { payload }: PayloadAction<CommentOutput>
 ) => {
-  const comments = state.profiles[recipient].comments;
-
-  comments.push({ recipient, rating, ...comment });
+  const comments = payload.recipient.comments;
 
   const newRating = comments.reduce((acc, comment) => (acc += comment.rating), 0) / comments.length;
+  payload.recipient.rating = newRating;
 
-  state.profiles[recipient].rating = newRating;
+  state.profiles[payload.recipient.id] = payload.recipient;
+  state.profiles[payload.author.id] = payload.author;
 
   state.status = GeneralStatus.SUCCESS;
 };
 
 export const actionLikeProfileFulfilled = (
   state: ProfileState,
-  { payload: { like, petId } }: PayloadAction<LikeOutput>
+  { payload }: PayloadAction<Profile>
 ) => {
-  if (state.profile) {
-    const likes = state.profile?.favs;
-
-    if (like) {
-      likes.push(petId);
-    } else {
-      state.profile.favs = likes.filter((id) => id !== petId);
-    }
-  }
-
-  state.status = GeneralStatus.SUCCESS;
-};
-
-export const actionRemoveRateProfileFulfilled = (
-  state: ProfileState,
-  { payload }: PayloadAction<Comment>
-) => {
-  if (payload) {
-    const { author, id } = payload;
-    const newComments = state.profiles[author].comments.filter((comment) => comment.id !== id);
-
-    const newRating =
-      newComments.reduce((acc, comment) => (acc += comment.rating), 0) / newComments.length;
-
-    state.profiles[author].rating = isNaN(newRating) ? 0 : newRating;
-    state.profiles[author].comments = newComments;
-  }
+  state.profile = payload;
+  state.profiles[payload.id] = payload;
 
   state.status = GeneralStatus.SUCCESS;
 };

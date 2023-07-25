@@ -5,7 +5,7 @@ import { Comment } from './Comment';
 import { TypeId } from '../../interfaces';
 
 export const Comments: FC<{ profileId: TypeId }> = ({ profileId }) => {
-  const comments = useAppSelector((state) => state.profile.profiles[profileId].comments);
+  const comments = useAppSelector((state) => state.profile.profiles[profileId].comments || []);
 
   const mapComments = comments.map((comment) => <Comment comment={comment} />);
 

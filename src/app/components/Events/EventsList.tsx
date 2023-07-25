@@ -11,7 +11,7 @@ import { TypeId } from '../../interfaces';
 export const EventsList: FC<{ petId: TypeId }> = ({ petId }) => {
   const [open, setOpen] = useState(false);
   const { visits, isOwner } = useAppSelector((state) => {
-    const isOwner = state.pet.pets[petId].owner.id === state.profile.profile?.id;
+    const isOwner = state.pet.pets[petId].owner === state.profile.profile?.id;
 
     return {
       visits: state.health.health[petId].visits,

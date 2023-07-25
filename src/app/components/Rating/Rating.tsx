@@ -14,7 +14,9 @@ interface Props {
 }
 
 export const Rating: FC<Props> = ({ profileId }) => {
-  const rating = useAppSelector((state) => state.profile.profiles[profileId]?.rating || 0);
+  const comments = useAppSelector((state) => state.profile.profiles[profileId].comments || []);
+  const rating = comments.reduce((acc, { rating }) => (acc += rating), 0) / comments.length || 0;
+
   const [rate, setRate] = useState(rating);
   const dispatch = useAppDispatch();
 

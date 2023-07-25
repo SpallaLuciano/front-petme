@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../state';
 import { Backward } from '../Backward';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import style from './DetailHeader.module.scss';
 import { likeProfile } from '../../state/profile/profile.action-creators';
 import { TypeId } from '../../interfaces';
+import { getFavoriteIcon } from '../../utils';
 
 interface Props {
   petId: TypeId;
@@ -16,9 +16,10 @@ interface Props {
 export const DetailHeader: FC<Props> = ({ petId }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { petName, profile, isCurrentUser } = useAppSelector((state) => {
+  const { petName, profile, isCurrentUser, hasFav } = useAppSelector((state) => {
     const pet = state.pet.pets[petId];
-    const profile = state.profile.profiles[pet.owner.id];
+    const profile = state.profile.profiles[pet.owner];
+    const hasFav = state.profile.profile?.favs.some((id) => id === petId) || false;
 
     return {
       petName: pet.name || '',
@@ -27,7 +28,8 @@ export const DetailHeader: FC<Props> = ({ petId }) => {
         name: profile.name,
         image: profile.image
       },
-      isCurrentUser: profile.id === state.auth.auth.user
+      hasFav,
+      isCurrentUser: profile.id === state.profile.profile?.id
     };
   });
 
@@ -55,7 +57,7 @@ export const DetailHeader: FC<Props> = ({ petId }) => {
               className={style.Button}
               variant="contained"
               onClick={handleLike}
-              startIcon={<FavoriteIcon />}
+              startIcon={getFavoriteIcon(hasFav)}
             >
               Favoritos
             </Button>

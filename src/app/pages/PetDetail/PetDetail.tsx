@@ -41,7 +41,7 @@ export const PetDetail: FC = () => {
     if (petId) {
       const pet = state.pet.pets[petId];
       if (pet) {
-        return { pet, edit: state.profile.profile?.id === pet.owner.id };
+        return { pet, edit: state.profile.profile?.id === pet.owner };
       }
     }
     return {};
@@ -189,7 +189,7 @@ export const PetDetail: FC = () => {
               }}
               variant="extended"
               disabled={!allRequired && !!pet?.requirements.length}
-              onClick={() => navigate(`/chats/${pet?.owner.id}`)}
+              onClick={() => navigate(`/chats/${pet?.owner}`)}
             >
               <ChatIcon />
               Chatear

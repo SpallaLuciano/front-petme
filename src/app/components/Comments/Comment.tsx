@@ -21,7 +21,7 @@ export const Comment: FC<{ comment: InternalComment }> = ({
   const { fullName, img, isCurrentUser } = useAppSelector((state) => {
     const user = state.profile.profiles[author];
     const fullName = getFullName(user.name, user.lastname);
-    const isCurrentUser = state.auth.auth.user === author;
+    const isCurrentUser = state.profile.profile?.id === author;
 
     return {
       fullName,

@@ -12,8 +12,6 @@ export const Chat: FC<{ profileId: TypeId }> = ({ profileId }) => {
     const container = containerRef.current;
 
     if (container) {
-      console.log(container.scrollHeight, container.offsetHeight);
-
       container.scrollTop = container.scrollHeight - container.offsetHeight;
     }
   };

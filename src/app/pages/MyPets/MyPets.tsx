@@ -14,7 +14,7 @@ export const MyPets: FC = () => {
   });
 
   const profilePets = Object.values(pets)
-    .filter((pet) => pet.owner.id === owner)
+    .filter((pet) => pet.owner === owner)
     .map((pet) => {
       if (pet) {
         return (

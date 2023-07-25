@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Comment, Profile } from '../../interfaces';
+import { Profile } from '../../interfaces';
 import { setAlert } from '../alert';
 import {
   LikeInput,
@@ -7,8 +7,8 @@ import {
   ProfileFormInput,
   RemoveProfileCommentInput
 } from '../../inputs';
-import { LikeOutput } from '../../outputs';
 import { get, post, put, remove, RequestError } from '../../utils';
+import { CommentOutput } from '../../outputs/profile';
 
 const endpoint = 'profiles';
 
@@ -173,31 +173,20 @@ export const removeImageProfile = createAsyncThunk<
 });
 
 export const likeProfile = createAsyncThunk<
-  LikeOutput,
+  Profile,
   LikeInput,
   {
     rejectValue: string;
   }
 >('profile/like', async ({ petId }, { rejectWithValue, dispatch }) => {
-  let title = '';
-  let message = '';
-
   try {
-    const { data, status } = await get<LikeOutput>(`pet/like/${petId}`, dispatch);
-
-    if (data.like) {
-      title = 'Agregar a favoritos';
-      message = 'Se agregó con éxito la mascota a favoritos';
-    } else {
-      title = 'Eliminar de favoritos';
-      message = 'Se eliminó con éxtio la mascota de favotiros';
-    }
+    const { data, status } = await get<Profile>(`pets/like/${petId}`, dispatch);
 
     dispatch(
       setAlert({
         severity: status,
-        title,
-        message
+        title: 'Favoritos',
+        message: 'Se modifico con exito favoritos'
       })
     );
 
@@ -217,14 +206,14 @@ export const likeProfile = createAsyncThunk<
 });
 
 export const rateProfile = createAsyncThunk<
-  Comment,
+  CommentOutput,
   ProfileCommentInput,
   {
     rejectValue: string;
   }
 >('profile/rateProfile', async (input, { rejectWithValue, dispatch }) => {
   try {
-    const { data, status } = await post<Comment>('comments', input, dispatch);
+    const { data, status } = await post<CommentOutput>('comments', input, dispatch);
 
     dispatch(
       setAlert({
@@ -250,14 +239,14 @@ export const rateProfile = createAsyncThunk<
 });
 
 export const removeRateProfile = createAsyncThunk<
-  Comment,
+  CommentOutput,
   RemoveProfileCommentInput,
   {
     rejectValue: string;
   }
 >('profile/removeRate', async ({ commentId }, { dispatch, rejectWithValue }) => {
   try {
-    const { data, status } = await remove<Comment>(`comments/${commentId}`, dispatch);
+    const { data, status } = await remove<CommentOutput>(`comments/${commentId}`, dispatch);
 
     dispatch(
       setAlert({

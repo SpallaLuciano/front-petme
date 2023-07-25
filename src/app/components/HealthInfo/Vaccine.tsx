@@ -16,7 +16,7 @@ export const Vaccine: FC<{ apliedVaccine: Vaccination; petId: TypeId }> = ({
   const dispatch = useAppDispatch();
   const [edit, setEdit] = useState(false);
   const isCurrentUser = useAppSelector((state) => {
-    return state.pet.pets[petId].owner.id === state.profile.profile?.id;
+    return state.pet.pets[petId].owner === state.profile.profile?.id;
   });
 
   const date = format(new Date(apliedVaccine.applicationDate), 'PPP', { locale: es });

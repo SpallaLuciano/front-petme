@@ -39,7 +39,7 @@ export const PetCard: FC<Props> = ({ id }) => {
     return {
       pet: pet,
       gender: getGenderIcon(pet.gender),
-      favorite: getFavoriteIcon(state.profile.profile?.favs.includes(id) || false),
+      favorite: getFavoriteIcon(state.profile.profile?.favs?.includes(id) || false),
       age: getAge(pet.birthdate),
       sizeKind: getSizeKind(pet.kind, pet.size),
       distance: distance,
@@ -50,7 +50,7 @@ export const PetCard: FC<Props> = ({ id }) => {
   const dialogTitle = 'Eliminar Mascota';
   const dialogDescription = '¿Está seguro que desea eliminar esta mascota?\n' + pet.name;
 
-  const edit = profile === pet.owner.id;
+  const edit = profile === pet.owner;
 
   const navigateDetail = () => navigate(`/pets/${id}`);
 

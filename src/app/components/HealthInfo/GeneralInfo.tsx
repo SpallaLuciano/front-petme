@@ -17,7 +17,7 @@ export const GeneralInfo: FC<{ petId: TypeId }> = ({ petId }) => {
   const [edit, setEdit] = useState(false);
   const { isCurrentUser, pet, health } = useAppSelector((state) => {
     const pet = state.pet.pets[petId];
-    const isCurrentUser = pet.owner.id === state.profile.profile?.id;
+    const isCurrentUser = pet.owner === state.profile.profile?.id;
     const health = state.health.health[petId];
 
     return { pet, isCurrentUser, health };
