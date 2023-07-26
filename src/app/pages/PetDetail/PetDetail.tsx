@@ -159,7 +159,7 @@ export const PetDetail: FC = () => {
     pet?.images && pet.images.length ? (
       <>
         <Carousel>{images}</Carousel>
-        {petImageButton}
+        {edit ? petImageButton : undefined}
       </>
     ) : edit ? (
       <>

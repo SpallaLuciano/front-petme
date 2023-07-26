@@ -7,13 +7,11 @@ import style from './Chats.module.scss';
 export const ChatMessage: FC<{ message: Message }> = ({
   message: { content, datetime, sender }
 }) => {
-  const { profile, currentUser } = useAppSelector((state) => {
+  const { fullname, currentUser } = useAppSelector((state) => {
     const userProfile = state.profile.profiles[sender];
 
     return {
-      profile: {
-        fullname: `${userProfile.name}, ${userProfile.lastname}`
-      },
+      fullname: `${userProfile?.name}, ${userProfile?.lastname}`,
       currentUser: state.profile.profile?.id
     };
   });
@@ -39,7 +37,7 @@ export const ChatMessage: FC<{ message: Message }> = ({
       }
     >
       <Typography variant="body2" className={style.SenderName}>
-        {isCurrentUser ? 'Tú' : profile.fullname}
+        {isCurrentUser ? 'Tú' : fullname}
       </Typography>
       <Typography variant="body1">{content}</Typography>
       <Typography variant="caption" color="textSecondary">
