@@ -19,5 +19,5 @@ export const petUpdateValidationSchema = yup.object({
     .min(2, 'Debe contener al menos dos letras')
     .matches(/[a-zA-Z ]+/g, 'Solo puede contener letras y espacios')
     .matches(/^[A-Za-z].*/g, 'Debe comenzar con una letra')
-    .matches(/.*?[A-Za-z]$/g, 'Debe terminar con una letra')
+    .matches(/.*?[A-Za-z.]$/g, 'Debe terminar con una letra o punto')
 });

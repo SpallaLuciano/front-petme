@@ -46,6 +46,7 @@ export const PetCard: FC<Props> = ({ id }) => {
       profile: state.profile.profile?.id
     };
   });
+
   const [open, setOpen] = useState(false);
   const dialogTitle = 'Eliminar Mascota';
   const dialogDescription = '¿Está seguro que desea eliminar esta mascota?\n' + pet.name;
