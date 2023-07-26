@@ -21,10 +21,10 @@
 
 .Image {
   @media screen and (max-width: $small) {
-    object-fit: cover;
+    object-fit: contain;
   }
   @media screen and (max-width: $medium) {
-    object-fit: cover;
+    object-fit: contain;
   }
   @media screen and (min-width: ($medium+1)) {
     object-fit: scale-down;
