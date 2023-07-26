@@ -8,7 +8,7 @@ export const ChatBox: FC<{ profileId: TypeId; onMessage: () => void }> = ({
   profileId,
   onMessage
 }) => {
-  const messages = useAppSelector((state) => state.chats.chats[profileId].messages || []);
+  const messages = useAppSelector((state) => state.chats.chats[profileId]?.messages || []);
 
   useEffect(() => {
     onMessage();

@@ -14,3 +14,8 @@ export interface UpdatePetImage {
   image: FormData;
   petId: TypeId;
 }
+
+export interface RemovePetImage {
+  petId: TypeId;
+  imageId: TypeId;
+}

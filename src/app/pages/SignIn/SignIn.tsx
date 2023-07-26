@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Grid } from '@mui/material';
 import { SignInForm } from '../../components';
 import logo from '../../assets/pets.png';
@@ -10,9 +10,11 @@ export const SignIn: FC = () => {
   const navigate = useNavigate();
   const auth = useAppSelector((state) => state.auth.auth.user);
 
-  if (auth) {
-    navigate('/home');
-  }
+  useEffect(() => {
+    if (auth) {
+      navigate('/home');
+    }
+  }, [auth]);
 
   return (
     <Grid className={styles.grid} container>

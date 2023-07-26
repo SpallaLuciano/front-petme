@@ -9,7 +9,6 @@ import {
   getGenderIcon,
   getSizeKind
 } from '../../utils';
-import {} from '../../utils/pet.utils';
 import CancelIcon from '@mui/icons-material/Cancel';
 import InfoIcon from '@mui/icons-material/Info';
 import { useAppDispatch, useAppSelector } from '../../state';

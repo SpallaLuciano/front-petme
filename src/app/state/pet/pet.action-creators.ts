@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Pet, TypeId } from '../../interfaces';
-import { PetInput, UpdatePetImage } from '../../inputs';
+import { PetInput, RemovePetImage, UpdatePetImage } from '../../inputs';
 import { setAlert } from '../alert';
 import { get, handleError, post, put, remove, RequestError } from '../../utils';
 
@@ -138,13 +138,13 @@ export const removePet = createAsyncThunk<
 
 export const removePetImage = createAsyncThunk<
   Pet,
-  TypeId,
+  RemovePetImage,
   {
     rejectValue: string;
   }
->('pet/removeImage', async (id, { rejectWithValue, dispatch }) => {
+>('pet/removeImage', async ({ imageId, petId }, { rejectWithValue, dispatch }) => {
   try {
-    const { data, status } = await remove<Pet>(`${endpoint}/image/${id}`, dispatch);
+    const { data, status } = await remove<Pet>(`${endpoint}/image/${petId}/${imageId}`, dispatch);
 
     dispatch(
       setAlert({

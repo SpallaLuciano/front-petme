@@ -24,7 +24,6 @@ import StraightenIcon from '@mui/icons-material/Straighten';
 import DescriptionIcon from '@mui/icons-material/Description';
 import ChatIcon from '@mui/icons-material/Chat';
 import CancelIcon from '@mui/icons-material/Cancel';
-import AddIcon from '@mui/icons-material/Add';
 import { Image, TypeId } from '../../interfaces';
 import style from './PetDetail.module.scss';
 import { Requirements } from '../../components/Requirement/Requirements';
@@ -56,7 +55,7 @@ export const PetDetail: FC = () => {
   };
 
   const remove = (id: TypeId) => {
-    dispatch(removePetImage(id));
+    dispatch(removePetImage({ imageId: id, petId: petId || '' }));
     setOpen(false);
   };
 
@@ -148,7 +147,7 @@ export const PetDetail: FC = () => {
 
   const petImageButton = (
     <ImagePetForm
-      buttonChildren={<AddIcon />}
+      buttonChildren="Agregar Imagen"
       title={confirmationTitle}
       description={confirmationDescription}
       imageUpload={handleUpload}
@@ -156,15 +155,19 @@ export const PetDetail: FC = () => {
     />
   );
 
-  const addImageButton = edit ? () => petImageButton : undefined;
-
   const carousel =
     pet?.images && pet.images.length ? (
-      <Carousel rightButton={addImageButton}>{images}</Carousel>
+      <>
+        <Carousel>{images}</Carousel>
+        {petImageButton}
+      </>
     ) : edit ? (
-      petImageButton
+      <>
+        <div className={style.NoImage}>Sin imagenes</div>
+        {petImageButton}
+      </>
     ) : (
-      <div>Sin imágenes</div>
+      <div className={style.NoImage}>Sin imagenes</div>
     );
 
   const requirements = !!pet?.requirements.length ? (

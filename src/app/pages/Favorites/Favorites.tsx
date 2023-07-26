@@ -1,10 +1,12 @@
 import { FC } from 'react';
-import { Grid } from '@mui/material';
-import { PetAddButton, PetCard } from '../../components';
+import { Button, Grid } from '@mui/material';
+import { PetCard } from '../../components';
 import { useAppSelector } from '../../state';
 import style from './Favorites.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 export const Favorites: FC = () => {
+  const navigate = useNavigate();
   const { pets, favPets } = useAppSelector((state) => {
     return {
       pets: state.pet.pets,
@@ -12,6 +14,12 @@ export const Favorites: FC = () => {
       favPets: state.profile.profile?.favs || []
     };
   });
+
+  const addFavs = (
+    <Button variant="contained" onClick={() => navigate('/home')}>
+      Ir al inicio
+    </Button>
+  );
 
   const favoritePets = Object.values(pets)
     .filter((pet) => favPets.includes(pet.id))
@@ -26,14 +34,12 @@ export const Favorites: FC = () => {
     })
     .filter((value) => value !== undefined);
 
-  const addButton = <PetAddButton />;
-
   const content = (
     <Grid container className={style.MyPets} spacing={2}>
       {favoritePets?.length ? (
         favoritePets
       ) : (
-        <Grid item>No tiene mascotas cargadas en este momento {addButton}</Grid>
+        <Grid item>No tiene mascotas agregadas a favoritos en este momento {addFavs}</Grid>
       )}
     </Grid>
   );
@@ -41,8 +47,7 @@ export const Favorites: FC = () => {
   return (
     <div>
       <div className={style.Header}>
-        <div>{addButton}</div>
-        <h2>Mis Mascotas</h2>
+        <h2>Mis Favoritos</h2>
       </div>
       {content}
     </div>

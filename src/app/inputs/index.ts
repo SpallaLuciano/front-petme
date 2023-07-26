@@ -5,7 +5,7 @@ export {
   RemoveProfileCommentInput
 } from './profile.input';
 export { FiltersInput } from './filters.input';
-export { PetInput, UpdatePetImage } from './pet.input';
+export { PetInput, UpdatePetImage, RemovePetImage } from './pet.input';
 export { SignUpInput } from './sign-up.input';
 export { RecoverPasswordInput, ResetPasswordInput } from './recover-password.input';
 export {

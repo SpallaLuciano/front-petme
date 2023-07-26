@@ -1,22 +1,27 @@
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit';
 import { differenceInYears } from 'date-fns';
 import { GeneralStatus, OrderBy, PetGender, PetKind, PetSize } from '../../enums';
-import { Pet } from '../../interfaces';
+import { Pet, TypeId } from '../../interfaces';
 import { sortByNewest, sortByOldest } from '../../utils';
 import { PetState } from './pet.state';
 
 export const fetchPetFulfilled = (state: PetState, { payload }: PayloadAction<Pet[]>) => {
   state.oldestBirth = new Date().toISOString();
+  const order: TypeId[] = [];
 
-  payload.forEach((pet) => {
-    const id = String(pet.id);
-    state.order.push(id);
-    state.pets[id] = pet;
+  const pets = payload.reduce((acc, pet) => {
+    order.push(pet.id);
+    acc[pet.id] = pet;
 
     if (state.oldestBirth > pet.birthdate) {
       state.oldestBirth = pet.birthdate;
     }
-  });
+
+    return acc;
+  }, {} as Record<string, Pet>);
+
+  state.pets = pets;
+  state.order = order;
 
   sortPets(state);
 
@@ -26,6 +31,9 @@ export const fetchPetFulfilled = (state: PetState, { payload }: PayloadAction<Pe
 };
 
 export const assignPet = (state: PetState, { payload }: PayloadAction<Pet>) => {
+  if (!state.pets[payload.id]) {
+    state.order.push(payload.id);
+  }
   state.pets[payload.id] = payload;
   state.status = GeneralStatus.SUCCESS;
 };
