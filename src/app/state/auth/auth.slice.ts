@@ -1,12 +1,11 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
-import { signInAuth } from './auth.action-creators';
+import { actionPending, actionRejected } from '../actions';
+import { loadAuth, signInAuth, signOut } from './auth.action-creators';
 import {
-  actionSignOutCase,
-  actionAuthPending,
-  actionAuthRejected,
   signInAuthFulfilled,
-  actionLoadAuthCase,
+  signOutAuthFulfilled,
+  loadAuthFulfilled,
   actionIsValidTokenCase
 } from './auth.actions';
 import { AuthState } from './auth.state';
@@ -16,7 +15,7 @@ const initialState: AuthState = {
   auth: {
     email: null,
     user: null,
-    token: localStorage.getItem('token'),
+    token: localStorage.getItem('tkn'),
     admin: false,
     validToken: false
   },
@@ -27,20 +26,21 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    actionSignOut: actionSignOutCase,
-    actionLoadAuth: actionLoadAuthCase,
     actionIsValidToken: actionIsValidTokenCase
   },
   extraReducers: (builder) => {
     builder
+      .addCase(signOut.fulfilled, signOutAuthFulfilled)
+      .addCase(loadAuth.fulfilled, loadAuthFulfilled)
       .addCase(signInAuth.fulfilled, signInAuthFulfilled)
-      .addMatcher(isAnyOf(signInAuth.pending), actionAuthPending)
-      .addMatcher(isAnyOf(signInAuth.rejected), actionAuthRejected);
+      .addMatcher(isAnyOf(signInAuth.pending, loadAuth.pending, signOut.pending), actionPending)
+      .addMatcher(
+        isAnyOf(signInAuth.rejected, loadAuth.rejected, signOut.rejected),
+        actionRejected
+      );
   }
 });
 
 export default authSlice.reducer;
 
-export const signOut = authSlice.actions.actionSignOut;
-export const loadAuth = authSlice.actions.actionLoadAuth;
 export const isValidToken = authSlice.actions.actionIsValidToken;

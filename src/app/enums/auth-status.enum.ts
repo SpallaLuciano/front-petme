@@ -3,5 +3,5 @@ export const enum AuthStatus {
   PENDING = 'PENDING',
   SIGNED_IN = 'SIGNED_IN',
   SIGNED_OUT = 'SIGNED_OUT',
-  FAILED = 'FAILED',
+  FAILED = 'FAILED'
 }

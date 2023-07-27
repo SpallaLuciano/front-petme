@@ -1,8 +1,7 @@
 import { Menu, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../state/hooks';
-import { signOut } from '../../state/auth';
-import { removeProfile } from '../../state/profile';
+import { signOut } from '../../state/auth/auth.action-creators';
 import { SignInForm } from '../SignInForm';
 import { FC, useEffect } from 'react';
 
@@ -18,32 +17,43 @@ export const AvatarMenu: FC<Props> = ({ open = false, onClose, anchorEl }) => {
 
   const { signed } = useAppSelector((state) => {
     return {
-      signed: Boolean(state.auth.auth?.user),
+      signed: Boolean(state.auth.auth?.user)
     };
   });
 
   const sOut = () => {
     dispatch(signOut());
-    dispatch(removeProfile());
+    onClose();
   };
 
   useEffect(() => {
     onClose();
   }, [signed]);
 
+  const onClick = (navigateCall: () => void) => {
+    navigateCall();
+    onClose();
+  };
+
   const MenuSignedIn = [
-    <MenuItem key="my-profile" onClick={() => navigate('')}>
+    <MenuItem key="home" onClick={() => onClick(() => navigate('/home'))}>
       Inicio
     </MenuItem>,
-    <MenuItem key="my-profile" onClick={() => navigate('my-profile')}>
+    <MenuItem key="my-profile" onClick={() => onClick(() => navigate('/my-profile'))}>
       Mi Perfil
     </MenuItem>,
-    <MenuItem key="my-pets" onClick={() => navigate('my-pets')}>
+    <MenuItem key="my-pets" onClick={() => onClick(() => navigate('/my-pets'))}>
       Mis Mascotas
+    </MenuItem>,
+    <MenuItem key="my-favs" onClick={() => onClick(() => navigate('/my-favs'))}>
+      Mis Favoritos
+    </MenuItem>,
+    <MenuItem key="chats" onClick={() => onClick(() => navigate('/chats'))}>
+      Chats
     </MenuItem>,
     <MenuItem key="signout" onClick={sOut}>
       Cerrar Sesión
-    </MenuItem>,
+    </MenuItem>
   ];
 
   const MenuSign = (

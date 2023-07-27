@@ -1,12 +1,8 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
+import { actionPending, actionRejected } from '../actions';
 import { fetchCoordinates } from './coordinates.action-creators';
-import {
-  actionCoordinatesPending,
-  actionCoordinatesRejected,
-  fetchCoordinatesFulfilled,
-  actionRemoveCoordinatesCase
-} from './coordinates.actions';
+import { fetchCoordinatesFulfilled, actionRemoveCoordinatesCase } from './coordinates.actions';
 import { CoordinatesState } from './coordinates.state';
 
 const initialState: CoordinatesState = {
@@ -24,8 +20,8 @@ export const coordinatesSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchCoordinates.fulfilled, fetchCoordinatesFulfilled)
-      .addMatcher(isAnyOf(fetchCoordinates.pending), actionCoordinatesPending)
-      .addMatcher(isAnyOf(fetchCoordinates.rejected), actionCoordinatesRejected);
+      .addMatcher(isAnyOf(fetchCoordinates.pending), actionPending)
+      .addMatcher(isAnyOf(fetchCoordinates.rejected), actionRejected);
   }
 });
 

@@ -1,0 +1,37 @@
+@import '../../variables';
+
+.List {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+
+.CardContainer {
+  width: 100%;
+  min-width: 300px;
+}
+
+.Right {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.DeleteIcon {
+  float: right;
+}
+
+.AddCard {
+  padding: 8px 0 8px 0;
+}
+
+.ActionAddCard {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.AddButtonContent {
+  display: flex;
+  align-items: center;
+}

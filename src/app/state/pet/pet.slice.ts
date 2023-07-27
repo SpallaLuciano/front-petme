@@ -1,11 +1,16 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { GeneralStatus, OrderBy } from '../../enums';
-import { createPet, fetchPet, removePet, updatePet } from './pet.action-creators';
+import { actionPending, actionRejected } from '../actions';
 import {
-  actionPetPending,
-  actionPetRejected,
+  createPet,
+  fetchPet,
+  removePet,
+  removePetImage,
+  updateImagePet,
+  updatePet
+} from './pet.action-creators';
+import {
   fetchPetFulfilled,
-  createUpdatePetFulfilled,
   removePetFulfilled,
   actionUpdateFilterAgeBetweenCase,
   actionUpdateFilterGenderCase,
@@ -15,7 +20,8 @@ import {
   actionRemoveFilterKindCase,
   actionRemoveFilterSizeCase,
   actionResetFilterAgeBetweenCase,
-  actionUpdateOrderByCase
+  actionUpdateOrderByCase,
+  assignPet
 } from './pet.actions';
 import { PetState } from './pet.state';
 
@@ -30,7 +36,7 @@ const initialState: PetState = {
     kind: [],
     gender: [],
     size: [],
-    orderBy: OrderBy.NEWEST,
+    orderBy: OrderBy.NEWEST
   },
   order: []
 };
@@ -44,24 +50,40 @@ export const petSlice = createSlice({
     actionUpdateKindFilter: actionUpdateFilterKindCase,
     actionUpdateSizeFilter: actionUpdateFilterSizeCase,
     actionResetFilterAgeBetween: actionResetFilterAgeBetweenCase,
-    actionRemoveFilterGender:   actionRemoveFilterGenderCase,
-    actionRemoveFilterKind:   actionRemoveFilterKindCase,
-    actionRemoveFilterSize:   actionRemoveFilterSizeCase,
+    actionRemoveFilterGender: actionRemoveFilterGenderCase,
+    actionRemoveFilterKind: actionRemoveFilterKindCase,
+    actionRemoveFilterSize: actionRemoveFilterSizeCase,
     actionUpdateOrderBy: actionUpdateOrderByCase
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchPet.fulfilled, fetchPetFulfilled)
-      .addCase(createPet.fulfilled, createUpdatePetFulfilled)
-      .addCase(updatePet.fulfilled, createUpdatePetFulfilled)
+      .addCase(createPet.fulfilled, assignPet)
+      .addCase(updatePet.fulfilled, assignPet)
       .addCase(removePet.fulfilled, removePetFulfilled)
+      .addCase(removePetImage.fulfilled, assignPet)
+      .addCase(updateImagePet.fulfilled, assignPet)
       .addMatcher(
-        isAnyOf(fetchPet.pending, createPet.pending, updatePet.pending, removePet.pending),
-        actionPetPending
+        isAnyOf(
+          fetchPet.pending,
+          createPet.pending,
+          updatePet.pending,
+          removePet.pending,
+          removePetImage.pending,
+          updateImagePet.pending
+        ),
+        actionPending
       )
       .addMatcher(
-        isAnyOf(fetchPet.rejected, createPet.rejected, updatePet.rejected, removePet.rejected),
-        actionPetRejected
+        isAnyOf(
+          fetchPet.rejected,
+          createPet.rejected,
+          updatePet.rejected,
+          removePet.rejected,
+          removePetImage.rejected,
+          updateImagePet.rejected
+        ),
+        actionRejected
       );
   }
 });

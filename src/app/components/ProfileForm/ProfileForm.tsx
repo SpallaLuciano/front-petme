@@ -4,10 +4,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, FormHelperText, Grid, TextField } from '@mui/material';
 import { profileUpdateSchema } from '../../validation-schema';
 import style from './ProfileForm.module.scss';
-import { updateProfile, useAppDispatch, useAppSelector } from '../../state';
+import { useAppDispatch, useAppSelector } from '../../state';
 import { ProfileFormInput } from '../../inputs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { updateProfile } from '../../state/profile/profile.action-creators';
 
 interface Props {
   edit: boolean;
@@ -18,12 +19,12 @@ export const ProfileForm: FC<Props> = ({ edit, setEdit }) => {
   const dispatch = useAppDispatch();
 
   const { name, lastname, birthdate } = useAppSelector((state) => {
-    console.log('appSelector', state.profile.profile?.birthdate);
+    const profile = state.profile.profile;
 
     return {
-      name: state.profile.profile?.name,
-      lastname: state.profile.profile?.lastname,
-      birthdate: state.profile.profile?.birthdate
+      name: profile?.name || '',
+      lastname: profile?.lastname || '',
+      birthdate: profile?.birthdate || ''
     };
   });
 
@@ -47,20 +48,19 @@ export const ProfileForm: FC<Props> = ({ edit, setEdit }) => {
     dispatch(updateProfile(values));
   };
 
-
   const buttons = (
     <>
-      <Button
-        variant="contained"
-        color="primary"
-        type="submit"
-      >
+      <Button variant="contained" color="primary" type="submit">
         Guardar
       </Button>
-      <Button variant="contained" color="secondary" onClick={() => {
-        setEdit(false);
-        reset();
-      }}>
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={() => {
+          setEdit(false);
+          reset();
+        }}
+      >
         Cancelar
       </Button>
     </>
@@ -80,9 +80,7 @@ export const ProfileForm: FC<Props> = ({ edit, setEdit }) => {
             error={Boolean(errors.name)}
             helperText={errors.name && errors.name.message}
           />
-          <FormHelperText id="name-helper">
-            No puede contener números ni, símbolos
-          </FormHelperText>
+          <FormHelperText id="name-helper">No puede contener números ni, símbolos</FormHelperText>
         </Grid>
         <Grid item className={style.GridItem} xs={12} md={6} lg={4}>
           <TextField
@@ -104,7 +102,6 @@ export const ProfileForm: FC<Props> = ({ edit, setEdit }) => {
             name="birthdate"
             control={control}
             render={({ field: { onChange, value } }) => {
-              console.log('Control render 2', value);
               return (
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
@@ -112,7 +109,7 @@ export const ProfileForm: FC<Props> = ({ edit, setEdit }) => {
                     className={style.DatePicker}
                     onChange={onChange}
                     value={value}
-                    inputFormat='dd-MM-yyyy'
+                    inputFormat="dd-MM-yyyy"
                     renderInput={(params) => <TextField {...params} />}
                   />
                 </LocalizationProvider>
@@ -121,9 +118,7 @@ export const ProfileForm: FC<Props> = ({ edit, setEdit }) => {
           />
         </Grid>
       </Grid>
-      <div className={style.Buttons}>
-        {edit ? buttons : null}
-      </div>
+      <div className={style.Buttons}>{edit ? buttons : null}</div>
     </form>
   );
 };

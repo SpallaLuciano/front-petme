@@ -1,8 +1,7 @@
-import { GeneralStatus } from '../../enums';
-import { Profile } from '../../interfaces';
+import { Profile, GeneralState, TypeId } from '../../interfaces';
 
-export interface ProfileState {
-  status: GeneralStatus;
-  error: null | string;
+export interface ProfileState extends GeneralState {
+  profiles: { [key: TypeId]: Profile };
+  user: TypeId | null;
   profile: Profile | null;
 }

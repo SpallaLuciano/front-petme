@@ -1,0 +1,98 @@
+@import '../../variables';
+
+.ChatPreview {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ChatContainer {
+  max-width: $medium;
+  flex-grow: 1;
+  width: 100%;
+  background-color: lightgray;
+  max-height: 100%;
+  overflow-y: scroll;
+}
+
+.ChatBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.Paper {
+  display: flex;
+  flex-direction: column;
+  align-items: 'flex-start';
+  padding: 6px;
+  margin: 6px;
+  width: fit-content;
+  max-width: '50%';
+  border-radius: '10px';
+  background-color: #f5f5f5;
+}
+
+.PaperRight {
+  display: flex;
+  flex-direction: column;
+  align-items: 'flex-start';
+  padding: 6px;
+  margin: 6px;
+  width: fit-content;
+  max-width: '50%';
+  border-radius: '10px';
+  background-color: #f5f5f5;
+  align-self: self-end;
+}
+
+.SenderName {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.Header {
+  display: flex;
+  background-color: $primary-color;
+  color: $primary-light-text-color;
+}
+
+.Rating {
+  display: flex;
+  align-items: center;
+  margin-left: 4px;
+}
+
+.Name {
+  font-weight: bold;
+  margin-left: 4px;
+}
+
+.HeaderClick {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.ArrowBack {
+  color: $primary-light-text-color;
+}
+
+.InputBottom {
+  position: fixed;
+  bottom: 0;
+  flex-grow: 1;
+  max-width: ($medium - 40px);
+  padding: 20px;
+  width: 100%;
+}
+
+.Content {
+  margin: 20px 0 30px 0;
+  padding: 20px;
+}
+
+.HeaderTop {
+  position: fixed;
+  width: 100%;
+  max-width: $medium;
+  z-index: 9999;
+}

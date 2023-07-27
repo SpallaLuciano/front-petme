@@ -1,8 +1,5 @@
-import { GeneralStatus } from '../../enums';
-import { Coordinates } from '../../interfaces';
+import { Coordinates, GeneralState } from '../../interfaces';
 
-export interface CoordinatesState {
-  status: GeneralStatus;
-  error: null | string;
+export interface CoordinatesState extends GeneralState {
   coordinates: Coordinates | null;
 }

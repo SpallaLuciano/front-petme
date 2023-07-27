@@ -3,12 +3,19 @@ import { useForm } from 'react-hook-form';
 import { Button, TextField } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Credentials } from '../../interfaces';
-import { useAppDispatch, signInAuth, fetchPet, fetchProfile } from '../../state';
+import { useAppDispatch } from '../../state';
 import style from './SignInForm.module.scss';
 import { signInValidationSchema } from '../../validation-schema';
+import { useNavigate } from 'react-router-dom';
+import { signInAuth } from '../../state/auth/auth.action-creators';
+import { fetchProfiles } from '../../state/profile/profile.action-creators';
+import { fetchPet } from '../../state/pet/pet.action-creators';
+import { fetchChats } from '../../state/chats/chats.action-creators';
+import { fetchVaccinesHealth } from '../../state/health/health.action-creators';
 
 export const SignInForm: FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -21,8 +28,11 @@ export const SignInForm: FC = () => {
   const signIn = (credentials: Credentials) => {
     dispatch(signInAuth(credentials)).then(({ payload }) => {
       if (typeof payload === 'object' && payload.user) {
-        dispatch(fetchProfile(payload.user));
+        dispatch(fetchProfiles());
         dispatch(fetchPet());
+        dispatch(fetchVaccinesHealth());
+        dispatch(fetchChats());
+        navigate('/home');
       }
     });
   };
@@ -34,6 +44,7 @@ export const SignInForm: FC = () => {
         id="email"
         type="email"
         variant="filled"
+        autoComplete="email"
         {...register('email')}
         error={Boolean(errors.email)}
         helperText={errors.email && errors.email.message}
@@ -42,6 +53,7 @@ export const SignInForm: FC = () => {
         label="Contraseña"
         id="password"
         type="password"
+        autoComplete="password"
         variant="filled"
         {...register('password')}
         error={Boolean(errors.password)}
@@ -50,8 +62,12 @@ export const SignInForm: FC = () => {
       <Button type="submit" variant="contained">
         Iniciar sesión
       </Button>
-      <Button variant="text">Olvidé mi contraseña</Button>
-      <Button variant="text">Registrarme</Button>
+      <Button variant="text" onClick={() => navigate('/recover-password')}>
+        Olvidé mi contraseña
+      </Button>
+      <Button variant="text" onClick={() => navigate('/sign-up')}>
+        Registrarme
+      </Button>
     </form>
   );
 };

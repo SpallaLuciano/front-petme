@@ -1,55 +1,50 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { Grid } from '@mui/material';
-import { PetCard } from '../../components';
-import { Pet } from '../../interfaces';
+import { PetAddButton, PetCard } from '../../components';
 import { useAppSelector } from '../../state';
+import style from './MyPets.module.scss';
 
 export const MyPets: FC = () => {
-  const { pets, profile, coordinates } = useAppSelector((state) => {
+  const { pets, owner } = useAppSelector((state) => {
     return {
       pets: state.pet.pets,
-      coordinates: state.coordinates.coordinates,
-      profile: {
-        pets: state.profile.profile?.pets
-      }
+      petsStatus: state.pet.status,
+      owner: state.profile.profile?.id
     };
   });
 
-  const [profilePets, setProfilePets] = useState<Pet[]>([]);
+  const profilePets = Object.values(pets)
+    .filter((pet) => pet.owner === owner)
+    .map((pet) => {
+      if (pet) {
+        return (
+          <Grid key={pet.id} item className={style.Pets} xs={12} sm={6} md={4} xl={3}>
+            <PetCard id={pet.id} />
+          </Grid>
+        );
+      }
+    })
+    .filter((value) => value !== undefined);
 
-  useEffect(() => {
-    if (profile && profile.pets && Object.keys(pets).length) {
-      const mapPets: Pet[] = [];
-      
-      profile?.pets.forEach((id: number) => {
-        const pet = pets[id];
-        if (pet) {
-          mapPets.push(pet);
-        }
-      });
+  const addButton = <PetAddButton />;
 
-      setProfilePets(mapPets);
-    } else {
-      setProfilePets([]);
-    }
-  }, [profile?.pets]);
+  const content = (
+    <Grid container className={style.MyPets} spacing={2}>
+      {profilePets?.length ? (
+        profilePets
+      ) : (
+        <Grid item>No tiene mascotas cargadas en este momento {addButton}</Grid>
+      )}
+    </Grid>
+  );
 
-
-  if (!profile) {
-    return (<div>Debe iniciar sesión para acceder a esta sección</div>);
-  } else if (!profilePets.length) {
-    return (<div>No tiene mascotas cargadas en este momento: Cargar Mascota</div>);
-  } else {
-    return (
-      <div>
-        <Grid container spacing={4}>
-          {
-            profilePets.map((pet, key) => 
-              <PetCard key={key} pet={pet} coordinates={coordinates}></PetCard>
-            )
-          }
-        </Grid>
+  return (
+    <div>
+      <div className={style.Header}>
+        <div>{addButton}</div>
+        <h2>Mis Mascotas</h2>
       </div>
-    );
-  }
+      {content}
+    </div>
+  );
 };

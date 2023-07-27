@@ -1,35 +1,19 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { Grid } from '@mui/material';
 import { PetCard, PetFilters } from '../../components';
-import {
-  useAppDispatch,
-  useAppSelector,
-  fetchPet,
-  fetchCoordinates
-} from '../../state';
+import { useAppSelector } from '../../state';
 import style from './Home.module.scss';
 
 export const Home: FC = () => {
-  const dispatch = useAppDispatch();
-
-  const { pets, coordinates, order } = useAppSelector((state) => {
+  const { order } = useAppSelector((state) => {
     return {
-      pets: state.pet.pets,
-      order: state.pet.order,
-      coordinates: state.coordinates.coordinates
+      order: state.pet.order
     };
   });
 
-  const fetchRequests = () => {
-    dispatch(fetchPet());
-    dispatch(fetchCoordinates());
-  };
-
-  useEffect(() => fetchRequests(), []);
-
   const petCards = order.map((key) => (
-    <Grid key={pets[key].id} item xs={12} md={6} xl={4}>
-      <PetCard pet={pets[key]} coordinates={coordinates} />
+    <Grid key={key} item xs={12} md={6} xl={4}>
+      <PetCard id={key} />
     </Grid>
   ));
 

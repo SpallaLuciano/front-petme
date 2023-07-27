@@ -1,50 +1,38 @@
 import { ThemeProvider } from '@mui/material';
 import { FC, useEffect } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import { AuthWrapper } from './auth';
+import { useNavigate } from 'react-router-dom';
 import { Header } from './components';
-import { Home, MyPets, MyProfile } from './pages';
-import {
-  fetchProfile,
-  loadAuth,
-  removeProfile,
-  signOut,
-  useAppDispatch,
-  useAppSelector
-} from './state';
+import { AppRoutes } from './Routes';
+import { useAppDispatch } from './state';
 import theme from './theme';
+import { loadAuth } from './state/auth/auth.action-creators';
+import { fetchProfiles } from './state/profile/profile.action-creators';
+import { fetchPet } from './state/pet/pet.action-creators';
+import { fetchCoordinates } from './state/coordinates/coordinates.action-creators';
+import { fetchChats } from './state/chats/chats.action-creators';
+import { fetchVaccinesHealth } from './state/health/health.action-creators';
 
 export const App: FC = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => {
-    return state.auth.auth.user;
-  });
+  const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(loadAuth());
+    dispatch(loadAuth()).then(({ payload }) => {
+      if (typeof payload === 'object' && payload.id) {
+        dispatch(fetchProfiles());
+        dispatch(fetchPet());
+        dispatch(fetchVaccinesHealth());
+        dispatch(fetchCoordinates());
+        dispatch(fetchChats());
+        navigate('/home');
+      }
+    });
   }, []);
-
-  useEffect(() => {
-    if (user) {
-      dispatch(fetchProfile(user));
-    } else {
-      dispatch(signOut);
-      dispatch(removeProfile);
-    }
-  }, [user]);
 
   return (
     <ThemeProvider theme={theme}>
       <Header />
-      <Routes>
-        <Route element={<AuthWrapper />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Navigate to="/" replace />} />
-          <Route path="/my-profile" element={<MyProfile />} />
-          <Route path="/my-pets" element={<MyPets />} />
-        </Route>
-        <Route path="*" element={<div>Página no encontrada</div>} />
-      </Routes>
+      <AppRoutes />
     </ThemeProvider>
   );
 };

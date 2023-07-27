@@ -1,28 +1,23 @@
-import {
-  Favorite,
-  FavoriteBorder,
-  Female,
-  Male,
-  QuestionMark,
-} from '@mui/icons-material';
+import { Favorite, FavoriteBorder, Female, Male, QuestionMark } from '@mui/icons-material';
 import { differenceInMonths, differenceInYears } from 'date-fns';
 import { PetGender, PetKind, PetSize } from '../enums';
 
-export const getAge = (stringBirthDate: string) => {
+export const getAge = (stringBirthdate: string) => {
   const today = new Date();
-  const birthDate = new Date(stringBirthDate);
+  const birthdate = new Date(stringBirthdate);
 
-  let diff = differenceInYears(today, birthDate);
-  let unit = 'años';
+  const yearDiff = differenceInYears(today, birthdate);
+  const monthDiff = (differenceInMonths(today, birthdate) % 12) + 1;
+  let yearUnit = ' años';
+  let monthUnit = ' meses';
 
-  if (diff === 1) unit = 'año';
-  if (diff < 1) {
-    diff = differenceInMonths(today, birthDate);
-    unit = 'meses';
-  }
-  if (diff === 1) unit = 'mes';
+  if (yearDiff === 1) yearUnit = ' año';
+  if (monthDiff === 1) monthUnit = ' mes';
 
-  return `${diff} ${unit}`;
+  const yearText = yearDiff < 1 ? null : yearDiff + yearUnit;
+  const monthText = monthDiff < 1 ? null : monthDiff + monthUnit;
+
+  return `${yearText || ''} ${yearText && monthText ? 'y' : ''} ${monthText || ''}`;
 };
 
 export const getGenderIcon = (gender: PetGender) => {
