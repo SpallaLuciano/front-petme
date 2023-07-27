@@ -30,13 +30,15 @@ export const EventsList: FC<{ petId: TypeId }> = ({ petId }) => {
   return (
     <div className={style.List}>
       <AddCard onClick={() => setOpen(true)} />
+      {isOwner ? (
+        <Dialog sx={{ padding: '8px' }} open={open} onClose={handleClose}>
+          <DialogTitle>Agregar una visita</DialogTitle>
+          <DialogContent>
+            <VisitForm petId={petId} onClose={handleClose} />
+          </DialogContent>
+        </Dialog>
+      ) : undefined}
       {visitCards}
-      <Dialog sx={{ padding: '8px' }} open={open} onClose={handleClose}>
-        <DialogTitle>Agregar una visita</DialogTitle>
-        <DialogContent>
-          <VisitForm petId={petId} onClose={handleClose} />
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };

@@ -41,85 +41,87 @@ export const SignUpForm: FC = () => {
   return (
     <form className={style.SignInForm} onSubmit={handleSubmit(signUp)} noValidate>
       <div className={style.Wrapper}>
-        <div className={style.Column}>
-          <TextField
-            className={style.Inputs}
-            label="Nombre"
-            id="name"
-            type="text"
-            variant="filled"
-            {...register('name')}
-            error={Boolean(errors.name)}
-            helperText={errors.name && errors.name.message}
-          />
-          <TextField
-            className={style.Inputs}
-            label="Apellido"
-            id="lastname"
-            type="text"
-            variant="filled"
-            {...register('lastname')}
-            error={Boolean(errors.lastname)}
-            helperText={errors.lastname && errors.lastname.message}
-          />
-          <Controller
-            name="birthdate"
-            control={control}
-            render={({ field: { onChange, value } }) => {
-              return (
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    maxDate={maxDate}
-                    defaultCalendarMonth={maxDate}
-                    label="Fecha de nacimiento"
-                    value={value}
-                    onChange={onChange}
-                    inputFormat="dd-MM-yyyy"
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        error={Boolean(errors.birthdate)}
-                        helperText={errors.birthdate && errors.birthdate.message}
-                      />
-                    )}
-                  />
-                </LocalizationProvider>
-              );
-            }}
-          />
-        </div>
-        <div className={style.Column}>
-          <TextField
-            className={style.Inputs}
-            label="Email"
-            id="email"
-            type="email"
-            variant="filled"
-            {...register('email')}
-            error={Boolean(errors.email)}
-            helperText={errors.email && errors.email.message}
-          />
-          <TextField
-            className={style.Inputs}
-            label="Contraseña"
-            id="password"
-            type="password"
-            variant="filled"
-            {...register('password')}
-            error={Boolean(errors.password)}
-            helperText={errors.password && errors.password.message}
-          />
-          <TextField
-            className={style.Inputs}
-            label="Confirmar contraseña"
-            id="rePassword"
-            type="password"
-            variant="filled"
-            {...register('rePassword')}
-            error={Boolean(errors.rePassword)}
-            helperText={errors.rePassword && errors.rePassword.message}
-          />
-        </div>
+        <TextField
+          className={style.Inputs}
+          label="Nombre"
+          id="name"
+          type="text"
+          variant="filled"
+          autoComplete="name"
+          {...register('name')}
+          error={Boolean(errors.name)}
+          helperText={errors.name && errors.name.message}
+        />
+        <TextField
+          className={style.Inputs}
+          label="Apellido"
+          id="lastname"
+          type="text"
+          variant="filled"
+          autoComplete="lastname"
+          {...register('lastname')}
+          error={Boolean(errors.lastname)}
+          helperText={errors.lastname && errors.lastname.message}
+        />
+        <Controller
+          name="birthdate"
+          control={control}
+          render={({ field: { onChange, value } }) => {
+            return (
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  maxDate={maxDate}
+                  defaultCalendarMonth={maxDate}
+                  label="Fecha de nacimiento"
+                  value={value}
+                  onChange={onChange}
+                  inputFormat="dd-MM-yyyy"
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      autoComplete="birthdate"
+                      error={Boolean(errors.birthdate)}
+                      helperText={errors.birthdate && errors.birthdate.message}
+                    />
+                  )}
+                />
+              </LocalizationProvider>
+            );
+          }}
+        />
+        <TextField
+          className={style.Inputs}
+          label="Email"
+          id="email"
+          type="email"
+          variant="filled"
+          autoComplete="email"
+          {...register('email')}
+          error={Boolean(errors.email)}
+          helperText={errors.email && errors.email.message}
+        />
+        <TextField
+          className={style.Inputs}
+          label="Contraseña"
+          id="password"
+          type="password"
+          variant="filled"
+          autoComplete="new-password"
+          {...register('password')}
+          error={Boolean(errors.password)}
+          helperText={errors.password && errors.password.message}
+        />
+        <TextField
+          className={style.Inputs}
+          label="Confirmar contraseña"
+          id="rePassword"
+          type="password"
+          variant="filled"
+          autoComplete="new-password"
+          {...register('rePassword')}
+          error={Boolean(errors.rePassword)}
+          helperText={errors.rePassword && errors.rePassword.message}
+        />
       </div>
       <Button variant="text" onClick={() => navigate('/sign-in')}>
         Cancelar

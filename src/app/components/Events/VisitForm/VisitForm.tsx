@@ -89,8 +89,6 @@ export const VisitForm: FC<{ visit?: Visit; onClose: () => void; petId?: TypeId 
     </MenuItem>
   ));
 
-  console.log(items);
-
   return (
     <form className={style.Form} onSubmit={handleSubmit(submitVisit)}>
       <FormControl fullWidth>

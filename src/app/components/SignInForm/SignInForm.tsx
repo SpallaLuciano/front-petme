@@ -44,6 +44,7 @@ export const SignInForm: FC = () => {
         id="email"
         type="email"
         variant="filled"
+        autoComplete="email"
         {...register('email')}
         error={Boolean(errors.email)}
         helperText={errors.email && errors.email.message}
@@ -52,6 +53,7 @@ export const SignInForm: FC = () => {
         label="Contraseña"
         id="password"
         type="password"
+        autoComplete="password"
         variant="filled"
         {...register('password')}
         error={Boolean(errors.password)}
