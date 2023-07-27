@@ -2,9 +2,14 @@ import { PayloadAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { GeneralStatus } from '../../enums';
 import { actionPending, actionRejected } from '../actions';
 import { fetchChats, sendMessage } from './chats.action-creators';
-import { actionFetchChatsFulfilled, actionSendMessageFulfilled } from './chats.actions';
+import {
+  actionFetchChatsFulfilled,
+  actionSendMessageFulfilled,
+  actionSignOutFulfilled
+} from './chats.actions';
 import { ChatsState } from './chats.state';
 import { Message, TypeId } from '../../interfaces';
+import { signOut } from '../auth/auth.action-creators';
 
 const initialState: ChatsState = {
   status: GeneralStatus.IDLE,
@@ -23,8 +28,12 @@ export const chatsSlice = createSlice({
       const chatProfileId = message.receiver === id ? message.sender : message.receiver;
 
       if (typeof message.chat === 'object') {
-        state.chats[chatProfileId] ??= message.chat;
-        state.chats[chatProfileId].messages.push({ ...message, chat: message.chat.id });
+        if (!state.chats[chatProfileId]) {
+          state.chats[chatProfileId] ??= message.chat;
+          state.chats[chatProfileId].messages = [{ ...message, chat: message.chat.id }];
+        } else {
+          state.chats[chatProfileId].messages.push({ ...message, chat: message.chat.id });
+        }
       }
 
       state.status = GeneralStatus.SUCCESS;
@@ -34,6 +43,7 @@ export const chatsSlice = createSlice({
     builder
       .addCase(fetchChats.fulfilled, actionFetchChatsFulfilled)
       .addCase(sendMessage.fulfilled, actionSendMessageFulfilled)
+      .addCase(signOut.fulfilled, actionSignOutFulfilled)
       .addMatcher(isAnyOf(fetchChats.pending, sendMessage.pending), actionPending)
       .addMatcher(isAnyOf(fetchChats.rejected, sendMessage.rejected), actionRejected);
   }

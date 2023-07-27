@@ -35,14 +35,24 @@ export const fetchProfilesFulfilled = (
   state: ProfileState,
   { payload }: PayloadAction<Profile[]>
 ) => {
-  payload.forEach((profile) => {
-    state.profiles[profile.id] = profile;
+  state.profiles = payload.reduce<Record<string, Profile>>((acc, profile) => {
+    acc[profile.id] = profile;
 
     if (state.profile?.id === profile.id) {
       state.profile = profile;
     }
-  });
 
+    return acc;
+  }, {});
+
+  state.status = GeneralStatus.SUCCESS;
+};
+
+export const actionSignOutFulfilled = (state: ProfileState) => {
+  state.profiles = {};
+  state.profile = null;
+  state.user = null;
+  state.error = null;
   state.status = GeneralStatus.SUCCESS;
 };
 
