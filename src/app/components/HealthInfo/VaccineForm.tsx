@@ -35,6 +35,7 @@ export const VaccineForm: FC<{ petId: TypeId; onClose: () => void; vaccinationId
 
   const [vaccine, setVaccine] = useState<undefined | TypeId>(apliedVaccine?.vaccine.id);
   const [errorVaccine, setErrorVaccine] = useState<boolean>(false);
+  const [errorDate, setErrorDate] = useState<string>('');
 
   const onClick = () => {
     if (!vaccine) {
@@ -129,15 +130,25 @@ export const VaccineForm: FC<{ petId: TypeId; onClose: () => void; vaccinationId
               <DatePicker
                 label="Fecha de visita"
                 value={value}
-                onChange={onChange}
+                onChange={(event) => {
+                  try {
+                    onChange(new Date(event || '').toISOString());
+                    setErrorDate('');
+                  } catch (error) {
+                    setErrorDate('La fecha ingresada no es valida');
+                  }
+                }}
                 disableFuture
                 inputFormat="dd-MM-yyyy"
                 renderInput={(params) => (
                   <TextField
                     {...params}
                     fullWidth
-                    error={Boolean(errors.applicationDate)}
-                    helperText={errors.applicationDate && errors.applicationDate.message}
+                    error={Boolean(errors.applicationDate) || Boolean(errorDate)}
+                    helperText={
+                      (errors.applicationDate && errors.applicationDate.message) ||
+                      (Boolean(errorDate) && errorDate)
+                    }
                   />
                 )}
               />

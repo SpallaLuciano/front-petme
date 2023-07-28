@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Cell, Tooltip, Pie, PieChart, ResponsiveContainer } from 'recharts';
 import { Backward, HealthInfo, VisitCard } from '../../components';
 import { useAppSelector } from '../../state';
-import { sortVisitsByDate } from '../../utils';
+import { sortVisitsByDateDesc } from '../../utils';
 import style from './Health.module.scss';
 
 export const Health: FC = () => {
@@ -29,7 +29,7 @@ export const Health: FC = () => {
     [key: string]: { value: number; color: string; label: string; name: string };
   } = {};
 
-  const orderedVisits = visits.slice().sort(sortVisitsByDate);
+  const orderedVisitsDesc = [...visits].sort(sortVisitsByDateDesc);
 
   const amount = visits.reduce((acc, { type }) => {
     acc[type.name] ??= {
@@ -45,7 +45,7 @@ export const Health: FC = () => {
 
   const arrayAmount = Object.values(amount);
 
-  const lastVisit = <VisitCard isOwner={false} visit={orderedVisits[0]} />;
+  const lastVisit = <VisitCard isOwner={false} visit={orderedVisitsDesc[0]} />;
 
   const pieChart = (
     <>
@@ -94,7 +94,7 @@ export const Health: FC = () => {
               Ir a visitas
             </Button>
           </Typography>
-          {orderedVisits[0] ? lastVisit : 'No tiene visitas cargadas'}
+          {orderedVisitsDesc[0] ? lastVisit : 'No tiene visitas cargadas'}
         </div>
         <div className={style.PieContainer}>
           <Typography variant="h5">Cantidad de visitas por tipo</Typography>

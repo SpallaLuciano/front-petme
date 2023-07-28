@@ -5,6 +5,7 @@ import { useAppSelector } from '../../state';
 import { VaccineForm } from './VaccineForm';
 import { Vaccine } from './Vaccine';
 import { TypeId } from '../../interfaces';
+import { sortVaccinationsByDateDesc } from '../../utils/sort';
 
 export const Vaccines: FC<{ petId: TypeId }> = ({ petId }) => {
   const [open, setOpen] = useState(false);
@@ -27,9 +28,12 @@ export const Vaccines: FC<{ petId: TypeId }> = ({ petId }) => {
     </IconButton>
   );
 
-  const apliedVaccines = health.vaccinations.map((apliedVaccine) => {
-    return <Vaccine apliedVaccine={apliedVaccine} petId={petId} />;
-  });
+  const apliedVaccines = health.vaccinations
+    .slice()
+    .sort(sortVaccinationsByDateDesc)
+    .map((apliedVaccine) => {
+      return <Vaccine apliedVaccine={apliedVaccine} petId={petId} />;
+    });
 
   return (
     <div>
