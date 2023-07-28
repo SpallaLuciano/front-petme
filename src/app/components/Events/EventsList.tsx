@@ -5,7 +5,7 @@ import { useAppSelector } from '../../state';
 import { AddCard } from './AddCard';
 import { VisitForm } from './VisitForm/VisitForm';
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
-import { sortVisitsByDate } from '../../utils';
+import { sortVisitsByDateDesc } from '../../utils';
 import { TypeId } from '../../interfaces';
 
 export const EventsList: FC<{ petId: TypeId }> = ({ petId }) => {
@@ -24,7 +24,7 @@ export const EventsList: FC<{ petId: TypeId }> = ({ petId }) => {
   };
 
   const visitCards = [...visits]
-    .sort(sortVisitsByDate)
+    .sort(sortVisitsByDateDesc)
     .map((visit) => <VisitCard visit={visit} isOwner={isOwner} />);
 
   return (

@@ -30,6 +30,7 @@ export const VisitForm: FC<{ visit?: Visit; onClose: () => void; petId?: TypeId 
 
   const [type, setType] = useState<string | null>(visit?.type.name || null);
   const [errorType, setErrorType] = useState<boolean>(false);
+  const [errorDate, setErrorDate] = useState<string>('');
   const visitTypes = useAppSelector((state) => state.health.visitTypes);
 
   const {
@@ -40,7 +41,7 @@ export const VisitForm: FC<{ visit?: Visit; onClose: () => void; petId?: TypeId 
   } = useForm<VisitSchema>({
     resolver: yupResolver(visitValidationSchema),
     defaultValues: {
-      date: visit?.date.toISOString() || null,
+      date: visit?.date || null,
       address: visit?.address,
       description: visit?.description,
       place: visit?.place
@@ -148,14 +149,23 @@ export const VisitForm: FC<{ visit?: Visit; onClose: () => void; petId?: TypeId 
               <DatePicker
                 label="Fecha de visita"
                 value={value}
-                onChange={onChange}
+                onChange={(event) => {
+                  try {
+                    onChange(new Date(event || '').toISOString());
+                    setErrorDate('');
+                  } catch (error) {
+                    setErrorDate('La fecha ingresada no es valida');
+                  }
+                }}
                 inputFormat="dd-MM-yyyy"
                 renderInput={(params) => (
                   <TextField
                     {...params}
                     fullWidth
-                    error={Boolean(errors.date)}
-                    helperText={errors.date && errors.date.message}
+                    error={Boolean(errors.date) || Boolean(errorDate)}
+                    helperText={
+                      (errors.date && errors.date.message) || (Boolean(errorDate) && errorDate)
+                    }
                   />
                 )}
               />

@@ -5,7 +5,7 @@ import { VisitType } from './visit-type';
 
 export interface Visit {
   id: TypeId;
-  date: Date;
+  date: string;
   description: string;
   type: VisitType;
   address: string;
